@@ -1,0 +1,18 @@
+import pg from 'pg';
+import { readFileSync } from 'node:fs';
+import { rootCertificates } from 'node:tls';
+import { HttpError } from './auth.js';
+
+let pool: pg.Pool | undefined;
+export function database(): pg.Pool {
+  if (!process.env.DATABASE_URL) throw new HttpError(503, 'The database connection is not configured.');
+  pool ??= new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: true, ca: [...rootCertificates, readFileSync(new URL('../supabase/prod-ca-2021.crt', import.meta.url), 'utf8')] },
+    max: 1,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 10_000,
+    allowExitOnIdle: true,
+  });
+  return pool;
+}

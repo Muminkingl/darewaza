@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+.expo
+mobile-dist
+artifacts
+node_modules
+android
+ios

@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "سەیارە",
+    "slug": "sayara",
+    "scheme": "sayara",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.sayara.app" },
+    "android": { "package": "com.sayara.app" },
+    "web": { "bundler": "metro", "name": "سەیارە" },
+    "plugins": [
+      "expo-font",
+      ["expo-location", {
+        "locationWhenInUsePermission": "شوێنەکەت بۆ دیاریکردنی شارەکەت بەکاردێت. دەتوانیت بە دەستیش شار هەڵبژێریت.",
+        "isIosBackgroundLocationEnabled": false,
+        "isAndroidBackgroundLocationEnabled": false
+      }]
+    ]
+  }
+}
