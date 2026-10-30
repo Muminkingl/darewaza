@@ -44,7 +44,7 @@ Add these **server environment variables** to Vercel, copying their values from 
 | `TELEGRAM_WEBHOOK_SECRET` | Generated webhook secret already saved locally |
 | `APP_URL` | Your stable production origin, e.g. `https://sayara.vercel.app` |
 
-Local `.env` files are excluded from Git and Vercel uploads. They are **not automatically uploaded as Vercel environment variables**. Set production variables in the Vercel dashboard, then redeploy if necessary. The database connection verifies TLS using Supabase's public CA certificate, bundled in `supabase/prod-ca-2021.crt`.
+Local `.env` files are excluded from Git and Vercel uploads. They are **not automatically uploaded as Vercel environment variables**. Set production variables in the Vercel dashboard, then redeploy if necessary. The production URL must be reachable by Telegram without Vercel Deployment Protection; the Studio's own server-side Telegram checks control admin access. The database connection verifies TLS using Supabase's public CA certificate, bundled in `supabase/prod-ca-2021.crt`.
 
 The Expo customer bundle needs only `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY`; these are already in `.env`. Supply the same two values in EAS when building in the cloud. Never prefix a bot token, database URL, or service role key with `EXPO_PUBLIC_` or `VITE_`.
 

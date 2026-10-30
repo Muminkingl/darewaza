@@ -23,7 +23,8 @@ const url = new URL(rawUrl);
 if (url.protocol !== 'https:' || url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw new Error('APP_URL must be your HTTPS deployment origin, for example https://sayara.vercel.app');
 const appUrl = url.origin;
 const health = await fetch(`${appUrl}/api/session`, { signal: AbortSignal.timeout(15000) });
-if (health.status !== 401) throw new Error(`Expected the deployed auth endpoint to return 401; got ${health.status}. Check the Vercel deployment and environment variables.`);
+const healthBody = await health.json().catch(() => null);
+if (health.status !== 401 || healthBody?.error !== 'Open Studio from Telegram to continue.') throw new Error(`The deployed auth endpoint is not ready (HTTP ${health.status}). Check the Vercel environment variables and ensure the production URL is publicly reachable without Vercel Deployment Protection.`);
 await call('setWebhook', { url: `${appUrl}/api/telegram`, secret_token: secret, allowed_updates: ['message'] });
 // Unapproved users get no Studio button and no bot response.
 await call('setChatMenuButton', { menu_button: { type: 'commands' } });
