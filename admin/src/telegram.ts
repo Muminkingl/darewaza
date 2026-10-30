@@ -12,14 +12,24 @@ interface TelegramWebApp {
 declare global { interface Window { Telegram?: { WebApp?: TelegramWebApp } } }
 export const telegram = window.Telegram?.WebApp;
 
-export class ApiError extends Error { constructor(public status: number, message: string) { super(message); } }
+export class ApiError extends Error { constructor(public status: number, message: string, public data: Record<string, unknown> = {}) { super(message); } }
 
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const response = await fetch(`/api/${path}`, {
-    ...options,
-    headers: { 'Content-Type': 'application/json', Authorization: `tma ${telegram?.initData || ''}`, ...options.headers },
-  });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new ApiError(response.status, body.error || 'Unable to connect. Please try again.');
-  return body;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20_000);
+  const abort = () => controller.abort();
+  options.signal?.addEventListener('abort', abort, { once: true });
+  try {
+    const response = await fetch(`/api/${path}`, {
+      ...options, cache: 'no-store', signal: controller.signal,
+      headers: { 'Content-Type': 'application/json', Authorization: `tma ${telegram?.initData || ''}`, ...options.headers },
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) throw new ApiError(response.status, body.error || 'Unable to connect. Please try again.', body);
+    return body;
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if (options.signal?.aborted) throw error;
+    throw new ApiError(controller.signal.aborted ? 408 : 0, 'پەیوەندییەکە سەرکەوتوو نەبوو. تکایە دووبارە هەوڵ بدە.');
+  } finally { clearTimeout(timer); options.signal?.removeEventListener('abort', abort); }
 }

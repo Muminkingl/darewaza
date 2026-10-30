@@ -10,7 +10,10 @@ export function database(): pg.Pool {
     pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: true, ca: [...rootCertificates, readFileSync(new URL('../supabase/prod-ca-2021.crt', import.meta.url), 'utf8')] },
-    max: 1,
+    max: 3,
+    statement_timeout: 8000,
+    query_timeout: 10000,
+    application_name: 'sayara-studio',
     idleTimeoutMillis: 10_000,
     connectionTimeoutMillis: 10_000,
     allowExitOnIdle: true,

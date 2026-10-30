@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Animated, BackHandler, FlatList, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Animated, BackHandler, FlatList, Image, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -8,7 +8,8 @@ import { NotoSansArabic_400Regular } from '@expo-google-fonts/noto-sans-arabic/4
 import { NotoSansArabic_500Medium } from '@expo-google-fonts/noto-sans-arabic/500Medium';
 import { NotoSansArabic_700Bold } from '@expo-google-fonts/noto-sans-arabic/700Bold';
 import { ArrowLeft, ArrowRight, Car, Check, ChevronDown, ChevronLeft, Disc3, Folder, Layers, LocateFixed, MapPin, Package, Search, Settings, Sparkles, Wrench, X, Zap } from 'lucide-react-native';
-import { ROOTS, type RootKey, type Section, type SectionIcon } from './shared/catalog';
+import { ROOTS, formatPrice, imageUrl, type RootKey, type Section, type SectionIcon } from './shared/catalog';
+import { ProductDetail } from './src/components/ProductDetail';
 import { useSections } from './src/hooks/useSections';
 import { useLocation } from './src/hooks/useLocation';
 import { LocationSheet } from './src/components/LocationSheet';
@@ -30,7 +31,7 @@ function CustomerApp() {
   const [search, setSearch] = useState('');
   const rootInfo = ROOTS.find(item => item.key === root);
   const current = trail[trail.length - 1];
-  const catalog = useSections(root, current?.id || null, search);
+  const catalog = useSections(current?.is_terminal ? null : root, current?.id || null, search);
   const transition = useRef(new Animated.Value(1)).current;
 
   function navigate(nextRoot: RootKey | null, nextTrail: Section[] = []) {
@@ -57,8 +58,9 @@ function CustomerApp() {
       <View pointerEvents="none" style={styles.orbitOne} /><View pointerEvents="none" style={styles.orbitTwo} />
       <View style={styles.headerTop}>
         <View style={styles.brand}><View style={styles.brandIcon}><Car size={19} color="#D3E9F8" strokeWidth={1.6} /></View><Text style={styles.brandName}>سەیارە</Text></View>
-        <Text style={styles.brandEnglish}>SAYARA</Text>
+        {current?.is_terminal ? <Pressable onPress={location.open} accessibilityRole="button" accessibilityLabel="گۆڕینی شار" style={{ flexDirection: 'row', gap: 6, alignItems: 'center' }}><Text style={{ fontFamily: font.medium, fontSize: 11, color: '#BED5EC' }}>{location.city}</Text><MapPin size={13} color="#BED5EC" /></Pressable> : <Text style={styles.brandEnglish}>SAYARA</Text>}
       </View>
+      {!current?.is_terminal && <>
       <View style={styles.locationRow}>
         <Pressable onPress={location.open} style={({ pressed }) => [styles.locateButton, pressed && { opacity: 0.7 }]} accessibilityLabel="دیاریکردن یان گۆڕینی شوێن" accessibilityRole="button"><LocateFixed color="#D8E9FA" size={22} strokeWidth={1.6} /></Pressable>
         <Pressable onPress={location.open} style={styles.locationSelect} accessibilityRole="button" accessibilityLabel={`گۆڕینی شار، ${location.city}`}>
@@ -71,6 +73,7 @@ function CustomerApp() {
         <TextInput value={search} onChangeText={setSearch} placeholder={root ? 'گەڕان لەم بەشەدا...' : 'بەدوای چی دەگەڕێیت؟'} placeholderTextColor="#8A9BAF" style={styles.searchInput} maxLength={100} returnKeyType="search" accessibilityLabel="گەڕان بەدوای بەشەکان" />
         <Search size={21} color="#839BB8" strokeWidth={1.7} />
       </View>
+      </>}
     </LinearGradient>
 
     <Animated.View style={[styles.body, { opacity: transition, transform: [{ translateY: transition.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] }]}>
@@ -78,26 +81,26 @@ function CustomerApp() {
         <View style={styles.intro}><Text style={styles.eyebrow}>بۆ ئۆتۆمبێلەکەت</Text><Text style={styles.heading}>هەموو شتێک، لە یەک شوێن</Text><Text style={styles.introText}>بەشێک هەڵبژێرە و ئەوەی پێویستتە بدۆزەرەوە.</Text></View>
         {homeCards.map((item, index) => <Pressable key={item.key} onPress={() => navigate(item.key)} accessibilityRole="button" accessibilityLabel={item.name} style={({ pressed }) => [styles.catalogCard, item.key === 'accessories' && styles.accessoryCard, pressed && { transform: [{ scale: 0.985 }], opacity: 0.9 }]}>
           <View style={styles.cardArt}><CatalogArt accessory={item.key === 'accessories'} /></View>
-          <View style={styles.cardCopy}><View style={[styles.cardTag, item.key === 'accessories' && { backgroundColor: '#EFE7D9' }]}><Text style={[styles.cardTagText, item.key === 'accessories' && { color: '#998160' }]}>{item.key === 'parts' ? 'پارچە و مەواد' : 'جوانی و ستایل'}</Text></View><Text style={styles.cardTitle}>{item.name}</Text><Text style={styles.cardDescription}>{item.subtitle}</Text><View style={styles.cardCta}><ArrowLeft color={item.key === 'parts' ? colors.blue : '#998160'} size={16} /><Text style={[styles.cardCtaText, item.key === 'accessories' && { color: '#998160' }]}>بینینی بەشەکان</Text></View></View>
+          <View style={styles.cardCopy}><View style={[styles.cardTag, item.key === 'accessories' && { backgroundColor: '#EFE7D9' }]}><Text style={[styles.cardTagText, item.key === 'accessories' && { color: '#998160' }]}>{item.key === 'parts' ? 'پارچە و پێداویستی' : 'جوانی و ستایل'}</Text></View><Text style={styles.cardTitle}>{item.name}</Text><Text style={styles.cardDescription}>{item.subtitle}</Text><View style={styles.cardCta}><ArrowLeft color={item.key === 'parts' ? colors.blue : '#998160'} size={16} /><Text style={[styles.cardCtaText, item.key === 'accessories' && { color: '#998160' }]}>بینینی بەشەکان</Text></View></View>
         </Pressable>)}
         {!homeCards.length && <Text style={styles.noMatch}>هیچ بەشێک نەدۆزرایەوە.</Text>}
         <View style={styles.homeFoot}><View style={styles.footLine} /><View style={styles.footMark}><Check size={12} color="#97A6B8" /></View><Text style={styles.footText}>هەڵبژاردنێکی ئاسان بۆ ئۆتۆمبێلەکەت</Text><View style={styles.footLine} /></View>
       </ScrollView> : <>
-        <View style={styles.pageHeading}><Pressable onPress={back} accessibilityRole="button" accessibilityLabel="گەڕانەوە" style={styles.backButton}><ArrowRight size={20} color={colors.ink} /></Pressable><View style={{ flex: 1 }}><Text style={styles.pageTitle}>{current?.name || rootInfo?.name}</Text><Text style={styles.pageSubtitle}>{current?.description || 'بەشێک هەڵبژێرە بۆ بەردەوامبوون'}</Text></View></View>
+        <View style={styles.pageHeading}><Pressable onPress={back} accessibilityRole="button" accessibilityLabel="گەڕانەوە" style={styles.backButton}><ArrowRight size={20} color={colors.ink} /></Pressable><View style={{ flex: 1 }}><Text style={styles.pageTitle}>{current?.name || rootInfo?.name}</Text><Text style={styles.pageSubtitle}>{current?.is_terminal ? 'کاڵای کۆتایی' : current?.description || 'بەشێک هەڵبژێرە بۆ بەردەوامبوون'}</Text></View></View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.breadcrumbScroll} contentContainerStyle={styles.breadcrumbs}>
           <Pressable onPress={() => navigate(null)} accessibilityRole="button"><Text style={styles.crumb}>سەرەکی</Text></Pressable><ChevronLeft size={12} color="#B4BECB" />
           <Pressable onPress={() => navigate(root)} accessibilityRole="button"><Text style={[styles.crumb, !trail.length && styles.activeCrumb]}>{rootInfo?.name}</Text></Pressable>
           {trail.map((section, index) => <View key={section.id} style={styles.crumbGroup}><ChevronLeft size={12} color="#B4BECB" /><Pressable onPress={() => navigate(root, trail.slice(0, index + 1))} accessibilityRole="button"><Text style={[styles.crumb, index === trail.length - 1 && styles.activeCrumb]}>{section.name}</Text></Pressable></View>)}
         </ScrollView>
-        <FlatList key={`${root}:${current?.id || 'root'}`} data={catalog.sections} keyExtractor={item => item.id} contentContainerStyle={[styles.sectionList, { paddingBottom: insets.bottom + 24 }, !catalog.sections.length && { flexGrow: 1 }]} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={catalog.loading && catalog.sections.length > 0} onRefresh={catalog.refresh} tintColor={colors.blue} />} onEndReached={() => { if (catalog.hasMore && !catalog.loading && !catalog.error) void catalog.loadMore(); }} onEndReachedThreshold={0.3}
+        {current?.is_terminal ? <ProductDetail key={current.id} initial={current} onUpdate={section => setTrail(value => value.map(item => item.id === section.id ? section : item))} /> : (<FlatList key={`${root}:${current?.id || 'root'}`} data={catalog.sections} keyExtractor={item => item.id} contentContainerStyle={[styles.sectionList, { paddingBottom: insets.bottom + 24 }, !catalog.sections.length && { flexGrow: 1 }]} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={catalog.loading && catalog.sections.length > 0} onRefresh={catalog.refresh} tintColor={colors.blue} />} onEndReached={() => { if (catalog.hasMore && !catalog.loading && !catalog.error) void catalog.loadMore(); }} onEndReachedThreshold={0.3}
           renderItem={({ item }) => <Pressable onPress={() => navigate(root, [...trail, item])} style={({ pressed }) => [styles.sectionCard, pressed && { backgroundColor: '#EDF3FA' }]} accessibilityRole="button" accessibilityLabel={item.name}>
-            <ChevronLeft size={19} color="#A7B5C6" /><View style={styles.sectionCopy}><Text style={styles.sectionName}>{item.name}</Text>{!!item.description && <Text style={styles.sectionDescription} numberOfLines={2}>{item.description}</Text>}</View><View style={styles.sectionIcon}><SectionGlyph name={item.icon} /></View>
+            <ChevronLeft size={19} color="#A7B5C6" /><View style={styles.sectionCopy}><Text style={styles.sectionName}>{item.name}</Text>{(item.is_terminal || !!item.description) && <Text style={styles.sectionDescription} numberOfLines={2}>{item.is_terminal ? [formatPrice(item.price_usd, "USD"), formatPrice(item.price_iqd, "IQD")].filter(Boolean).join(" · ") : item.description}</Text>}</View><View style={styles.sectionIcon}>{item.is_terminal && item.image_path ? <Image source={{ uri: imageUrl(process.env.EXPO_PUBLIC_SUPABASE_URL, item.image_path)! }} style={{ width: 48, height: 48, borderRadius: 14 }} resizeMode="contain" /> : <SectionGlyph name={item.icon} />}</View>
           </Pressable>}
           ListEmptyComponent={<View style={styles.empty}>
             {catalog.loading ? <ActivityIndicator size="large" color={colors.blue} /> : <><View style={styles.emptyIcon}><Folder size={34} strokeWidth={1.2} color="#8BA7C8" /></View><Text style={styles.emptyTitle}>{catalog.error ? 'پەیوەندییەکە سەرکەوتوو نەبوو' : search ? 'هیچ ئەنجامێک نەدۆزرایەوە' : 'هێشتا بەشێک زیاد نەکراوە'}</Text><Text style={styles.emptyDescription}>{catalog.error ? 'تکایە پەیوەندی ئینتەرنێتەکەت بپشکنە و دووبارە هەوڵ بدە.' : search ? 'بە ناوێکی دیکە بگەڕێ.' : 'بەشەکان لێرە دەردەکەون کاتێک بەردەست بن.'}</Text>{catalog.error && <Pressable style={styles.retry} onPress={catalog.refresh} accessibilityRole="button"><Text style={styles.retryText}>هەوڵدانەوە</Text></Pressable>}</>}
           </View>}
           ListFooterComponent={catalog.sections.length ? <View style={{ paddingVertical: 14 }}>{catalog.loading ? <ActivityIndicator color={colors.blue} /> : catalog.error ? <Pressable style={styles.retry} onPress={catalog.loadMore}><Text style={styles.retryText}>هەوڵدانەوە</Text></Pressable> : catalog.hasMore ? <Pressable style={styles.retry} onPress={catalog.loadMore}><Text style={styles.retryText}>بینینی زیاتر</Text></Pressable> : null}</View> : undefined}
-        />
+        />)}
       </>}
     </Animated.View>
     <LocationSheet visible={location.visible} city={location.city} detecting={location.detecting} message={location.message} onClose={location.close} onDetect={location.detect} onSelect={location.select} />

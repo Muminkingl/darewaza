@@ -4,6 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import session from '../api/session';
 import sections from '../api/sections';
 import telegram from '../api/telegram';
+import images from '../api/images';
 
 function response() {
   let code = 200; let body: unknown;
@@ -26,6 +27,13 @@ test('session endpoint requires signed Telegram data', () => {
   const res = response();
   session({ method: 'GET', headers: {} } as VercelRequest, res.value);
   assert.equal(res.code, 401);
+});
+test('image upload and cleanup require signed administrator access', async () => {
+  for (const method of ['POST', 'DELETE']) {
+    const res = response();
+    await images({ method, headers: {}, body: {} } as VercelRequest, res.value);
+    assert.equal(res.code, 401);
+  }
 });
 test('webhook rejects missing or incorrect webhook secrets', async () => {
   process.env.TELEGRAM_WEBHOOK_SECRET = 'test-webhook-secret';

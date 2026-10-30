@@ -1,8 +1,8 @@
 # سەیارە · Sayara
 
-An Expo React Native catalog for Android and iOS, with a separate Telegram Mini App for managing sections. Kurdish Sorani interface, local Arabic fonts, navy location header, and exactly two home cards: **مەوادەکان** and **جوانکاریەکان**.
+An Expo React Native catalog for Android and iOS, with a separate Telegram Mini App for managing sections. Kurdish Sorani interface, local Arabic fonts, navy location header, and exactly two home cards: **پارچەی یەدەگ** and **جوانکاریەکان**.
 
-The customer app only reads Supabase. There are no administration controls in it. Both cards use the same nested catalog, while the Studio opens on مەوادەکان by default. The catalog is intentionally empty until an administrator adds real sections.
+The customer app only reads Supabase. There are no administration controls in it. Both cards use the same nested catalog, while the Studio opens on پارچەی یەدەگ by default. The catalog is intentionally empty until an administrator adds real sections.
 
 ## Run the customer app
 
@@ -23,7 +23,7 @@ The first launch offers location detection, manual city selection, and “choose
 
 ## Deploy the project root to Vercel
 
-Deploy **this root folder**, not `admin/` or `dist/`. `vercel.json` builds the Studio and deploys the three `/api` functions. The native app is built separately through Expo/EAS.
+Deploy **this root folder**, not `admin/` or `dist/`. `vercel.json` builds the Studio and deploys the `/api` functions. The native app is built separately through Expo/EAS.
 
 Vercel settings are already declared:
 
@@ -43,6 +43,8 @@ Add these **server environment variables** to Vercel, copying their values from 
 | `TELEGRAM_BOT_TOKEN` | Bot API token |
 | `TELEGRAM_WEBHOOK_SECRET` | Generated webhook secret already saved locally |
 | `APP_URL` | Your stable production origin, e.g. `https://sayara.vercel.app` |
+| `SUPABASE_URL` | Supabase project URL, used for product images |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key for signed image uploads and cleanup |
 
 Local `.env` files are excluded from Git and Vercel uploads. They are **not automatically uploaded as Vercel environment variables**. Set production variables in the Vercel dashboard, then redeploy if necessary. The production URL must be reachable by Telegram without Vercel Deployment Protection; the Studio's own server-side Telegram checks control admin access. The database connection verifies TLS using Supabase's public CA certificate, bundled in `supabase/prod-ca-2021.crt`.
 
@@ -71,11 +73,15 @@ Studio verifies Telegram's signed `initData` on the server using HMAC-SHA256, ch
 
 ## Manage the catalog
 
-In Studio, select مەوادەکان, tap **بەشی نوێ**, enter a name (for example BMW), optionally choose an icon, description and sort order, then save. Open the section and repeat for its subsections. Add as many siblings and levels as needed; there is no application-imposed nesting limit. Use the breadcrumbs or Telegram back button to return to an ancestor.
+In Studio, select پارچەی یەدەگ, tap **بەشی نوێ**, enter a name (for example BMW), optionally choose an icon, description and sort order, then save. Open the section and repeat for its subsections. Add as many siblings and levels as needed; there is no application-imposed nesting limit. Use the breadcrumbs or Telegram back button to return to an ancestor.
 
 Each row's `…` menu offers editing and deletion. Lower sort numbers appear first. Deleting a section also deletes all its descendants and requires a confirmation in Studio. Moving an existing section to another parent is intentionally unsupported, which prevents hierarchy cycles. Both root catalogs are separate and cannot share a child across roots.
 
-Sections are paginated rather than loading the entire hierarchy at once. Customer pages refresh when opened, when the app returns to the foreground, or when pulled down to refresh. No products, cart, payment flow, or customer accounts are included in this first version.
+Turn on **ئەمە کاڵای کۆتاییە** to create a final item. Enter a USD price, an IQD price, or both independently; no exchange rate is assumed. Prices accept Arabic/Persian digits. IQD uses whole dinars; USD supports two decimals. Both prices remain editable. Final items can have a photo and open a detail view with the full image at the top; tap it to enlarge. Folders with existing children cannot become final items, and final items cannot contain children. These rules are also enforced in the database.
+
+Images are resized to a maximum 1600-pixel side and compressed before uploading directly to Supabase through a signed URL. The image bucket allows public reads for the customer catalog, limits files to 2 MB, and has no anonymous write policy. Every upload/cleanup API request requires an approved Telegram signature. Images use unique paths to avoid stale CDN replacements; unused images are cleaned up after edits/deletions.
+
+Sections are paginated rather than loading the entire hierarchy at once. Studio caches previously opened pages, debounces searches, and revalidates when focused or reconnected. Customer pages refresh when opened, when the app returns to the foreground, or when pulled down to refresh. Version checks reject conflicting edits/deletions instead of overwriting another admin's changes. Stable creation IDs prevent duplicate records when a save is retried. No cart, payment flow, or customer accounts are included.
 
 ## Database and verification
 
@@ -83,6 +89,7 @@ The first migration has already been applied to the supplied Supabase project. R
 
 ```powershell
 npm run db:migrate
+npm run storage:setup
 npm run db:verify
 npm run api:verify
 npm test
@@ -92,6 +99,8 @@ npm run export:mobile-web
 ```
 
 `db:verify` checks 35 nested levels, 86 siblings, the parent/root constraint, cascade deletion, anonymous read access, and write rejection for both `anon` and `authenticated` roles. Test data is rolled back. Public clients have SELECT grants and an RLS read policy, with no write grants or write policies. Admin API writes go through the session pooler only after Telegram verification.
+
+`api:verify` also exercises six concurrent creates, conflicting edits, stale deletes, duplicate-free retries, final-item boundaries, both currencies, and signed image uploads. It removes only its own temporary records and images. Use `npm run api:verify -- --remote` to run those checks against `APP_URL` after a production deployment. The image bucket has already been configured for this project; `storage:setup` is idempotent.
 
 ## Local Studio development
 
