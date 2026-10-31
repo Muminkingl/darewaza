@@ -16,7 +16,6 @@ import {
   ArrowLeft,
   ArrowRight,
   Bookmark,
-  Check,
   Globe2,
   Info,
   LogOut,
@@ -100,7 +99,7 @@ export function ProfileScreen({
   onSaved: () => void;
   deleteRequested?: boolean;
 }) {
-  const { t, locale, row, align, rtl } = useLanguage();
+  const { t, locale, row, align } = useLanguage();
   const auth = useAuth();
   const customer = useCustomer();
   const { data: counts } = useCounts();
@@ -116,7 +115,6 @@ export function ProfileScreen({
     auth.session!.user.user_metadata?.full_name ||
     auth.session!.user.email?.split("@")[0] ||
     "Darewaza";
-  const Arrow = rtl ? ArrowLeft : ArrowRight;
   useEffect(() => {
     if (deleteRequested) setSheet("delete");
   }, [deleteRequested]);
@@ -160,10 +158,6 @@ export function ProfileScreen({
       >
         <View style={[s.intro, row]}>
           <Text style={[s.pageTitle, align]}>{t("profile")}</Text>
-          <View style={s.accountTag}>
-            <View style={s.statusDot} />
-            <Text style={s.accountText}>DAREWAZA MEMBER</Text>
-          </View>
         </View>
         <View style={s.profileCard}>
           <View style={[s.identity, row]}>
@@ -171,9 +165,6 @@ export function ProfileScreen({
               <Text style={s.initial}>
                 {displayName.trim().slice(0, 1).toUpperCase()}
               </Text>
-              <View style={s.avatarBadge}>
-                <Check size={11} color="#fff" strokeWidth={3} />
-              </View>
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
               <Text numberOfLines={1} style={[s.name, align]}>
@@ -432,14 +423,6 @@ const s = StyleSheet.create({
     marginBottom: 22,
   },
   pageTitle: { fontFamily: font.bold, fontSize: 26, color: colors.ink },
-  accountTag: { flexDirection: "row", alignItems: "center", gap: 6 },
-  statusDot: {
-    width: 5,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: "#7CB7A6",
-  },
-  accountText: { fontSize: 7, color: "#8DA49F", letterSpacing: 1 },
   profileCard: {
     borderWidth: 1,
     borderColor: "#E3EAF2",
@@ -457,19 +440,6 @@ const s = StyleSheet.create({
     alignItems: "center",
   },
   initial: { fontFamily: font.bold, fontSize: 25, color: "#608F84" },
-  avatarBadge: {
-    position: "absolute",
-    right: -3,
-    bottom: -3,
-    width: 20,
-    height: 20,
-    borderRadius: 8,
-    backgroundColor: "#7DB5A7",
-    borderWidth: 3,
-    borderColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   name: { fontFamily: font.bold, fontSize: 18, color: colors.ink },
   email: { fontSize: 11, color: "#9AABBD", marginTop: 7 },
   edit: {

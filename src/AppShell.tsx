@@ -42,9 +42,9 @@ import type { RootKey, Section } from "../shared/catalog";
 type Tab = "home" | "search" | "saved" | "profile";
 type Route = { root: RootKey; trail: Section[] };
 const tabs = [
-  { key: "search", icon: Search },
-  { key: "home", icon: House },
   { key: "saved", icon: Bookmark },
+  { key: "home", icon: House },
+  { key: "profile", icon: UserRound },
 ] as const;
 function CatalogScreen({
   route,
@@ -223,23 +223,20 @@ export function AppShell() {
         ]}
       >
         <View style={s.orbit} />
-        <View style={s.top}>
+        <View style={[s.top, row]}>
+          <Brand light small={compact} />
           <Tap
-            onPress={() => navigateTab("profile")}
-            accessibilityLabel={t("profile")}
-            accessibilityState={{ selected: tab === "profile" }}
-            style={[
-              s.profileButton,
-              tab === "profile" && s.profileButtonActive,
-            ]}
+            onPress={() => navigateTab("search")}
+            accessibilityLabel={t("search")}
+            accessibilityState={{ selected: tab === "search" }}
+            style={[s.searchButton, tab === "search" && s.searchButtonActive]}
           >
-            <UserRound
+            <Search
               size={21}
-              color={tab === "profile" ? colors.navy : "#D3E5F2"}
+              color={tab === "search" ? colors.navy : "#D3E5F2"}
               strokeWidth={1.6}
             />
           </Tap>
-          <Brand light small={compact} />
         </View>
         {!compact && (
           <View style={[s.homeHeader, row]}>
@@ -395,7 +392,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     gap: 12,
   },
-  profileButton: {
+  searchButton: {
     width: 44,
     height: 44,
     alignItems: "center",
@@ -405,7 +402,7 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FFFFFF18",
   },
-  profileButtonActive: { backgroundColor: "#BCE6DB", borderColor: "#BCE6DB" },
+  searchButtonActive: { backgroundColor: "#BCE6DB", borderColor: "#BCE6DB" },
   homeHeader: {
     alignItems: "center",
     justifyContent: "space-between",

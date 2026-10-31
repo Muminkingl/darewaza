@@ -2,7 +2,7 @@
 
 An Expo React Native catalog for Android and iOS, with a separate Telegram Mini App for managing sections. Kurdish Sorani by default, English and Arabic, local Arabic fonts, a navy/mint doorway brand, and two home collections: **پارچەی یەدەگ** and **جوانکاریەکان**.
 
-The customer app reads the catalog and lets signed-in customers manage their own profile and saved sections. It has Search, Home, and Saved in the bottom bar, with Profile at the top left, with no catalog administration controls. Both collections use the same nested catalog; the Telegram Studio opens on spare parts by default. See [store and authentication setup](docs/STORE-SETUP.md) for Google/Apple configuration, review notes, privacy disclosures, and native builds.
+The customer app reads the catalog and lets signed-in customers manage their own profile and saved sections. The bottom bar has Saved, Home in the center, and Profile at the trailing edge (right in English, left in Kurdish/Arabic). Search is in the header. There are no catalog administration controls. Both collections use the same nested catalog; the Telegram Studio opens on spare parts by default. See [store and authentication setup](docs/STORE-SETUP.md) for Google/Apple configuration, review notes, privacy disclosures, and native builds.
 
 ## Run the customer app
 
