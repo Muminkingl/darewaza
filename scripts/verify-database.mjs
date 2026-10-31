@@ -32,14 +32,14 @@ try {
 
   for (const role of ['anon', 'authenticated']) {
     await client.query(`set local role ${role}`);
-    const readable = await client.query('select id from public.catalog_sections where id=$1', [first]);
-    assert.equal(readable.rowCount, 1);
+    if(role==='anon')await denied('select id from public.catalog_sections where id=$1',[first],'42501');
+    else {const readable = await client.query('select id from public.catalog_sections where id=$1', [first]);assert.equal(readable.rowCount, 1);}
     await denied("insert into public.catalog_sections(root_key,name) values ('parts','forbidden')", [], '42501');
     await denied('update public.catalog_sections set name=$1 where id=$2', ['forbidden', first], '42501');
     await denied('delete from public.catalog_sections where id=$1', [first], '42501');
     await client.query('reset role');
   }
-  console.log('Verified anon and authenticated clients can read but cannot create, edit or delete.');
+  console.log('Verified catalog reads require authentication and customers cannot create, edit or delete.');
   await client.query('delete from public.catalog_sections where id=$1', [first]);
   const remaining = await client.query("select count(*)::int as n from public.catalog_sections where name like '__depth_%' or name like '__sibling_%'");
   assert.equal(remaining.rows[0].n, 0);
@@ -49,8 +49,8 @@ try {
   const url = process.env.EXPO_PUBLIC_SUPABASE_URL;
   const anon = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
   const result = await fetch(`${url}/rest/v1/catalog_sections?select=id&limit=1`, { headers: { apikey: anon, Authorization: `Bearer ${anon}` } });
-  assert.equal(result.status, 200);
-  console.log('Verified the public Supabase REST endpoint is accessible with the app anon key.');
+  assert.equal(result.status, 401);
+  console.log('Verified anonymous catalog access is denied by the REST endpoint.');
   console.log('All database checks passed. Test records were rolled back.');
 } catch (error) {
   await client.query('rollback').catch(() => {});

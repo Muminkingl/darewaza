@@ -1,8 +1,8 @@
-# سەیارە · Sayara
+# Darewaza
 
-An Expo React Native catalog for Android and iOS, with a separate Telegram Mini App for managing sections. Kurdish Sorani interface, local Arabic fonts, navy location header, and exactly two home cards: **پارچەی یەدەگ** and **جوانکاریەکان**.
+An Expo React Native catalog for Android and iOS, with a separate Telegram Mini App for managing sections. Kurdish Sorani by default, English and Arabic, local Arabic fonts, a navy/mint doorway brand, and two home collections: **پارچەی یەدەگ** and **جوانکاریەکان**.
 
-The customer app only reads Supabase. There are no administration controls in it. Both cards use the same nested catalog, while the Studio opens on پارچەی یەدەگ by default. The catalog is intentionally empty until an administrator adds real sections.
+The customer app reads the catalog and lets signed-in customers manage their own profile, saved sections, and recent history. It has Home, Search, Saved, Recent, and Profile tabs, with no catalog administration controls. Both collections use the same nested catalog; the Telegram Studio opens on spare parts by default. See [store and authentication setup](docs/STORE-SETUP.md) for Google/Apple configuration, review notes, privacy disclosures, and native builds.
 
 ## Run the customer app
 
@@ -23,7 +23,7 @@ The first launch offers location detection, manual city selection, and “choose
 
 ## Deploy the project root to Vercel
 
-Deploy **this root folder**, not `admin/` or `dist/`. `vercel.json` builds the Studio and deploys the `/api` functions. The native app is built separately through Expo/EAS.
+Deploy **this root folder**, not `admin/` or `dist/`. `vercel.json` builds the Studio at `/`, the customer web app at `/app/`, public privacy/terms/deletion pages, and the `/api` functions. Installed Android/iOS apps are built separately through Expo/EAS.
 
 Vercel settings are already declared:
 
@@ -48,7 +48,7 @@ Add these **server environment variables** to Vercel, copying their values from 
 
 Local `.env` files are excluded from Git and Vercel uploads. They are **not automatically uploaded as Vercel environment variables**. Set production variables in the Vercel dashboard, then redeploy if necessary. The production URL must be reachable by Telegram without Vercel Deployment Protection; the Studio's own server-side Telegram checks control admin access. The database connection verifies TLS using Supabase's public CA certificate, bundled in `supabase/prod-ca-2021.crt`.
 
-The Expo customer bundle needs only `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY`; these are already in `.env`. Supply the same two values in EAS when building in the cloud. Never prefix a bot token, database URL, or service role key with `EXPO_PUBLIC_` or `VITE_`.
+The Expo customer bundle uses only the public Supabase URL/anon key and account API origin. `src/lib/publicConfig.ts` contains the connected project's public defaults, protected by database RLS. `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, and `EXPO_PUBLIC_API_URL` override these when needed. Never prefix a bot token, database URL, or service role key with `EXPO_PUBLIC_` or `VITE_`.
 
 ## Connect Telegram after deployment
 
@@ -81,7 +81,7 @@ Turn on **ئەمە کاڵای کۆتاییە** to create a final item. Enter a U
 
 Images are resized to a maximum 1600-pixel side and compressed before uploading directly to Supabase through a signed URL. The image bucket allows public reads for the customer catalog, limits files to 2 MB, and has no anonymous write policy. Every upload/cleanup API request requires an approved Telegram signature. Images use unique paths to avoid stale CDN replacements; unused images are cleaned up after edits/deletions.
 
-Sections are paginated rather than loading the entire hierarchy at once. Studio caches previously opened pages, debounces searches, and revalidates when focused or reconnected. Customer pages refresh when opened, when the app returns to the foreground, or when pulled down to refresh. Version checks reject conflicting edits/deletions instead of overwriting another admin's changes. Stable creation IDs prevent duplicate records when a save is retried. No cart, payment flow, or customer accounts are included.
+Sections are paginated rather than loading the entire hierarchy at once. Studio and customer screens cache pages and debounce searches. Customer data refreshes on foreground/focus or pull-to-refresh. Version checks reject conflicting catalog edits/deletions. Stable creation IDs prevent duplicates on retried saves. Customer accounts use Supabase Auth, with private saved items and a 100-entry recent history. No cart, orders, or payment flow is included.
 
 ## Database and verification
 
@@ -98,7 +98,7 @@ npm run build
 npm run export:mobile-web
 ```
 
-`db:verify` checks 35 nested levels, 86 siblings, the parent/root constraint, cascade deletion, anonymous read access, and write rejection for both `anon` and `authenticated` roles. Test data is rolled back. Public clients have SELECT grants and an RLS read policy, with no write grants or write policies. Admin API writes go through the session pooler only after Telegram verification.
+`db:verify` checks 35 nested levels, 86 siblings, parent/root constraints, cascade deletion, anonymous read rejection, and catalog write rejection for customers. Test data is rolled back. Catalog reads require authentication. Customer tables have account-scoped RLS, indexed paging, and cascading auth-user deletion. Catalog writes go through the session pooler after Telegram verification. `npx tsx scripts/verify-customer.ts` additionally checks account isolation, six concurrent saves/visits, the history cap, and full account deletion using disposable test accounts.
 
 `api:verify` also exercises six concurrent creates, conflicting edits, stale deletes, duplicate-free retries, final-item boundaries, both currencies, and signed image uploads. It removes only its own temporary records and images. Use `npm run api:verify -- --remote` to run those checks against `APP_URL` after a production deployment. The image bucket has already been configured for this project; `storage:setup` is idempotent.
 

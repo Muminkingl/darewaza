@@ -5,6 +5,7 @@ import session from '../api/session';
 import sections from '../api/sections';
 import telegram from '../api/telegram';
 import images from '../api/images';
+import account from '../api/account';
 
 function response() {
   let code = 200; let body: unknown;
@@ -27,6 +28,10 @@ test('session endpoint requires signed Telegram data', () => {
   const res = response();
   session({ method: 'GET', headers: {} } as VercelRequest, res.value);
   assert.equal(res.code, 401);
+});
+test('account deletion requires a real customer session and rejects foreign origins',async()=>{
+  for(const headers of [{},{authorization:'not-a-bearer-token'}]){const res=response();await account({method:'DELETE',headers,body:{confirm:true}} as VercelRequest,res.value);assert.equal(res.code,401);}
+  const res=response();await account({method:'DELETE',headers:{origin:'https://untrusted.example'},body:{confirm:true}} as VercelRequest,res.value);assert.equal(res.code,403);
 });
 test('image upload and cleanup require signed administrator access', async () => {
   for (const method of ['POST', 'DELETE']) {

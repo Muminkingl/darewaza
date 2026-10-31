@@ -7,6 +7,7 @@ import session from '../api/session';
 import sections from '../api/sections';
 import telegramHandler from '../api/telegram';
 import images from '../api/images';
+import account from '../api/account';
 
 // Local review mode uses an ephemeral signing key, never the live bot token.
 // It is opt-in, loopback-only, and is not included in any production entry point.
@@ -30,7 +31,7 @@ const vite = await createServer({
   }] : [],
 });
 
-const handlers: Record<string, typeof sections | typeof session> = { '/api/session': session, '/api/sections': sections, '/api/telegram': telegramHandler, '/api/images': images };
+const handlers: Record<string, typeof sections | typeof session> = { '/api/session': session, '/api/sections': sections, '/api/telegram': telegramHandler, '/api/images': images, '/api/account':account };
 const server = http.createServer(async (incoming, outgoing) => {
   const url = new URL(incoming.url || '/', 'http://127.0.0.1:3000');
   const handler = handlers[url.pathname];

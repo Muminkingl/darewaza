@@ -1,21 +1,88 @@
 {
   "expo": {
-    "name": "سەیارە",
-    "slug": "sayara",
-    "scheme": "sayara",
+    "name": "Darewaza",
+    "slug": "darewaza",
+    "scheme": "darewaza",
+    "icon": "./assets/brand/icon.png",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "ios": { "supportsTablet": true, "bundleIdentifier": "com.sayara.app" },
-    "android": { "package": "com.sayara.app" },
-    "web": { "bundler": "metro", "name": "سەیارە" },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.darewaza.app",
+      "usesAppleSignIn": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "CFBundleLocalizations": [
+          "ckb",
+          "en",
+          "ar"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.darewaza.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/brand/adaptive-icon.png",
+        "backgroundColor": "#172D57"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "name": "Darewaza",
+      "favicon": "./assets/brand/favicon.png"
+    },
+    "experiments": {
+      "baseUrl": "/app"
+    },
     "plugins": [
       "expo-font",
-      ["expo-location", {
-        "locationWhenInUsePermission": "شوێنەکەت بۆ دیاریکردنی شارەکەت بەکاردێت. دەتوانیت بە دەستیش شار هەڵبژێریت.",
-        "isIosBackgroundLocationEnabled": false,
-        "isAndroidBackgroundLocationEnabled": false
-      }]
-    ]
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "شوێنەکەت بۆ دیاریکردنی شارەکەت بەکاردێت. دەتوانیت بە دەستیش شار هەڵبژێریت.",
+          "isIosBackgroundLocationEnabled": false,
+          "isAndroidBackgroundLocationEnabled": false
+        }
+      ],
+      "expo-apple-authentication",
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": false
+        }
+      ],
+      "expo-web-browser",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#172D57",
+          "image": "./assets/brand/splash-mark.png",
+          "imageWidth": 100
+        }
+      ]
+    ],
+    "locales": {
+      "ckb": {
+        "ios": {
+          "CFBundleDisplayName": "Darewaza",
+          "NSLocationWhenInUseUsageDescription": "شوێنەکەت تەنها بۆ دۆزینەوەی شارەکەت بەکاردێت. هەڵبژاردنی دەستیش بەردەستە."
+        }
+      },
+      "en": {
+        "ios": {
+          "CFBundleDisplayName": "Darewaza",
+          "NSLocationWhenInUseUsageDescription": "Darewaza uses your location only to identify your city. You can also choose a city manually."
+        }
+      },
+      "ar": {
+        "ios": {
+          "CFBundleDisplayName": "Darewaza",
+          "NSLocationWhenInUseUsageDescription": "يستخدم Darewaza موقعك لتحديد مدينتك فقط. يمكنك اختيار المدينة يدوياً أيضاً."
+        }
+      }
+    }
   }
 }
