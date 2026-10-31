@@ -18,7 +18,6 @@ import {
   Bookmark,
   Check,
   Globe2,
-  History,
   Info,
   LogOut,
   Mail,
@@ -38,7 +37,7 @@ import { BrandMark } from "../components/Brand";
 import { LegalSheet } from "../components/LegalSheet";
 import { colors, font } from "../theme";
 import type { LegalKind } from "../../shared/legal";
-type Sheet = "edit" | "signout" | "delete" | "clear" | "about" | null;
+type Sheet = "edit" | "signout" | "delete" | "about" | null;
 function SettingRow({
   icon: Icon,
   label,
@@ -93,12 +92,12 @@ function SettingsGroup({
 export function ProfileScreen({
   city,
   onLocation,
-  onTab,
+  onSaved,
   deleteRequested = false,
 }: {
   city: string;
   onLocation: () => void;
-  onTab: (tab: "saved" | "recent") => void;
+  onSaved: () => void;
   deleteRequested?: boolean;
 }) {
   const { t, locale, row, align, rtl } = useLanguage();
@@ -133,7 +132,6 @@ export function ProfileScreen({
     setMessage("");
     try {
       if (sheet === "edit") await customer.saveProfile(name);
-      if (sheet === "clear") await customer.clearHistory();
       if (sheet === "signout") await auth.signOut();
       if (sheet === "delete") await auth.deleteAccount();
       setSheet(null);
@@ -194,20 +192,13 @@ export function ProfileScreen({
             </Tap>
           </View>
           <View style={[s.stats, row]}>
-            {(
-              [
-                { key: "saved", icon: Bookmark },
-                { key: "recent", icon: History },
-              ] as const
-            ).map(({ key, icon: Icon }) => (
-              <Tap key={key} onPress={() => onTab(key)} style={s.stat}>
-                <View style={[s.statTop, row]}>
-                  <Text style={s.statValue}>{counts?.[key] ?? "—"}</Text>
-                  <Icon size={18} color="#8DA5BC" strokeWidth={1.5} />
-                </View>
-                <Text style={[s.statLabel, align]}>{t(key)}</Text>
-              </Tap>
-            ))}
+            <Tap onPress={onSaved} style={[s.stat, row]}>
+              <Bookmark size={20} color="#8DA5BC" strokeWidth={1.5} />
+              <Text style={[s.statLabel, align, { flex: 1 }]}>
+                {t("saved")}
+              </Text>
+              <Text style={s.statValue}>{counts?.saved ?? "—"}</Text>
+            </Tap>
           </View>
         </View>
         <Group title={t("preferences")}>
@@ -277,11 +268,6 @@ export function ProfileScreen({
           <Row icon={Info} label={t("about")} onPress={() => open("about")} />
         </Group>
         <Group title={t("manageAccount")}>
-          <Row
-            icon={History}
-            label={t("clearHistory")}
-            onPress={() => open("clear")}
-          />
           <Row
             icon={LogOut}
             label={t("signOut")}
@@ -355,11 +341,9 @@ export function ProfileScreen({
                   ? "deleteTitle"
                   : sheet === "edit"
                     ? "editProfile"
-                    : sheet === "clear"
-                      ? "clearHistory"
-                      : sheet === "about"
-                        ? "about"
-                        : "signOut",
+                    : sheet === "about"
+                      ? "about"
+                      : "signOut",
               )}
             </Text>
             {sheet === "edit" ? (
@@ -378,11 +362,9 @@ export function ProfileScreen({
                 {t(
                   sheet === "delete"
                     ? "deleteBody"
-                    : sheet === "clear"
-                      ? "clearHistoryBody"
-                      : sheet === "about"
-                        ? "aboutBody"
-                        : "signOutBody",
+                    : sheet === "about"
+                      ? "aboutBody"
+                      : "signOutBody",
                 )}
               </Text>
             )}
@@ -505,14 +487,19 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: "#EEF2F6",
   },
-  stat: { flex: 1, backgroundColor: "#F6F8FB", borderRadius: 15, padding: 14 },
-  statTop: { alignItems: "center", justifyContent: "space-between" },
+  stat: {
+    flex: 1,
+    backgroundColor: "#F6F8FB",
+    borderRadius: 15,
+    padding: 14,
+    alignItems: "center",
+    gap: 12,
+  },
   statValue: { fontSize: 24, fontWeight: "600", color: colors.navy },
   statLabel: {
     fontFamily: font.regular,
     fontSize: 10,
     color: "#8A9DB1",
-    marginTop: 6,
   },
   group: { marginTop: 25 },
   groupTitle: {

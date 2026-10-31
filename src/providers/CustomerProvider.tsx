@@ -22,8 +22,6 @@ type Value = {
   toggleSave: (section: Section, current: boolean) => Promise<void>;
   overrides: Map<string, boolean>;
   busy: Set<string>;
-  record: (section: Section) => void;
-  clearHistory: () => Promise<void>;
 };
 const Context = createContext<Value>(null!);
 export function CustomerProvider({ children }: { children: ReactNode }) {
@@ -52,7 +50,6 @@ function CustomerState({ children }: { children: ReactNode }) {
   const [overrides, setOverrides] = useState(new Map<string, boolean>());
   const [busy, setBusy] = useState(new Set<string>());
   const pending = useMemo(() => new Set<string>(), []);
-  const recentlyRecorded = useMemo(() => new Map<string, number>(), []);
   const { data: profile, mutate: mutateProfile } = useSWR(
     ["profile", user.id],
     async () => {
@@ -65,8 +62,8 @@ function CustomerState({ children }: { children: ReactNode }) {
       return data as Profile | null;
     },
   );
-  const refreshCollection = (kind: CollectionKind) =>
-    mutate(unstable_serialize(() => ["collection", user.id, kind, 0]));
+  const refreshCollection = () =>
+    mutate(unstable_serialize(() => ["collection", user.id, "saved", 0]));
   useEffect(() => {
     if (profile?.locale) setLocale(profile.locale);
   }, [profile?.locale]);
@@ -79,8 +76,7 @@ function CustomerState({ children }: { children: ReactNode }) {
       }
       if (wasBackground) {
         wasBackground = false;
-        void refreshCollection("saved");
-        void refreshCollection("recent");
+        void refreshCollection();
         void mutate(
           (key) =>
             Array.isArray(key) &&
@@ -130,7 +126,7 @@ function CustomerState({ children }: { children: ReactNode }) {
             );
       if (result.error) throw result.error;
       await Promise.all([
-        refreshCollection("saved"),
+        refreshCollection(),
         mutate(
           (key) =>
             Array.isArray(key) && ["counts", "membership"].includes(key[0]),
@@ -151,33 +147,6 @@ function CustomerState({ children }: { children: ReactNode }) {
       setBusy(new Set(pending));
     }
   }
-  function record(section: Section) {
-    const now = Date.now();
-    if (now - (recentlyRecorded.get(section.id) || 0) < 30000) return;
-    recentlyRecorded.set(section.id, now);
-    if (recentlyRecorded.size > 120)
-      recentlyRecorded.delete(recentlyRecorded.keys().next().value!);
-    void supabase!
-      .rpc("record_recent", { section: section.id })
-      .then(({ error }) => {
-        if (!error) {
-          void refreshCollection("recent");
-          void mutate(["counts", user.id]);
-        } else recentlyRecorded.delete(section.id);
-      });
-  }
-  async function clearHistory() {
-    const { error } = await supabase!
-      .from("recent_sections")
-      .delete()
-      .eq("user_id", user.id);
-    if (error) throw error;
-    recentlyRecorded.clear();
-    await Promise.all([
-      refreshCollection("recent"),
-      mutate(["counts", user.id]),
-    ]);
-  }
   return (
     <Context.Provider
       value={{
@@ -194,8 +163,6 @@ function CustomerState({ children }: { children: ReactNode }) {
         toggleSave,
         overrides,
         busy,
-        record,
-        clearHistory,
       }}
     >
       {children}
@@ -222,23 +189,20 @@ export function useMembership(sections: Section[]) {
   return (id: string) =>
     overrides.has(id) ? overrides.get(id)! : data?.has(id) || false;
 }
-export type CollectionKind = "saved" | "recent";
-export function useCollection(kind: CollectionKind, enabled = true) {
+export function useSavedSections() {
   const { session } = useAuth();
-  const table = kind === "saved" ? "saved_sections" : "recent_sections";
-  const sort = kind === "saved" ? "saved_at" : "viewed_at";
   const result = useSWRInfinite(
     (index, previous) =>
-      !enabled || (previous && !previous.more)
+      previous && !previous.more
         ? null
-        : ["collection", session!.user.id, kind, index],
+        : ["collection", session!.user.id, "saved", index],
     async (key) => {
       const page = key[3] as number;
       const { data, error } = await supabase!
-        .from(table)
+        .from("saved_sections")
         .select(`section:catalog_sections!inner(*)`)
         .eq("user_id", session!.user.id)
-        .order(sort, { ascending: false })
+        .order("saved_at", { ascending: false })
         .order("section_id")
         .range(page * 30, page * 30 + 30);
       if (error) throw error;
@@ -262,15 +226,11 @@ export function useCollection(kind: CollectionKind, enabled = true) {
 export function useCounts() {
   const { session } = useAuth();
   return useSWR(["counts", session!.user.id], async () => {
-    const results = await Promise.all(
-      ["saved_sections", "recent_sections"].map((table) =>
-        supabase!
-          .from(table)
-          .select("section_id", { count: "exact", head: true })
-          .eq("user_id", session!.user.id),
-      ),
-    );
-    if (results.some((r) => r.error)) throw new Error("counts");
-    return { saved: results[0].count || 0, recent: results[1].count || 0 };
+    const { count, error } = await supabase!
+      .from("saved_sections")
+      .select("section_id", { count: "exact", head: true })
+      .eq("user_id", session!.user.id);
+    if (error) throw error;
+    return { saved: count || 0 };
   });
 }

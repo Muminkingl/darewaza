@@ -1,23 +1,20 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { ArrowLeft, ArrowRight, Bookmark, History } from "../components/icons";
+import { ArrowLeft, ArrowRight, Bookmark } from "../components/icons";
 import { useLanguage } from "../i18n";
 import { CatalogArt } from "../components/CatalogArt";
 import { Tap } from "../components/Motion";
-import { useCollection, useCounts } from "../providers/CustomerProvider";
+import { useCounts } from "../providers/CustomerProvider";
 import { colors, font } from "../theme";
-import type { RootKey, Section } from "../../shared/catalog";
+import type { RootKey } from "../../shared/catalog";
 export function HomeScreen({
   onRoot,
-  onOpen,
-  onTab,
+  onSaved,
 }: {
   onRoot: (key: RootKey) => void;
-  onOpen: (item: Section) => void;
-  onTab: (tab: "saved" | "recent") => void;
+  onSaved: () => void;
 }) {
   const { t, row, align, rtl } = useLanguage();
   const { data: counts } = useCounts();
-  const recent = useCollection("recent");
   const Arrow = rtl ? ArrowLeft : ArrowRight;
   return (
     <ScrollView
@@ -69,49 +66,14 @@ export function HomeScreen({
           </View>
         </Tap>
       ))}
-      <View style={[s.quickRow, row]}>
-        {(
-          [
-            { key: "saved", icon: Bookmark, label: "quickSaved" },
-            { key: "recent", icon: History, label: "quickRecent" },
-          ] as const
-        ).map(({ key, icon: Icon, label }) => (
-          <Tap key={key} onPress={() => onTab(key)} style={s.quick}>
-            <View style={[s.quickTop, row]}>
-              <View style={s.quickIcon}>
-                <Icon size={19} color={colors.blue} strokeWidth={1.6} />
-              </View>
-              <Text style={s.count}>{counts?.[key] ?? "—"}</Text>
-            </View>
-            <Text style={[s.quickLabel, align]}>{t(label)}</Text>
-          </Tap>
-        ))}
-      </View>
-      {!!recent.sections.length && (
-        <View style={s.continue}>
-          <View style={[s.continueHead, row]}>
-            <Text style={[s.continueTitle, align]}>
-              {t("continueBrowsing")}
-            </Text>
-            <Tap onPress={() => onTab("recent")}>
-              <Text style={s.seeAll}>{t("seeAll")}</Text>
-            </Tap>
-          </View>
-          {recent.sections.slice(0, 2).map((item) => (
-            <Tap
-              key={item.id}
-              onPress={() => onOpen(item)}
-              style={[s.recent, row]}
-            >
-              <View style={s.recentDot} />
-              <Text numberOfLines={1} style={[s.recentName, align]}>
-                {item.name}
-              </Text>
-              <Arrow size={15} color="#99AEC3" />
-            </Tap>
-          ))}
+      <Tap onPress={onSaved} style={[s.savedShortcut, row]}>
+        <View style={s.quickIcon}>
+          <Bookmark size={19} color={colors.blue} strokeWidth={1.6} />
         </View>
-      )}
+        <Text style={[s.savedLabel, align]}>{t("quickSaved")}</Text>
+        <Text style={s.count}>{counts?.saved ?? "—"}</Text>
+        <Arrow size={16} color="#99AEC3" />
+      </Tap>
       <View style={s.end}>
         <View style={s.line} />
         <Text style={s.endText}>D A R E W A Z A</Text>
@@ -178,16 +140,16 @@ const s = StyleSheet.create({
   cta: { alignItems: "center", gap: 8, marginTop: 16 },
   ctaText: { fontFamily: font.medium, fontSize: 10, color: colors.blue },
   art: { width: "39%", alignItems: "center", justifyContent: "center" },
-  quickRow: { gap: 13, marginTop: 6 },
-  quick: {
-    flex: 1,
+  savedShortcut: {
     padding: 17,
     borderRadius: 21,
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: colors.line,
+    alignItems: "center",
+    gap: 12,
+    marginTop: 6,
   },
-  quickTop: { alignItems: "center", justifyContent: "space-between" },
   quickIcon: {
     width: 34,
     height: 34,
@@ -197,49 +159,11 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   count: { fontWeight: "600", fontSize: 22, color: colors.navy },
-  quickLabel: {
+  savedLabel: {
+    flex: 1,
     fontFamily: font.medium,
-    fontSize: 11,
+    fontSize: 12,
     color: "#8293A7",
-    marginTop: 11,
-  },
-  continue: { marginTop: 27 },
-  continueHead: {
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-    marginBottom: 10,
-  },
-  continueTitle: {
-    fontFamily: font.bold,
-    fontSize: 12,
-    color: colors.ink,
-    flex: 1,
-  },
-  seeAll: {
-    fontFamily: font.regular,
-    fontSize: 10,
-    color: colors.blue,
-    paddingVertical: 8,
-  },
-  recent: {
-    alignItems: "center",
-    gap: 10,
-    borderBottomWidth: 1,
-    borderColor: "#E9EEF3",
-    paddingVertical: 13,
-  },
-  recentDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: "#8BC8B8",
-  },
-  recentName: {
-    flex: 1,
-    fontFamily: font.medium,
-    fontSize: 12,
-    color: "#627C98",
   },
   end: { flexDirection: "row", alignItems: "center", gap: 15, marginTop: 34 },
   line: { height: 1, backgroundColor: "#E4EAF1", flex: 1 },

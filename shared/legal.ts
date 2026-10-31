@@ -12,7 +12,7 @@ export const legalContent: Record<
       },
       {
         title: "Information we use",
-        body: "We use your account ID, email address, sign-in provider, and any name you choose to provide to operate your account. Google or Apple may share your name and email when you sign in. Your saved sections, recent viewing history (up to 100 entries), and language preference are stored with your account. We do not store your Google or Apple password.",
+        body: "We use your account ID, email address, sign-in provider, and any name you choose to provide to operate your account. Google or Apple may share your name and email when you sign in. Your saved sections and language preference are stored with your account. We do not store your Google or Apple password.",
       },
       {
         title: "Location is your choice",
@@ -24,11 +24,11 @@ export const legalContent: Record<
       },
       {
         title: "Storage and your choices",
-        body: "Your account information and saved items are kept until you remove them or delete your account. Recent history is limited to 100 entries and can be cleared in the app. Authentication tokens are stored securely on native devices and in browser storage on the web. Language and selected city are also stored locally. Signing out removes the active session from that device.",
+        body: "Your account information and saved items are kept until you remove them or delete your account. Authentication tokens are stored securely on native devices and in browser storage on the web. Language and selected city are also stored locally. Signing out removes the active session from that device.",
       },
       {
         title: "Delete or access your data",
-        body: "In Profile, choose Delete account and confirm to permanently remove your account, profile, saved items, and viewing history from the active service. Apple authorization is revoked for Apple accounts. You can also start deletion at https://darewaza.vercel.app/delete-account. Operational logs and backups may remain for the infrastructure providers’ standard retention periods before expiring; they are not used to restore your deleted account. Contact contact@trxstudio.xyz to request access, correction, or help exercising your privacy rights.",
+        body: "In Profile, choose Delete account and confirm to permanently remove your account, profile and saved items from the active service. Apple authorization is revoked for Apple accounts. You can also start deletion at https://darewaza.vercel.app/delete-account. Operational logs and backups may remain for the infrastructure providers’ standard retention periods before expiring; they are not used to restore your deleted account. Contact contact@trxstudio.xyz to request access, correction, or help exercising your privacy rights.",
       },
       {
         title: "Children and changes",
@@ -46,7 +46,7 @@ export const legalContent: Record<
       },
       {
         title: "Your account",
-        body: "Provide accurate account information and do not misuse the service, attempt unauthorized access, or interfere with other users. You can sign out or permanently delete your account in Profile. Your personal saved items and history are private to your account.",
+        body: "Provide accurate account information and do not misuse the service, attempt unauthorized access, or interfere with other users. You can sign out or permanently delete your account in Profile. Your personal saved items are private to your account.",
       },
       {
         title: "Content and availability",
@@ -66,7 +66,7 @@ export const legalContent: Record<
       },
       {
         title: "ئەو زانیارییانەی بەکاریان دەهێنین",
-        body: "ناسنامەی هەژمار، ئیمەیڵ، ڕێگای چوونەژوورەوە و ناوی هەڵبژێردراوت بۆ بەڕێوەبردنی هەژمار بەکاردێن. Google یان Apple لەوانەیە ناو و ئیمەیڵەکەت هاوبەش بکەن. پاشەکەوتەکان، دوایین ١٠٠ بەشی بینراو و زمانی هەڵبژێردراو لەگەڵ هەژمارەکەت هەڵدەگیرێن. وشەی نهێنی Google یان Apple هەڵناگرین.",
+        body: "ناسنامەی هەژمار، ئیمەیڵ، ڕێگای چوونەژوورەوە و ناوی هەڵبژێردراوت بۆ بەڕێوەبردنی هەژمار بەکاردێن. Google یان Apple لەوانەیە ناو و ئیمەیڵەکەت هاوبەش بکەن. پاشەکەوتەکان و زمانی هەڵبژێردراو لەگەڵ هەژمارەکەت هەڵدەگیرێن. وشەی نهێنی Google یان Apple هەڵناگرین.",
       },
       {
         title: "شوێن بە هەڵبژاردنی خۆتە",
@@ -78,11 +78,11 @@ export const legalContent: Record<
       },
       {
         title: "هەڵگرتن و هەڵبژاردنەکانت",
-        body: "زانیاری هەژمار و پاشەکەوتەکانت تا سڕینەوەیان یان سڕینەوەی هەژمار هەڵدەگیرێن. مێژووی بینین تەنها دوایین ١٠٠ تۆمارە و دەتوانیت پاکی بکەیتەوە. تۆکنی چوونەژوورەوە لە ئامێری مۆبایل بە پارێزراوی و لە وێب لە هەڵگرتنی وێبگەڕ هەڵدەگیرێت. زمان و شار لە ئامێرەکەت هەڵدەگیرێن. چوونەدەرەوە دانیشتنی ئەو ئامێرە لادەبات.",
+        body: "زانیاری هەژمار و پاشەکەوتەکانت تا سڕینەوەیان یان سڕینەوەی هەژمار هەڵدەگیرێن. تۆکنی چوونەژوورەوە لە ئامێری مۆبایل بە پارێزراوی و لە وێب لە هەڵگرتنی وێبگەڕ هەڵدەگیرێت. زمان و شار لە ئامێرەکەت هەڵدەگیرێن. چوونەدەرەوە دانیشتنی ئەو ئامێرە لادەبات.",
       },
       {
         title: "سڕینەوە و دەستگەیشتن بە داتا",
-        body: "لە هەژمار، سڕینەوەی هەژمار هەڵبژێرە و پشتڕاستی بکەرەوە تا هەژمار، زانیاری کەسی، پاشەکەوت و مێژوو لە خزمەتگوزاری چالاک بۆ هەمیشە بسڕدرێنەوە. مۆڵەتی Apple بۆ هەژمارەکانی Apple هەڵدەوەشێتەوە. لە https://darewaza.vercel.app/delete-account یش دەست پێ بکە. تۆمارە تەکنیکی و پاشەکەوتە سیستەمییەکان لەوانەیە تا کۆتایی ماوەی ئاسایی دابینکەرەکان بمێننەوە؛ بۆ گەڕاندنەوەی هەژماری سڕاوە بەکارناهێنرێن. بۆ دەستگەیشتن، ڕاستکردنەوە یان مافەکانی تایبەتمەندی: contact@trxstudio.xyz.",
+        body: "لە هەژمار، سڕینەوەی هەژمار هەڵبژێرە و پشتڕاستی بکەرەوە تا هەژمار، زانیاری کەسی، پاشەکەوتەکان لە خزمەتگوزاری چالاک بۆ هەمیشە بسڕدرێنەوە. مۆڵەتی Apple بۆ هەژمارەکانی Apple هەڵدەوەشێتەوە. لە https://darewaza.vercel.app/delete-account یش دەست پێ بکە. تۆمارە تەکنیکی و پاشەکەوتە سیستەمییەکان لەوانەیە تا کۆتایی ماوەی ئاسایی دابینکەرەکان بمێننەوە؛ بۆ گەڕاندنەوەی هەژماری سڕاوە بەکارناهێنرێن. بۆ دەستگەیشتن، ڕاستکردنەوە یان مافەکانی تایبەتمەندی: contact@trxstudio.xyz.",
       },
       {
         title: "منداڵان و گۆڕانکاری",
@@ -100,7 +100,7 @@ export const legalContent: Record<
       },
       {
         title: "هەژمارەکەت",
-        body: "زانیاری دروست بەکاربهێنە و خزمەتگوزاری خراپ بەکارمەهێنە، هەوڵی دەستگەیشتنی بێ مۆڵەت مەدە و کێشە بۆ بەکارهێنەرانی دیکە دروست مەکە. لە هەژمار دەتوانیت بچیتە دەرەوە یان هەژمارەکەت بۆ هەمیشە بسڕیتەوە. پاشەکەوت و مێژووت تایبەتن.",
+        body: "زانیاری دروست بەکاربهێنە و خزمەتگوزاری خراپ بەکارمەهێنە، هەوڵی دەستگەیشتنی بێ مۆڵەت مەدە و کێشە بۆ بەکارهێنەرانی دیکە دروست مەکە. لە هەژمار دەتوانیت بچیتە دەرەوە یان هەژمارەکەت بۆ هەمیشە بسڕیتەوە. پاشەکەوتەکانت تایبەتن.",
       },
       {
         title: "ناوەڕۆک و بەردەستی",
@@ -120,7 +120,7 @@ export const legalContent: Record<
       },
       {
         title: "المعلومات التي نستخدمها",
-        body: "نستخدم معرّف الحساب والبريد الإلكتروني ومزود تسجيل الدخول والاسم الذي تختاره لتشغيل حسابك. قد تشارك Google أو Apple اسمك وبريدك عند الدخول. ترتبط المحفوظات وآخر ١٠٠ قسم شاهدته وتفضيل اللغة بحسابك. لا نحفظ كلمة مرور Google أو Apple.",
+        body: "نستخدم معرّف الحساب والبريد الإلكتروني ومزود تسجيل الدخول والاسم الذي تختاره لتشغيل حسابك. قد تشارك Google أو Apple اسمك وبريدك عند الدخول. ترتبط المحفوظات وتفضيل اللغة بحسابك. لا نحفظ كلمة مرور Google أو Apple.",
       },
       {
         title: "الموقع اختياري",
@@ -132,11 +132,11 @@ export const legalContent: Record<
       },
       {
         title: "الاحتفاظ وخياراتك",
-        body: "نحتفظ ببيانات الحساب والمحفوظات حتى تزيلها أو تحذف الحساب. يقتصر سجل المشاهدة على ١٠٠ عنصر ويمكن مسحه. تُحفظ رموز الدخول بأمان على الأجهزة الأصلية وفي تخزين المتصفح على الويب. تُحفظ اللغة والمدينة محلياً أيضاً. يزيل تسجيل الخروج الجلسة النشطة من ذلك الجهاز.",
+        body: "نحتفظ ببيانات الحساب والمحفوظات حتى تزيلها أو تحذف الحساب. تُحفظ رموز الدخول بأمان على الأجهزة الأصلية وفي تخزين المتصفح على الويب. تُحفظ اللغة والمدينة محلياً أيضاً. يزيل تسجيل الخروج الجلسة النشطة من ذلك الجهاز.",
       },
       {
         title: "حذف بياناتك أو الوصول إليها",
-        body: "من حسابي اختر حذف الحساب وأكّد لإزالة الحساب والملف والمحفوظات والسجل نهائياً من الخدمة النشطة. يُلغى تفويض Apple لحسابات Apple. يمكنك بدء الحذف أيضاً من https://darewaza.vercel.app/delete-account. قد تبقى السجلات التشغيلية والنسخ الاحتياطية حتى انتهاء مدد الاحتفاظ المعتادة لمزودي البنية التحتية، ولا تُستخدم لاستعادة حسابك المحذوف. لطلبات الوصول أو التصحيح أو المساعدة في حقوق الخصوصية: contact@trxstudio.xyz.",
+        body: "من حسابي اختر حذف الحساب وأكّد لإزالة الحساب والملف والمحفوظات نهائياً من الخدمة النشطة. يُلغى تفويض Apple لحسابات Apple. يمكنك بدء الحذف أيضاً من https://darewaza.vercel.app/delete-account. قد تبقى السجلات التشغيلية والنسخ الاحتياطية حتى انتهاء مدد الاحتفاظ المعتادة لمزودي البنية التحتية، ولا تُستخدم لاستعادة حسابك المحذوف. لطلبات الوصول أو التصحيح أو المساعدة في حقوق الخصوصية: contact@trxstudio.xyz.",
       },
       {
         title: "الأطفال والتغييرات",
@@ -154,7 +154,7 @@ export const legalContent: Record<
       },
       {
         title: "حسابك",
-        body: "قدّم معلومات صحيحة ولا تسيء استخدام الخدمة أو تحاول الوصول غير المصرح به أو تعطيل المستخدمين الآخرين. يمكنك تسجيل الخروج أو حذف الحساب نهائياً من حسابي. محفوظاتك وسجلك خاصان بحسابك.",
+        body: "قدّم معلومات صحيحة ولا تسيء استخدام الخدمة أو تحاول الوصول غير المصرح به أو تعطيل المستخدمين الآخرين. يمكنك تسجيل الخروج أو حذف الحساب نهائياً من حسابي. محفوظاتك خاصة بحسابك.",
       },
       {
         title: "المحتوى والتوفر",

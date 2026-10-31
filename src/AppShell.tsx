@@ -19,10 +19,8 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  History,
   House,
   LocateFixed,
-  MapPin,
   Search,
   UserRound,
   X,
@@ -30,7 +28,6 @@ import {
 import { Brand } from "./components/Brand";
 import { FadeIn, Tap } from "./components/Motion";
 import { useLanguage } from "./i18n";
-import { useCustomer } from "./providers/CustomerProvider";
 import { useLocation } from "./hooks/useLocation";
 import { useCatalog } from "./hooks/useCatalog";
 import { HomeScreen } from "./screens/HomeScreen";
@@ -42,14 +39,12 @@ import { ProductDetail } from "./components/ProductDetail";
 import { LocationSheet } from "./components/LocationSheet";
 import { colors, font } from "./theme";
 import type { RootKey, Section } from "../shared/catalog";
-type Tab = "home" | "search" | "saved" | "recent" | "profile";
+type Tab = "home" | "search" | "saved" | "profile";
 type Route = { root: RootKey; trail: Section[] };
 const tabs = [
-  { key: "home", icon: House },
   { key: "search", icon: Search },
+  { key: "home", icon: House },
   { key: "saved", icon: Bookmark },
-  { key: "recent", icon: History },
-  { key: "profile", icon: UserRound },
 ] as const;
 function CatalogScreen({
   route,
@@ -159,7 +154,6 @@ function CatalogScreen({
 export function AppShell() {
   const { t, row, rtl } = useLanguage();
   const insets = useSafeAreaInsets();
-  const { record } = useCustomer();
   const [deleteRequested] = useState(() => {
     if (Platform.OS !== "web") return false;
     const requested =
@@ -207,7 +201,6 @@ export function AppShell() {
   }
   function open(item: Section) {
     Keyboard.dismiss();
-    record(item);
     setRoutes((previous) => [
       ...previous,
       {
@@ -231,16 +224,22 @@ export function AppShell() {
       >
         <View style={s.orbit} />
         <View style={s.top}>
-          <Brand light small={compact} />
           <Tap
-            onPress={location.open}
-            accessibilityLabel={t("location")}
-            style={s.cityPill}
+            onPress={() => navigateTab("profile")}
+            accessibilityLabel={t("profile")}
+            accessibilityState={{ selected: tab === "profile" }}
+            style={[
+              s.profileButton,
+              tab === "profile" && s.profileButtonActive,
+            ]}
           >
-            <MapPin size={12} color="#A4D5CC" />
-            <Text style={s.citySmall}>{location.city}</Text>
-            <ChevronDown size={12} color="#A9BFD3" />
+            <UserRound
+              size={21}
+              color={tab === "profile" ? colors.navy : "#D3E5F2"}
+              strokeWidth={1.6}
+            />
           </Tap>
+          <Brand light small={compact} />
         </View>
         {!compact && (
           <View style={[s.homeHeader, row]}>
@@ -295,18 +294,17 @@ export function AppShell() {
         ) : tab === "home" ? (
           <HomeScreen
             onRoot={(root) => setRoutes([{ root, trail: [] }])}
-            onOpen={open}
-            onTab={navigateTab}
+            onSaved={() => navigateTab("saved")}
           />
         ) : tab === "search" ? (
           <SearchScreen onOpen={open} />
-        ) : tab === "saved" || tab === "recent" ? (
-          <CollectionScreen kind={tab} onOpen={open} />
+        ) : tab === "saved" ? (
+          <CollectionScreen onOpen={open} />
         ) : (
           <ProfileScreen
             city={location.city}
             onLocation={location.open}
-            onTab={navigateTab}
+            onSaved={() => navigateTab("saved")}
             deleteRequested={deleteRequested}
           />
         )}
@@ -325,13 +323,26 @@ export function AppShell() {
                 accessibilityLabel={t(key)}
                 style={s.navItem}
               >
-                <View style={[s.navIcon, tab === key && s.navIconActive]}>
+                <View
+                  style={[
+                    s.navIcon,
+                    tab === key && s.navIconActive,
+                    key === "home" && s.homeNavIcon,
+                    key === "home" && tab === "home" && s.homeNavIconActive,
+                  ]}
+                >
                   <Icon
                     size={21}
-                    color={tab === key ? colors.navy : "#A0B0C1"}
+                    color={
+                      key === "home" && tab === "home"
+                        ? "#FFFFFF"
+                        : tab === key
+                          ? colors.navy
+                          : "#8192A6"
+                    }
                     strokeWidth={tab === key ? 2 : 1.6}
                   />
-                  {tab === key && <View style={s.navDot} />}
+                  {tab === key && key !== "home" && <View style={s.navDot} />}
                 </View>
                 <Text style={[s.navText, tab === key && s.navTextActive]}>
                   {t(key)}
@@ -384,24 +395,17 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     gap: 12,
   },
-  cityPill: {
-    maxWidth: 145,
-    flexDirection: "row",
+  profileButton: {
+    width: 44,
+    height: 44,
     alignItems: "center",
-    gap: 5,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    borderRadius: 12,
+    justifyContent: "center",
+    borderRadius: 15,
     backgroundColor: "#FFFFFF07",
     borderWidth: 1,
-    borderColor: "#FFFFFF0E",
+    borderColor: "#FFFFFF18",
   },
-  citySmall: {
-    fontFamily: font.medium,
-    fontSize: 9,
-    color: "#BDD1E2",
-    flexShrink: 1,
-  },
+  profileButtonActive: { backgroundColor: "#BCE6DB", borderColor: "#BCE6DB" },
   homeHeader: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -438,7 +442,13 @@ const s = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
   },
-  navItem: { flex: 1, alignItems: "center", minHeight: 57, gap: 2 },
+  navItem: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 64,
+    gap: 3,
+  },
   navIcon: {
     width: 51,
     height: 32,
@@ -447,6 +457,13 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   navIconActive: { backgroundColor: "#EAF2F7" },
+  homeNavIcon: {
+    width: 58,
+    height: 39,
+    borderRadius: 15,
+    backgroundColor: "#EEF3F8",
+  },
+  homeNavIconActive: { backgroundColor: colors.navy },
   navDot: {
     position: "absolute",
     right: 8,

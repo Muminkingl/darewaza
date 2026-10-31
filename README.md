@@ -2,7 +2,7 @@
 
 An Expo React Native catalog for Android and iOS, with a separate Telegram Mini App for managing sections. Kurdish Sorani by default, English and Arabic, local Arabic fonts, a navy/mint doorway brand, and two home collections: **پارچەی یەدەگ** and **جوانکاریەکان**.
 
-The customer app reads the catalog and lets signed-in customers manage their own profile, saved sections, and recent history. It has Home, Search, Saved, Recent, and Profile tabs, with no catalog administration controls. Both collections use the same nested catalog; the Telegram Studio opens on spare parts by default. See [store and authentication setup](docs/STORE-SETUP.md) for Google/Apple configuration, review notes, privacy disclosures, and native builds.
+The customer app reads the catalog and lets signed-in customers manage their own profile and saved sections. It has Search, Home, and Saved in the bottom bar, with Profile at the top left, with no catalog administration controls. Both collections use the same nested catalog; the Telegram Studio opens on spare parts by default. See [store and authentication setup](docs/STORE-SETUP.md) for Google/Apple configuration, review notes, privacy disclosures, and native builds.
 
 ## Run the customer app
 
@@ -81,7 +81,7 @@ Turn on **ئەمە کاڵای کۆتاییە** to create a final item. Enter a U
 
 Images are resized to a maximum 1600-pixel side and compressed before uploading directly to Supabase through a signed URL. The image bucket allows public reads for the customer catalog, limits files to 2 MB, and has no anonymous write policy. Every upload/cleanup API request requires an approved Telegram signature. Images use unique paths to avoid stale CDN replacements; unused images are cleaned up after edits/deletions.
 
-Sections are paginated rather than loading the entire hierarchy at once. Studio and customer screens cache pages and debounce searches. Customer data refreshes on foreground/focus or pull-to-refresh. Version checks reject conflicting catalog edits/deletions. Stable creation IDs prevent duplicates on retried saves. Customer accounts use Supabase Auth, with private saved items and a 100-entry recent history. No cart, orders, or payment flow is included.
+Sections are paginated rather than loading the entire hierarchy at once. Studio and customer screens cache pages and debounce searches. Customer data refreshes on foreground/focus or pull-to-refresh. Version checks reject conflicting catalog edits/deletions. Stable creation IDs prevent duplicates on retried saves. Customer accounts use Supabase Auth, with private saved items. No cart, orders, or payment flow is included.
 
 ## Database and verification
 
@@ -98,7 +98,7 @@ npm run build
 npm run export:mobile-web
 ```
 
-`db:verify` checks 35 nested levels, 86 siblings, parent/root constraints, cascade deletion, anonymous read rejection, and catalog write rejection for customers. Test data is rolled back. Catalog reads require authentication. Customer tables have account-scoped RLS, indexed paging, and cascading auth-user deletion. Catalog writes go through the session pooler after Telegram verification. `npx tsx scripts/verify-customer.ts` additionally checks account isolation, six concurrent saves/visits, the history cap, and full account deletion using disposable test accounts.
+`db:verify` checks 35 nested levels, 86 siblings, parent/root constraints, cascade deletion, anonymous read rejection, and catalog write rejection for customers. Test data is rolled back. Catalog reads require authentication. Customer tables have account-scoped RLS, indexed paging, and cascading auth-user deletion. Catalog writes go through the session pooler after Telegram verification. `npx tsx scripts/verify-customer.ts` additionally checks account isolation, six concurrent saves, removal of history storage, and full account deletion using disposable test accounts.
 
 `api:verify` also exercises six concurrent creates, conflicting edits, stale deletes, duplicate-free retries, final-item boundaries, both currencies, and signed image uploads. It removes only its own temporary records and images. Use `npm run api:verify -- --remote` to run those checks against `APP_URL` after a production deployment. The image bucket has already been configured for this project; `storage:setup` is idempotent.
 

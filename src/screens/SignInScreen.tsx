@@ -154,10 +154,6 @@ export function SignInScreen() {
               </View>
             </View>
             <FadeIn style={s.heroCopy}>
-              <View style={s.pill}>
-                <View style={s.mintDot} />
-                <Text style={s.pillText}>{t("forYourCar")}</Text>
-              </View>
               <Text style={[s.heroTitle, align]}>{t("welcome")}</Text>
               <Text style={[s.heroSubtitle, align]}>{t("signInSubtitle")}</Text>
             </FadeIn>
@@ -366,19 +362,6 @@ const s = StyleSheet.create({
     maxWidth: 520,
     width: "100%",
     alignSelf: "center",
-  },
-  pill: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 7,
-    marginBottom: 15,
-  },
-  mintDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: "#8EDCC9" },
-  pillText: {
-    fontSize: 8,
-    letterSpacing: 2,
-    color: "#B0D2CE",
-    fontWeight: "600",
   },
   heroTitle: {
     fontFamily: font.bold,

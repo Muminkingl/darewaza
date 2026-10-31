@@ -12,7 +12,6 @@ export { default as Eye } from "lucide-react-native/icons/eye";
 export { default as EyeOff } from "lucide-react-native/icons/eye-off";
 export { default as Folder } from "lucide-react-native/icons/folder";
 export { default as Globe2 } from "lucide-react-native/icons/earth";
-export { default as History } from "lucide-react-native/icons/rotate-ccw-clock";
 export { default as House } from "lucide-react-native/icons/house";
 export { default as ImageOff } from "lucide-react-native/icons/image-off";
 export { default as Info } from "lucide-react-native/icons/info";

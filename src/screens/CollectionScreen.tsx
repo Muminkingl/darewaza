@@ -1,36 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
-import {
-  useCollection,
-  type CollectionKind,
-} from "../providers/CustomerProvider";
+import { useSavedSections } from "../providers/CustomerProvider";
 import { SectionList } from "../components/SectionList";
 import { useLanguage } from "../i18n";
 import { colors, font } from "../theme";
 import type { Section } from "../../shared/catalog";
 export function CollectionScreen({
-  kind,
   onOpen,
 }: {
-  kind: CollectionKind;
   onOpen: (section: Section) => void;
 }) {
   const { t, align } = useLanguage();
-  const data = useCollection(kind);
+  const data = useSavedSections();
   return (
     <SectionList
       data={data}
-      knownSaved={kind === "saved"}
+      knownSaved
       onOpen={onOpen}
-      emptyTitle={t(kind === "saved" ? "savedEmpty" : "recentEmpty")}
-      emptyHint={t(kind === "saved" ? "savedEmptyHint" : "recentEmptyHint")}
+      emptyTitle={t("savedEmpty")}
+      emptyHint={t("savedEmptyHint")}
       header={
         <View style={s.header}>
-          <Text style={[s.title, align]}>
-            {t(kind === "saved" ? "savedTitle" : "recentTitle")}
-          </Text>
-          <Text style={[s.subtitle, align]}>
-            {t(kind === "saved" ? "savedSubtitle" : "recentSubtitle")}
-          </Text>
+          <Text style={[s.title, align]}>{t("savedTitle")}</Text>
+          <Text style={[s.subtitle, align]}>{t("savedSubtitle")}</Text>
         </View>
       }
     />

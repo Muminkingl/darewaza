@@ -50,13 +50,18 @@ try {
   console.log("Two independent customer accounts can sign in.");
   await db.connect();
   await db.query("begin");
+  const history = await db.query(
+    "select to_regclass('public.recent_sections') as history_table, to_regprocedure('public.record_recent(uuid)') as history_function",
+  );
+  assert.equal(history.rows[0].history_table, null);
+  assert.equal(history.rows[0].history_function, null);
   const {
     rows: [parent],
   } = await db.query(
     "insert into public.catalog_sections(root_key,name) values('accessories','__customer_verification__') returning id",
   );
-  const { rows: sections } = await db.query(
-    "insert into public.catalog_sections(root_key,parent_id,name) select 'accessories',$1,'__customer_check_'||n from generate_series(1,110)n returning id",
+  await db.query(
+    "insert into public.catalog_sections(root_key,parent_id,name) select 'accessories',$1,'__customer_check_'||n from generate_series(1,45)n",
     [parent.id],
   );
   async function role(id: string) {
@@ -93,29 +98,8 @@ try {
   await denied("insert into public.customer_profiles(user_id) values($1)", [
     users[1],
   ]);
-  await denied(
-    "insert into public.recent_sections(user_id,section_id) values($1,$2)",
-    [users[0], parent.id],
-  );
-  for (const s of sections)
-    await db.query("select public.record_recent($1)", [s.id]);
-  assert.equal(
-    (await db.query("select count(*)::int n from public.recent_sections"))
-      .rows[0].n,
-    100,
-  );
-  await db.query("select public.record_recent($1)", [sections.at(-1).id]);
-  assert.equal(
-    (await db.query("select count(*)::int n from public.recent_sections"))
-      .rows[0].n,
-    100,
-  );
   await role(users[1]);
-  for (const table of [
-    "customer_profiles",
-    "saved_sections",
-    "recent_sections",
-  ])
+  for (const table of ["customer_profiles", "saved_sections"])
     assert.equal((await db.query(`select * from public.${table}`)).rowCount, 0);
   assert.equal(
     (
@@ -124,12 +108,6 @@ try {
       ])
     ).rowCount,
     0,
-  );
-  await db.query("select public.record_recent($1)", [parent.id]);
-  assert.equal(
-    (await db.query("select count(*)::int n from public.recent_sections"))
-      .rows[0].n,
-    1,
   );
   assert.equal(
     (
@@ -147,7 +125,7 @@ try {
   await db.query("reset role");
   await db.query("rollback");
   console.log(
-    "Verified RLS isolation, denied forged ownership, search pagination, and the 100-entry history bound. SQL test data rolled back.",
+    "Verified removed history storage, RLS isolation, denied forged ownership, and search pagination. SQL test data rolled back.",
   );
   const { data: catalog, error: catalogError } = await clients[0]
     .from("catalog_sections")
@@ -167,12 +145,6 @@ try {
     ),
   );
   saves.forEach((r) => assert.ifError(r.error));
-  const records = await Promise.all(
-    Array.from({ length: 6 }, () =>
-      clients[0].rpc("record_recent", { section: item }),
-    ),
-  );
-  records.forEach((r) => assert.ifError(r.error));
   const { data: saved } = await clients[0].from("saved_sections").select("*");
   assert.equal(saved?.length, 1);
   const { data: other } = await clients[1].from("saved_sections").select("*");
@@ -198,17 +170,13 @@ try {
   assert.equal(response.status, 200, `Deletion returned ${response.status}`);
   const after = await admin.auth.admin.getUserById(users[0]);
   assert.ok(after.error);
-  for (const table of [
-    "customer_profiles",
-    "saved_sections",
-    "recent_sections",
-  ]) {
+  for (const table of ["customer_profiles", "saved_sections"]) {
     const r = await admin.from(table).select("*").eq("user_id", users[0]);
     assert.ifError(r.error);
     assert.equal(r.data?.length, 0);
   }
   console.log(
-    "Six concurrent saves and recent writes passed without duplicates. Account deletion removed auth and all associated rows.",
+    "Six concurrent saves passed without duplicates. Account deletion removed auth and all associated rows.",
   );
   assert.ifError((await admin.auth.admin.getUserById(users[1])).error);
   const counts = await admin
