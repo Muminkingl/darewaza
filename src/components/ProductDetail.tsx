@@ -1,3 +1,4 @@
+import { CompatibilityCard } from "./CompatibilityCard";
 import { useState } from "react";
 import {
   Image,
@@ -21,15 +22,18 @@ import { Tap } from "./Motion";
 export function ProductDetail({
   initial,
   onUpdate,
+  onGarage,
 }: {
   initial: Section;
   onUpdate: (section: Section) => void;
+  onGarage: () => void;
 }) {
   const { t, row, align } = useLanguage();
   const insets = useSafeAreaInsets();
   const { toggleSave, busy } = useCustomer();
   const has = useMembership([initial]);
   const [zoom, setZoom] = useState(false);
+  const [fitRevision, setFitRevision] = useState(0);
   const [failed, setFailed] = useState("");
   const [saveError, setSaveError] = useState(false);
   const {
@@ -61,7 +65,10 @@ export function ProductDetail({
         refreshControl={
           <RefreshControl
             refreshing={isValidating}
-            onRefresh={() => void mutate()}
+            onRefresh={() => {
+              setFitRevision((n) => n + 1);
+              void mutate();
+            }}
             tintColor={colors.blue}
           />
         }
@@ -142,6 +149,13 @@ export function ProductDetail({
             <Text style={[s.note, align]}>{t("pricesNote")}</Text>
           </View>
         </View>
+        {section !== null && (
+          <CompatibilityCard
+            section={item.id}
+            onManage={onGarage}
+            revision={fitRevision}
+          />
+        )}
         {(!!error || saveError || section === null) && (
           <Text accessibilityLiveRegion="polite" style={s.error}>
             {t(

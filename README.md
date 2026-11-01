@@ -83,6 +83,16 @@ Images are resized to a maximum 1600-pixel side and compressed before uploading 
 
 Sections are paginated rather than loading the entire hierarchy at once. Studio and customer screens cache pages and debounce searches. Customer data refreshes on foreground/focus or pull-to-refresh. Version checks reject conflicting catalog edits/deletions. Stable creation IDs prevent duplicates on retried saves. Customer accounts use Supabase Auth, with private saved items. No cart, orders, or payment flow is included.
 
+## My Car and vehicle compatibility
+
+Customers can save several cars, switch their selected car, edit/remove them in Profile → My cars, open catalog shortcuts from Home, and filter Search by the selected car or all vehicles. Engine and trim suggestions come from actual store rules. Cars and the selected vehicle sync privately to the account and are removed by account deletion. Browsing remains available without saving a car.
+
+In Telegram Studio, use **مارکە و مۆدێلەکان** to add/edit make and model names. Deactivate a model to hide it from new customer selections while keeping existing cars and links. Open a section’s **… → ئۆتۆمبێلە پەیوەندیدارەکان**, or the vehicle button inside the section, to add/edit/remove links with a year range and optional engine/trim restrictions. A folder link is a navigation shortcut only; it never asserts compatibility for descendants. A final item needs its own explicit vehicle rules. One item can support many vehicles without duplicate products. Empty engine/trim restrictions mean all engines/trims, so use them only when accurate. Vehicle names and compatibility must be entered by the store; no guessed year ranges or third-party fitment data are imported.
+
+The database separates shared models/rules from RLS-protected personal cars. It indexes model matching and section lookups. Vehicle results and the customer model picker use cursor pagination (40 rows plus one look-ahead); saved-car lists are paginated, compatibility lists load only on expansion, and no catalog tree download, polling, or per-row fit queries are used. Writes have optimistic version checks; retrying a create uses the same UUID. Studio retains the same four administrator IDs.
+
+Run `npx tsx scripts/verify-vehicles.ts` for database ownership, exact/partial compatibility and cursor tests, and `npx tsx scripts/verify-vehicle-api.ts --remote` for live endpoint and six-session concurrency checks. Both clean their temporary fixtures.
+
 ## Database and verification
 
 The first migration has already been applied to the supplied Supabase project. Re-running it is safe:

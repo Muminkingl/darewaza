@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useGarage } from "../providers/GarageProvider";
+import { useVehicleCatalog } from "../hooks/useVehicleCatalog";
+import { VehicleCard } from "../components/VehicleCard";
+import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Search, X } from "../components/icons";
 import { useCatalog } from "../hooks/useCatalog";
@@ -7,15 +10,60 @@ import { SectionList, EmptyState } from "../components/SectionList";
 import { Tap } from "../components/Motion";
 import { colors, font } from "../theme";
 import type { RootKey, Section } from "../../shared/catalog";
-export function SearchScreen({ onOpen }: { onOpen: (item: Section) => void }) {
+export function SearchScreen({
+  onOpen,
+  onGarage,
+}: {
+  onOpen: (item: Section) => void;
+  onGarage: () => void;
+}) {
   const { t, row, align } = useLanguage();
   const [query, setQuery] = useState("");
   const [root, setRoot] = useState<RootKey | null>(null);
-  const data = useCatalog(root, null, query, true);
+  const { selected } = useGarage();
+  const [useVehicle, setUseVehicle] = useState(true);
+  useEffect(() => setUseVehicle(true), [selected?.id]);
+  const allData = useCatalog(
+    root,
+    null,
+    useVehicle && selected ? "" : query,
+    true,
+  );
+  const vehicleData = useVehicleCatalog(
+    selected?.id || null,
+    query,
+    root,
+    false,
+    useVehicle && query.trim().length >= 2,
+    selected?.version || 0,
+  );
+  const data = useVehicle && selected ? vehicleData : allData;
   const header = (
     <View style={s.heading}>
       <Text style={[s.title, align]}>{t("searchTitle")}</Text>
-      <Text style={[s.subtitle, align]}>{t("searchSubtitle")}</Text>
+      <Text style={[s.subtitle, align]}>{t(useVehicle && selected ? "carPartsHint" : "searchSubtitle")}</Text>
+      <VehicleCard compact onManage={onGarage} />
+      {selected && (
+        <View style={[s.filters, row]}>
+          {([true, false] as const).map((value) => (
+            <Tap
+              key={String(value)}
+              onPress={() => setUseVehicle(value)}
+              style={[s.filter, useVehicle === value && s.active]}
+              accessibilityState={{ selected: useVehicle === value }}
+            >
+              <Text
+                style={[
+                  s.filterText,
+                  useVehicle === value && { color: "#fff" },
+                ]}
+              >
+                {t(value ? "myCar" : "allVehicles")}
+              </Text>
+            </Tap>
+          ))}
+        </View>
+      )}
       <View style={[s.search, row]}>
         <Search size={21} color="#8A9EB5" />
         <TextInput

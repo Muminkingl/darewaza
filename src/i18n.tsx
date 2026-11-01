@@ -1,3 +1,4 @@
+import { vehicleText } from "./vehicleText";
 import {
   createContext,
   useContext,
@@ -16,6 +17,7 @@ export const languages: { key: Locale; name: string; short: string }[] = [
   { key: "ar", name: "العربية", short: "AR" },
 ];
 const en = {
+  ...vehicleText.en,
   home: "Home",
   search: "Search",
   saved: "Saved",
@@ -109,7 +111,7 @@ const en = {
   deleteAccount: "Delete account",
   deleteTitle: "Delete your account?",
   deleteBody:
-    "This permanently deletes your Darewaza account, saved items and profile. This cannot be undone.",
+    "This permanently deletes your Darewaza account, saved cars, saved items and profile. This cannot be undone.",
   deleteConfirm: "Delete permanently",
   deleting: "Deleting…",
   deleteFailed: "Your account could not be deleted. Please try again.",
@@ -126,12 +128,13 @@ const en = {
   select: "Select",
   privacyTitle: "Your privacy matters.",
   termsTitle: "A few simple terms.",
-  updated: "Updated October 31, 2026",
+  updated: "Updated November 1, 2026",
   localPreference: "Your language is saved on this device and your account.",
   syncError: "Couldn’t sync. Pull down to try again.",
 };
 type Key = keyof typeof en;
 const ckb: Record<Key, string> = {
+  ...vehicleText.ckb,
   home: "سەرەکی",
   search: "گەڕان",
   saved: "پاشەکەوت",
@@ -225,7 +228,7 @@ const ckb: Record<Key, string> = {
   deleteAccount: "سڕینەوەی هەژمار",
   deleteTitle: "هەژمارەکەت بسڕدرێتەوە؟",
   deleteBody:
-    "هەژمار، پاشەکەوتەکان و زانیاری کەسیت بۆ هەمیشە دەسڕدرێنەوە. ئەمە ناگەڕێتەوە.",
+    "هەژمار، ئۆتۆمبێلە پاشەکەوتکراوەکان، پاشەکەوتەکان و زانیاری کەسیت بۆ هەمیشە دەسڕدرێنەوە. ئەمە ناگەڕێتەوە.",
   deleteConfirm: "سڕینەوە بۆ هەمیشە",
   deleting: "دەسڕدرێتەوە…",
   deleteFailed: "هەژمارەکە نەسڕایەوە. تکایە دووبارە هەوڵ بدە.",
@@ -242,11 +245,12 @@ const ckb: Record<Key, string> = {
   select: "هەڵبژاردن",
   privacyTitle: "تایبەتمەندیت گرنگە.",
   termsTitle: "چەند مەرجێکی سادە.",
-  updated: "نوێکراوەتەوە: ٣١ی تشرینی یەکەمی ٢٠٢٦",
+  updated: "نوێکراوەتەوە: ١ی تشرینی دووەمی ٢٠٢٦",
   localPreference: "زمانەکەت لەم ئامێرە و هەژمارەکەت پاشەکەوت دەکرێت.",
   syncError: "هاوکاتکردن سەرکەوتوو نەبوو. بۆ هەوڵدانەوە پەڕەکە ڕابکێشە.",
 };
 const ar: Record<Key, string> = {
+  ...vehicleText.ar,
   home: "الرئيسية",
   search: "بحث",
   saved: "المحفوظات",
@@ -338,7 +342,7 @@ const ar: Record<Key, string> = {
   signOutBody: "هل تريد تسجيل الخروج من Darewaza على هذا الجهاز؟",
   deleteAccount: "حذف الحساب",
   deleteTitle: "حذف حسابك؟",
-  deleteBody: "سيتم حذف حسابك ومحفوظاتك وملفك نهائياً. لا يمكن التراجع عن ذلك.",
+  deleteBody: "سيتم حذف حسابك وسياراتك المحفوظة ومحفوظاتك وملفك نهائياً. لا يمكن التراجع عن ذلك.",
   deleteConfirm: "حذف نهائي",
   deleting: "جارٍ الحذف…",
   deleteFailed: "تعذر حذف الحساب. حاول مجدداً.",
@@ -355,7 +359,7 @@ const ar: Record<Key, string> = {
   select: "اختيار",
   privacyTitle: "خصوصيتك تهمنا.",
   termsTitle: "بعض الشروط البسيطة.",
-  updated: "آخر تحديث: ٣١ أكتوبر ٢٠٢٦",
+  updated: "آخر تحديث: ١ نوفمبر ٢٠٢٦",
   localPreference: "تُحفظ اللغة على هذا الجهاز وفي حسابك.",
   syncError: "تعذرت المزامنة. اسحب للأسفل للمحاولة مجدداً.",
 };

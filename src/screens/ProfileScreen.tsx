@@ -16,6 +16,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Bookmark,
+  Car,
   Globe2,
   Info,
   LogOut,
@@ -92,11 +93,13 @@ export function ProfileScreen({
   city,
   onLocation,
   onSaved,
+  onGarage,
   deleteRequested = false,
 }: {
   city: string;
   onLocation: () => void;
   onSaved: () => void;
+  onGarage: () => void;
   deleteRequested?: boolean;
 }) {
   const { t, locale, row, align } = useLanguage();
@@ -193,6 +196,7 @@ export function ProfileScreen({
           </View>
         </View>
         <Group title={t("preferences")}>
+          <Row icon={Car} label={t("myCars")} onPress={onGarage} />
           <View style={s.languageSetting}>
             <View style={[s.languageHeading, row]}>
               <View style={s.settingIcon}>

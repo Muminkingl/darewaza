@@ -32,3 +32,5 @@ export { default as UserRound } from "lucide-react-native/icons/user-round";
 export { default as Wrench } from "lucide-react-native/icons/wrench";
 export { default as X } from "lucide-react-native/icons/x";
 export { default as Zap } from "lucide-react-native/icons/zap";
+
+export { default as Plus } from "lucide-react-native/icons/plus";

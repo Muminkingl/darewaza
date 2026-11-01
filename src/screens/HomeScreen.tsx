@@ -1,3 +1,4 @@
+import { VehicleCard } from "../components/VehicleCard";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { ArrowLeft, ArrowRight, Bookmark } from "../components/icons";
 import { useLanguage } from "../i18n";
@@ -9,9 +10,13 @@ import type { RootKey } from "../../shared/catalog";
 export function HomeScreen({
   onRoot,
   onSaved,
+  onGarage,
+  onVehicle,
 }: {
   onRoot: (key: RootKey) => void;
   onSaved: () => void;
+  onGarage: () => void;
+  onVehicle: () => void;
 }) {
   const { t, row, align, rtl } = useLanguage();
   const { data: counts } = useCounts();
@@ -26,6 +31,7 @@ export function HomeScreen({
         <Text style={[s.title, align]}>{t("homeTitle")}</Text>
         <Text style={[s.subtitle, align]}>{t("homeSubtitle")}</Text>
       </View>
+      <VehicleCard onManage={onGarage} onBrowse={onVehicle} />
       {(["parts", "accessories"] as const).map((key) => (
         <Tap
           key={key}

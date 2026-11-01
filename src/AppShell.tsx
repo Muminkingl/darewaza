@@ -1,3 +1,5 @@
+import { GarageSheet } from "./components/GarageSheet";
+import { VehicleCatalogScreen } from "./screens/VehicleCatalogScreen";
 import { useEffect, useState } from "react";
 import {
   BackHandler,
@@ -39,7 +41,7 @@ import { ProductDetail } from "./components/ProductDetail";
 import { LocationSheet } from "./components/LocationSheet";
 import { colors, font } from "./theme";
 import type { RootKey, Section } from "../shared/catalog";
-type Tab = "home" | "search" | "saved" | "profile";
+type Tab = "home" | "search" | "saved" | "profile" | "vehicle";
 type Route = { root: RootKey; trail: Section[] };
 const tabs = [
   { key: "saved", icon: Bookmark },
@@ -52,12 +54,14 @@ function CatalogScreen({
   onBack,
   onCrumb,
   onUpdate,
+  onGarage,
 }: {
   route: Route;
   onOpen: (s: Section) => void;
   onBack: () => void;
   onCrumb: (trail: Section[]) => void;
   onUpdate: (s: Section) => void;
+  onGarage: () => void;
 }) {
   const { t, row, align, rtl } = useLanguage();
   const [search, setSearch] = useState("");
@@ -115,7 +119,12 @@ function CatalogScreen({
         ))}
       </ScrollView>
       {current?.is_terminal ? (
-        <ProductDetail key={current.id} initial={current} onUpdate={onUpdate} />
+        <ProductDetail
+          key={current.id}
+          initial={current}
+          onUpdate={onUpdate}
+          onGarage={onGarage}
+        />
       ) : (
         <SectionList
           data={data}
@@ -167,6 +176,7 @@ export function AppShell() {
   const [tab, setTab] = useState<Tab>(deleteRequested ? "profile" : "home");
   const [routes, setRoutes] = useState<Route[]>([]);
   const route = routes.at(-1);
+  const [garageOpen, setGarageOpen] = useState(false);
   const [keyboard, setKeyboard] = useState(false);
   useEffect(() => {
     const a = Keyboard.addListener("keyboardDidShow", () => setKeyboard(true));
@@ -210,6 +220,7 @@ export function AppShell() {
     ]);
   }
   const compact = tab !== "home" || !!route;
+  const activeTab = tab === "vehicle" ? "home" : tab;
   return (
     <View style={s.screen}>
       <LinearGradient
@@ -269,6 +280,7 @@ export function AppShell() {
           <CatalogScreen
             key={`${route.root}:${route.trail.at(-1)?.id || ""}`}
             route={route}
+            onGarage={() => setGarageOpen(true)}
             onOpen={open}
             onBack={() => setRoutes((previous) => previous.slice(0, -1))}
             onCrumb={(trail) =>
@@ -290,16 +302,25 @@ export function AppShell() {
           />
         ) : tab === "home" ? (
           <HomeScreen
+            onGarage={() => setGarageOpen(true)}
+            onVehicle={() => navigateTab("vehicle")}
             onRoot={(root) => setRoutes([{ root, trail: [] }])}
             onSaved={() => navigateTab("saved")}
           />
         ) : tab === "search" ? (
-          <SearchScreen onOpen={open} />
+          <SearchScreen onOpen={open} onGarage={() => setGarageOpen(true)} />
+        ) : tab === "vehicle" ? (
+          <VehicleCatalogScreen
+            onOpen={open}
+            onManage={() => setGarageOpen(true)}
+            onAll={() => navigateTab("home")}
+          />
         ) : tab === "saved" ? (
           <CollectionScreen onOpen={open} />
         ) : (
           <ProfileScreen
             city={location.city}
+            onGarage={() => setGarageOpen(true)}
             onLocation={location.open}
             onSaved={() => navigateTab("saved")}
             deleteRequested={deleteRequested}
@@ -316,32 +337,36 @@ export function AppShell() {
                 key={key}
                 onPress={() => navigateTab(key)}
                 accessibilityRole="tab"
-                accessibilityState={{ selected: tab === key }}
+                accessibilityState={{ selected: activeTab === key }}
                 accessibilityLabel={t(key)}
                 style={s.navItem}
               >
                 <View
                   style={[
                     s.navIcon,
-                    tab === key && s.navIconActive,
+                    activeTab === key && s.navIconActive,
                     key === "home" && s.homeNavIcon,
-                    key === "home" && tab === "home" && s.homeNavIconActive,
+                    key === "home" &&
+                      activeTab === "home" &&
+                      s.homeNavIconActive,
                   ]}
                 >
                   <Icon
                     size={21}
                     color={
-                      key === "home" && tab === "home"
+                      key === "home" && activeTab === "home"
                         ? "#FFFFFF"
-                        : tab === key
+                        : activeTab === key
                           ? colors.navy
                           : "#8192A6"
                     }
-                    strokeWidth={tab === key ? 2 : 1.6}
+                    strokeWidth={activeTab === key ? 2 : 1.6}
                   />
-                  {tab === key && key !== "home" && <View style={s.navDot} />}
+                  {activeTab === key && key !== "home" && (
+                    <View style={s.navDot} />
+                  )}
                 </View>
-                <Text style={[s.navText, tab === key && s.navTextActive]}>
+                <Text style={[s.navText, activeTab === key && s.navTextActive]}>
                   {t(key)}
                 </Text>
               </Pressable>
@@ -349,6 +374,7 @@ export function AppShell() {
           </View>
         </View>
       )}
+      {garageOpen && <GarageSheet onClose={() => setGarageOpen(false)} />}
       <LocationSheet
         visible={location.visible}
         city={location.city}

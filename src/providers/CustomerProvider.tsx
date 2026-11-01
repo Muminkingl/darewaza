@@ -1,3 +1,4 @@
+import { GarageProvider } from "./GarageProvider";
 import {
   createContext,
   useContext,
@@ -38,7 +39,7 @@ export function CustomerProvider({ children }: { children: ReactNode }) {
         keepPreviousData: false,
       }}
     >
-      <CustomerState>{children}</CustomerState>
+      <CustomerState><GarageProvider>{children}</GarageProvider></CustomerState>
     </SWRConfig>
   );
 }
@@ -80,7 +81,7 @@ function CustomerState({ children }: { children: ReactNode }) {
         void mutate(
           (key) =>
             Array.isArray(key) &&
-            ["profile", "counts", "membership", "product"].includes(key[0]),
+            ["profile", "counts", "membership", "product", "garage-selection", "vehicle-fit", "vehicle-rules"].includes(key[0]),
           undefined,
           { revalidate: true },
         );

@@ -12,7 +12,7 @@ export const legalContent: Record<
       },
       {
         title: "Information we use",
-        body: "We use your account ID, email address, sign-in provider, and any name you choose to provide to operate your account. Google or Apple may share your name and email when you sign in. Your saved sections and language preference are stored with your account. We do not store your Google or Apple password.",
+        body: "We use your account ID, email address, sign-in provider, and any name you choose to provide to operate your account. Google or Apple may share your name and email when you sign in. Your saved sections, saved cars (make, model, year, optional engine, trim and nickname), selected car, and language preference are stored with your account. We do not store your Google or Apple password.",
       },
       {
         title: "Location is your choice",
@@ -24,15 +24,15 @@ export const legalContent: Record<
       },
       {
         title: "Storage and your choices",
-        body: "Your account information and saved items are kept until you remove them or delete your account. Authentication tokens are stored securely on native devices and in browser storage on the web. Language and selected city are also stored locally. Signing out removes the active session from that device.",
+        body: "Your account information, saved cars and saved items are kept until you remove them or delete your account. Authentication tokens are stored securely on native devices and in browser storage on the web. Language and selected city are also stored locally. Signing out removes the active session from that device.",
       },
       {
         title: "Delete or access your data",
-        body: "In Profile, choose Delete account and confirm to permanently remove your account, profile and saved items from the active service. Apple authorization is revoked for Apple accounts. You can also start deletion at https://darewaza.vercel.app/delete-account. Operational logs and backups may remain for the infrastructure providers’ standard retention periods before expiring; they are not used to restore your deleted account. Contact contact@trxstudio.xyz to request access, correction, or help exercising your privacy rights.",
+        body: "In Profile, choose Delete account and confirm to permanently remove your account, profile, saved cars and saved items from the active service. Apple authorization is revoked for Apple accounts. You can also start deletion at https://darewaza.vercel.app/delete-account. Operational logs and backups may remain for the infrastructure providers’ standard retention periods before expiring; they are not used to restore your deleted account. Contact contact@trxstudio.xyz to request access, correction, or help exercising your privacy rights.",
       },
       {
         title: "Children and changes",
-        body: "Darewaza is not intended for children under 13. Contact us if a child has provided personal information. We may update this policy as the service changes and will show the updated date. This policy was last updated on October 31, 2026.",
+        body: "Darewaza is not intended for children under 13. Contact us if a child has provided personal information. We may update this policy as the service changes and will show the updated date. This policy was last updated on November 1, 2026.",
       },
     ],
     terms: [
@@ -46,7 +46,7 @@ export const legalContent: Record<
       },
       {
         title: "Your account",
-        body: "Provide accurate account information and do not misuse the service, attempt unauthorized access, or interfere with other users. You can sign out or permanently delete your account in Profile. Your personal saved items are private to your account.",
+        body: "Provide accurate account information and do not misuse the service, attempt unauthorized access, or interfere with other users. You can sign out or permanently delete your account in Profile. Your saved cars and saved items are private to your account. Vehicle matches use store-provided rules; missing engine or trim details require confirmation. Folder links are navigation shortcuts and do not verify the parts inside.",
       },
       {
         title: "Content and availability",
@@ -54,12 +54,13 @@ export const legalContent: Record<
       },
       {
         title: "Your rights and changes",
-        body: "These terms do not limit rights you have under applicable consumer or privacy law. We may change these terms and will publish the updated version. For questions, disputes, or requests, contact contact@trxstudio.xyz. Last updated October 31, 2026.",
+        body: "These terms do not limit rights you have under applicable consumer or privacy law. We may change these terms and will publish the updated version. For questions, disputes, or requests, contact contact@trxstudio.xyz. Last updated November 1, 2026.",
       },
     ],
   },
   ckb: {
     privacy: [
+      {title:"ئۆتۆمبێلە پاشەکەوتکراوەکان",body:"مارکە، مۆدێل، ساڵ و ئەگەر زیادت کرد بزوێنەر، جۆری مۆدێل و ناوی خوازراو لەگەڵ هەژمارەکەت پاشەکەوت دەکرێن. تەنها خۆت دەستت پێیان دەگات. بە سڕینەوەی ئۆتۆمبێل یان هەژمارەکەت دەسڕدرێنەوە."},
       {
         title: "ئێمە کێین",
         body: "Darewaza کەتەلۆگێکی پارچەی یەدەگ و جوانکاری ئۆتۆمبێلە و لەلایەن TRX Studio بەڕێوە دەبرێت. بۆ پرسیار یان داواکاری تایبەتمەندی: contact@trxstudio.xyz.",
@@ -86,7 +87,7 @@ export const legalContent: Record<
       },
       {
         title: "منداڵان و گۆڕانکاری",
-        body: "Darewaza بۆ منداڵانی خوار ١٣ ساڵ نییە. ئەگەر منداڵێک زانیاری داوە، پەیوەندیمان پێوە بکە. لەگەڵ گۆڕانی خزمەتگوزاری، ئەم سیاسەتە نوێ دەکەینەوە. دوایین نوێکردنەوە: ٣١ی تشرینی یەکەمی ٢٠٢٦.",
+        body: "Darewaza بۆ منداڵانی خوار ١٣ ساڵ نییە. ئەگەر منداڵێک زانیاری داوە، پەیوەندیمان پێوە بکە. لەگەڵ گۆڕانی خزمەتگوزاری، ئەم سیاسەتە نوێ دەکەینەوە. دوایین نوێکردنەوە: ١ی تشرینی دووەمی ٢٠٢٦.",
       },
     ],
     terms: [
@@ -108,12 +109,13 @@ export const legalContent: Record<
       },
       {
         title: "ماف و گۆڕانکاری",
-        body: "ئەم مەرجانە مافە یاساییەکانت لە بواری کڕیار یان تایبەتمەندی سنووردار ناکەن. لەوانەیە مەرجەکان بگۆڕین و وەشانی نوێ بڵاو بکەینەوە. بۆ پرسیار و داواکاری: contact@trxstudio.xyz. نوێکردنەوە: ٣١ی تشرینی یەکەمی ٢٠٢٦.",
+        body: "ئەم مەرجانە مافە یاساییەکانت لە بواری کڕیار یان تایبەتمەندی سنووردار ناکەن. لەوانەیە مەرجەکان بگۆڕین و وەشانی نوێ بڵاو بکەینەوە. بۆ پرسیار و داواکاری: contact@trxstudio.xyz. نوێکردنەوە: ١ی تشرینی دووەمی ٢٠٢٦.",
       },
     ],
   },
   ar: {
     privacy: [
+      {title:"السيارات المحفوظة",body:"نحفظ مع حسابك الشركة والموديل والسنة، والمحرك والفئة والاسم المختصر إن أضفتها، والسيارة المختارة. هذه البيانات خاصة بحسابك وتُحذف عند إزالة السيارة أو حذف الحساب."},
       {
         title: "من نحن",
         body: "Darewaza دليل لقطع غيار السيارات والإكسسوارات تديره TRX Studio. للاستفسارات وطلبات الخصوصية: contact@trxstudio.xyz.",
@@ -140,7 +142,7 @@ export const legalContent: Record<
       },
       {
         title: "الأطفال والتغييرات",
-        body: "Darewaza غير مخصص للأطفال دون ١٣ عاماً. تواصل معنا إذا قدّم طفل معلومات شخصية. قد نحدّث هذه السياسة مع تغير الخدمة وسنعرض تاريخ التحديث. آخر تحديث: ٣١ أكتوبر ٢٠٢٦.",
+        body: "Darewaza غير مخصص للأطفال دون ١٣ عاماً. تواصل معنا إذا قدّم طفل معلومات شخصية. قد نحدّث هذه السياسة مع تغير الخدمة وسنعرض تاريخ التحديث. آخر تحديث: ١ نوفمبر ٢٠٢٦.",
       },
     ],
     terms: [
@@ -162,7 +164,7 @@ export const legalContent: Record<
       },
       {
         title: "حقوقك والتغييرات",
-        body: "لا تحد هذه الشروط من حقوق المستهلك أو الخصوصية المقررة قانوناً. قد نغير الشروط وننشر النسخة المحدّثة. للأسئلة أو الطلبات: contact@trxstudio.xyz. آخر تحديث: ٣١ أكتوبر ٢٠٢٦.",
+        body: "لا تحد هذه الشروط من حقوق المستهلك أو الخصوصية المقررة قانوناً. قد نغير الشروط وننشر النسخة المحدّثة. للأسئلة أو الطلبات: contact@trxstudio.xyz. آخر تحديث: ١ نوفمبر ٢٠٢٦.",
       },
     ],
   },
