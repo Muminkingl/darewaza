@@ -62,7 +62,7 @@ export function CompatibilityCard({
       void rules.mutate();
     }
   }, [revision]);
-  const matched = fit.data === "matched";
+  const matched = !!selected && !fit.error && fit.data === "matched";
   const label = !selected
     ? "selectCarHint"
     : fit.data === "matched"
