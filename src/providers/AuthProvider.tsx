@@ -19,6 +19,7 @@ WebBrowser.maybeCompleteAuthSession();
 type AuthContextValue = {
   session: Session | null;
   ready: boolean;
+  appleEnabled: boolean;
   error: string;
   clearError: () => void;
   signIn: (email: string, password: string) => Promise<void>;
@@ -69,6 +70,7 @@ async function exchange(url: string) {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
+  const [appleEnabled, setAppleEnabled] = useState(false);
   const [error, setError] = useState("");
   const socialBusy = useRef(false);
   useEffect(() => {
@@ -77,6 +79,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     let live = true;
+    void availableProviders()
+      .then((providers) => {
+        if (live) setAppleEnabled(providers.apple === true);
+      })
+      .catch(() => {});
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, next) => {
@@ -269,6 +276,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         session,
         ready,
+        appleEnabled,
         error,
         clearError: () => setError(""),
         signIn: async (email, password) => {

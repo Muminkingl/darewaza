@@ -248,7 +248,7 @@ export function SignInScreen() {
               )}
               <Text style={s.socialText}>{t("google")}</Text>
             </Tap>
-            {Platform.OS === "ios" ? (
+            {auth.appleEnabled && (Platform.OS === "ios" ? (
               <View
                 style={{ opacity: busy ? 0.5 : 1, marginTop: 10 }}
                 pointerEvents={busy ? "none" : "auto"}
@@ -278,7 +278,7 @@ export function SignInScreen() {
                 )}
                 <Text style={s.socialText}>{t("apple")}</Text>
               </Tap>
-            )}
+            ))}
             <Text style={s.legal}>
               {t("authLegal")}
               {"\n"}

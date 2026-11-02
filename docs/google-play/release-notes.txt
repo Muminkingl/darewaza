@@ -1,0 +1,6 @@
+<en-US>
+Welcome to Darewaza. Browse spare parts and accessories, save your cars and favorite items, check listed vehicle compatibility, and use Kurdish Sorani, English or Arabic.
+</en-US>
+<ar>
+مرحباً بك في Darewaza. تصفح قطع الغيار والإكسسوارات، واحفظ سياراتك وقطعك المفضلة، وتحقق من معلومات التوافق. التطبيق متاح بالكردية السورانية والإنجليزية والعربية.
+</ar>

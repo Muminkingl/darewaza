@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "dev": "tsx scripts/dev-server.ts",
     "build": "node scripts/build.mjs",
@@ -24,7 +24,8 @@
     "api:verify": "tsx scripts/verify-api.ts",
     "bot:setup": "node --env-file=.env scripts/setup-telegram.mjs",
     "export:mobile-web": "expo export --platform web --output-dir mobile-dist",
-    "storage:setup": "node --env-file=.env scripts/setup-storage.mjs"
+    "storage:setup": "node --env-file=.env scripts/setup-storage.mjs",
+    "build:android": "node scripts/build-android.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans-arabic": "latest",
@@ -34,6 +35,7 @@
     "expo": "~58.0.22",
     "expo-apple-authentication": "~58.0.2",
     "expo-auth-session": "~58.0.16",
+    "expo-build-properties": "~58.0.12",
     "expo-crypto": "~58.0.7",
     "expo-dev-client": "~58.0.18",
     "expo-font": "~58.0.0",
@@ -42,6 +44,7 @@
     "expo-secure-store": "~58.0.2",
     "expo-splash-screen": "~58.0.12",
     "expo-status-bar": "~58.0.4",
+    "expo-system-ui": "~58.0.7",
     "expo-web-browser": "~58.0.7",
     "lucide-react": "latest",
     "lucide-react-native": "latest",

@@ -526,11 +526,12 @@ const s = StyleSheet.create({
     color: colors.muted,
     lineHeight: 23,
   },
-  crumbScroll: { maxHeight: 48, flexGrow: 0, marginVertical: 10 },
+  crumbScroll: { height: 44, flexGrow: 0, flexShrink: 0, marginVertical: 6 },
   crumbs: { paddingHorizontal: 22, gap: 7, alignItems: "center", flexGrow: 1 },
   crumb: {
     fontFamily: font.regular,
     fontSize: 10,
+    lineHeight: 22,
     color: "#92A4B8",
     paddingVertical: 5,
   },

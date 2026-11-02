@@ -12,3 +12,10 @@ coverage/
 artifacts/
 android/
 ios/
+
+# Google Play credentials and Android signing material
+rosy-sunspot-397211-d94e7010ec05.json
+credentials.json
+credentials/
+*.jks
+*.keystore
