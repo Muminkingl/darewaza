@@ -1,6 +1,6 @@
 # Darewaza release setup
 
-The customer app is available at `/app/`. The Telegram Studio remains at `/` and keeps its four-ID allowlist. Native builds use Expo SDK 58 and the app ID `com.darewaza.app` on both platforms. The name is **Darewaza**; SVG brand masters and the generated 1024px icon are in `assets/brand/`.
+The customer app is mobile only. Vercel serves the Telegram Studio at `/` with its four-ID allowlist, backend endpoints and required legal/deletion resources. No customer browser bundle is deployed; old `/app/` URLs redirect to the deletion resource. Native builds use Expo SDK 58. Android uses the existing Play Console package `com.trxstudio.darewaza`; iOS uses `com.darewaza.app`. The name is **Darewaza**; SVG brand masters and the generated 1024px icon are in `assets/brand/`.
 
 ## Authentication
 

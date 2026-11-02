@@ -23,7 +23,7 @@ The first launch offers location detection, manual city selection, and “choose
 
 ## Deploy the project root to Vercel
 
-Deploy **this root folder**, not `admin/` or `dist/`. `vercel.json` builds the Studio at `/`, the customer web app at `/app/`, public privacy/terms/deletion pages, and the `/api` functions. Installed Android/iOS apps are built separately through Expo/EAS.
+Deploy **this root folder**, not `admin/` or `dist/`. `vercel.json` builds the protected Telegram Studio at `/`, required public privacy/terms/deletion pages, and the `/api` functions. The customer app is mobile only and is never included in the Vercel output. Old `/app/` links redirect to the deletion resource. Installed Android/iOS apps are built separately.
 
 Vercel settings are already declared:
 
