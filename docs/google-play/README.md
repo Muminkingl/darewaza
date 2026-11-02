@@ -1,6 +1,6 @@
 # Darewaza Android release
 
-Android package: `com.trxstudio.darewaza`, matching the existing Play Console app. Version: `1.0.0`, version code `2`. iOS retains `com.darewaza.app`.
+Android package: `com.trxstudio.darewaza`, matching the existing Play Console app. Version: `1.0.0`, version code `3`. iOS retains `com.darewaza.app`.
 
 Run `npm run build:android` on the configured Windows workstation. The script loads only public Expo variables from `.env`, generates Android through Expo prebuild, and creates the signed App Bundle and release APK in `artifacts/google-play/`. Use `--skip-prebuild` only to resume an unchanged native configuration.
 

@@ -221,9 +221,13 @@ export function SectionList({
           onOpen={() => onOpen(item)}
           onSave={() => {
             setSaveError(false);
-            void toggleSave(item, knownSaved || has(item.id)).catch(() =>
-              setSaveError(true),
-            );
+            void toggleSave(item, knownSaved || has(item.id))
+              .then(() => {
+                // Revalidate the mounted paginated collection after a removal.
+                // Its bound mutate also refreshes the individual page caches.
+                if (knownSaved) return data.refresh();
+              })
+              .catch(() => setSaveError(true));
           }}
         />
       )}
