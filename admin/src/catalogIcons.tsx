@@ -7,7 +7,7 @@ const partNames:Record<PartIcon,string>={
  'fender-left':'چاملخی چەپ','fender-right':'چاملخی ڕاست',hood:'بۆنیت',trunk:'سندووق','bumper-front':'دەحامی پێشەوە','bumper-rear':'دەحامی دواوە',
  'headlight-left':'لایتی پێشەوەی چەپ','headlight-right':'لایتی پێشەوەی ڕاست','taillight-left':'لایتی دواوەی چەپ','taillight-right':'لایتی دواوەی ڕاست',
  grille:'چەمبەر',mirror:'ئاوێنە','brake-pad':'بەنج',axle:'تەوەر','window-switch':'دوگمەی دەرگا','door-handle':'دەسکی دەرگا',bracket:'براکیت',
- 'inner-fender':'ناو چامڵغ','fog-lamp':'بلاجکتۆر',reinforcement:'پاڵپشتی دەحامی','fuel-injector':'دەبڵەکان','brake-rotor':'ئەفلەنجە','body-closures':'دەرگا و سندووق',
+ 'inner-fender':'ناو چامڵغ','fog-lamp':'بلاجکتۆر',reinforcement:'پاڵپشتی دەحامی','fuel-injector':'دەبڵەکان','brake-rotor':'ئەفلەنجە','body-closures':'دەرگا و سندووق','fog-cover':'قەپاخ بلاجیکتۆر','mirror-right':'ئاوێنەی ڕاست',
 };
 export const iconNames: Record<SectionIcon, string> = { folder: 'بەش', car: 'ئۆتۆمبێل', settings: 'مەکینە', wrench: 'ئامراز', disc: 'تایە', sparkles: 'جوانکاری', package: 'پارچە', zap: 'کارەبا',...partNames };
 export function Glyph({ icon, size = 23 }: { icon: SectionIcon; size?: number }) {

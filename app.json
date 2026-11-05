@@ -28,7 +28,7 @@
         "foregroundImage": "./assets/brand/adaptive-icon.png",
         "backgroundColor": "#172D57"
       },
-      "versionCode": 6,
+      "versionCode": 7,
       "allowBackup": false,
       "blockedPermissions": [
         "android.permission.READ_EXTERNAL_STORAGE",

@@ -29,7 +29,7 @@ npm run db:import-pdf
 npm run db:import-pdf -- --apply
 ```
 
-The default import is a dry run. `--apply` uses a transaction, an import advisory lock, unique `(parent_id, source_key)` identities and version checks when adopting existing rows. It saves a private catalog snapshot under ignored `artifacts/catalog-import/` before writing. It neither overwrites subsequent administrator translations/renames nor recreates existing tagged categories. Rerun after adding new models or year branches. `data/catalog/pdf-exclusions.json` preserves explicit parent-specific deletions: the front bumper chrome trim is excluded only from BMW 530i 2023. Other deleted imported categories are recreated on a rerun unless similarly excluded.
+The default import is a dry run. `--apply` uses a transaction, an import advisory lock, unique `(parent_id, source_key)` identities and version checks when adopting existing rows. It saves a private catalog snapshot under ignored `artifacts/catalog-import/` before writing. It neither overwrites subsequent administrator translations/renames nor recreates existing tagged categories. Rerun after adding new models or year branches. `data/catalog/pdf-exclusions.json` preserves explicit parent-specific deletions: the front bumper chrome trim, front brake pads and front brake rotors are excluded only from BMW 530i 2023. Other deleted imported categories are recreated on a rerun unless similarly excluded.
 
 No rules claim a specific part fits a vehicle year/engine/trim: these PDFs describe navigation categories, not fitment certifications. Existing compatibility rules are preserved.
 

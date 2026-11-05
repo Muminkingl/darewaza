@@ -42,9 +42,10 @@ test('existing categories are reused and tagged categories remain stable after a
 });
 test('a deleted part stays excluded only in its selected year branch',()=>{
  const s=[row('b','BMW'),row('m','530i','b'),row('y','2023','m'),row('other','2022','m')];
- const part=parts.find(p=>p.key==='sayara-3-30')!;
- const plan=planPdfImport(s,[part],{y:[part.key]});
- assert.deepEqual(plan.map(e=>e.parent.id),['other']);
+ const excluded=['sayara-3-21','sayara-3-23','sayara-3-30'];
+ const selected=parts.filter(p=>excluded.includes(p.key));
+ const plan=planPdfImport(s,selected,{y:excluded});
+ assert.deepEqual(plan.map(e=>e.parent.id),['other','other','other']);
 });
 test('ambiguous matches and terminal destinations stop an import instead of duplicating or corrupting data',()=>{
   const s=[row('t','TOYOTA'),row('tm','Camry','t')];

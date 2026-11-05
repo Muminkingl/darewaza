@@ -1,6 +1,6 @@
 # Closed testing — 2026-11-02
 
-Update prepared on 2026-11-05: Android **version code 6** extends matching part icons and corrects BMW 530i 2023 component meanings and previews. It includes final-item pages, generated-preview captions and device-local bookmarks. See `../bmw-530i-2023.md` and `../bookmark-performance.md`. Version 6 **has not been submitted to Google Play**. The closed-test submission described below remains version 3. Earlier prepared builds remain under ignored `artifacts/google-play/version-3/` through `version-5/`; the new build is retained under `version-6/`.
+Update prepared on 2026-11-05: Android **version code 7** adds fog-cover and right-mirror icons and the corrected exterior pull-handle silhouette. The selected BMW 530i 2023 branch has 27 final items and 26 generated previews, including the new right taillight and mirror. It includes final-item pages, generated-preview captions and device-local bookmarks. See `../bmw-530i-2023.md` and `../bookmark-performance.md`. Version 7 **has not been submitted to Google Play**. The closed-test submission described below remains version 3. Earlier prepared builds remain under ignored `artifacts/google-play/version-3/` through `version-6/`; the new build is retained under `version-7/`.
 
 Package: `com.trxstudio.darewaza`. Google Play app ID: `4973135236340605463`.
 
