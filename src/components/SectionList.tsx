@@ -24,7 +24,7 @@ import {
   Zap,
 } from "./icons";
 import type { Section, SectionIcon } from "../../shared/catalog";
-import { formatPrice, imageUrl } from "../../shared/catalog";
+import { formatPrice, imageUrl, sectionName } from "../../shared/catalog";
 import { supabaseUrl } from "../lib/supabase";
 import { useLanguage } from "../i18n";
 import { useCustomer, useMembership } from "../providers/CustomerProvider";
@@ -94,7 +94,7 @@ const SectionRow = memo(function SectionRow({
   onSave: () => void;
   busy: boolean;
 }) {
-  const { t, row, align, rtl } = useLanguage();
+  const { t, row, align, rtl, locale } = useLanguage();
   const [failed, setFailed] = useState(false);
   const url = imageUrl(supabaseUrl, section.image_path);
   const Arrow = rtl ? ArrowLeft : ArrowRight;
@@ -104,7 +104,7 @@ const SectionRow = memo(function SectionRow({
         onPress={onOpen}
         style={[s.main, row]}
         accessibilityRole="button"
-        accessibilityLabel={section.name}
+        accessibilityLabel={sectionName(section, locale)}
       >
         <View style={s.thumb}>
           {url && !failed ? (
@@ -120,7 +120,7 @@ const SectionRow = memo(function SectionRow({
         </View>
         <View style={s.copy}>
           <Text style={[s.name, align]} numberOfLines={2}>
-            {section.name}
+            {sectionName(section, locale)}
           </Text>
           <Text style={[s.subtitle, align]} numberOfLines={1}>
             {section.is_terminal

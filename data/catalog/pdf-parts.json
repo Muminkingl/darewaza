@@ -1,0 +1,953 @@
+{
+  "version": 1,
+  "notes": [
+    "User confirmed these are categories, never terminal products. Prices and images remain unset.",
+    "All Kurdish names retain the source wording; embedded repeated row numerals are not part names.",
+    "Exact repeated Kurdish names share a category; different source wording is retained as separate categories.",
+    "SAYARA 3 Arabic left/right labels in rows 11–14 are corrected to match Kurdish and English.",
+    "English/Arabic automotive wording is normalized. SAYARA 3 rows 25/27 and SAYARA 2 rows 37–39 use provisional nearest equivalents, authorized by the user; edit in Studio after terminology review.",
+    "Driver/passenger is preserved without assuming left-hand or right-hand drive."
+  ],
+  "parts": [
+    {
+      "key": "sayara-3-01",
+      "name": "دەرگای پیشەوە لای چەپ",
+      "name_en": "Front left door",
+      "name_ar": "الباب الأمامي الأيسر",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 1
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-02",
+      "name": "دەرگای پیشەوە لای ڕاست",
+      "name_en": "Front right door",
+      "name_ar": "الباب الأمامي الأيمن",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 2
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-03",
+      "name": "دەرگای دواوە لای چەپ",
+      "name_en": "Rear left door",
+      "name_ar": "الباب الخلفي الأيسر",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 3
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-04",
+      "name": "دەرگای دواوە لای ڕاست",
+      "name_en": "Rear right door",
+      "name_ar": "الباب الخلفي الأيمن",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 4
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-05",
+      "name": "چاملخ پیشەوە لای چەپ",
+      "name_en": "Front left fender",
+      "name_ar": "الرفرف الأمامي الأيسر",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 5
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-06",
+      "name": "چاملخ پیشەوە لای ڕاست",
+      "name_en": "Front right fender",
+      "name_ar": "الرفرف الأمامي الأيمن",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 6
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-07",
+      "name": "بۆنیت",
+      "name_en": "Hood",
+      "name_ar": "غطاء المحرك",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 7
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-08",
+      "name": "سندووق",
+      "name_en": "Trunk lid",
+      "name_ar": "غطاء الصندوق",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 8
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-09",
+      "name": "دەحامی پیشەوە",
+      "name_en": "Front bumper",
+      "name_ar": "الصدام الأمامي",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 9
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 7
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-10",
+      "name": "دەحامی دواوە",
+      "name_en": "Rear bumper",
+      "name_ar": "الصدام الخلفي",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 10
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 8
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-11",
+      "name": "لایت پیشەوە لای ڕاست",
+      "name_en": "Right headlight",
+      "name_ar": "المصباح الأمامي الأيمن",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 11
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-12",
+      "name": "لایت پیشەوە لای چەپ",
+      "name_en": "Left headlight",
+      "name_ar": "المصباح الأمامي الأيسر",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 12
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-13",
+      "name": "لایت دواوە لای ڕاست",
+      "name_en": "Right taillight",
+      "name_ar": "المصباح الخلفي الأيمن",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 13
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-14",
+      "name": "لایت دواوە لای چەپ",
+      "name_en": "Left taillight",
+      "name_ar": "المصباح الخلفي الأيسر",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 14
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-15",
+      "name": "لایت دواوە سندووق",
+      "name_en": "Trunk-mounted rear light",
+      "name_ar": "مصباح الصندوق الخلفي",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 15
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-16",
+      "name": "چەمبەر",
+      "name_en": "Front grille",
+      "name_ar": "الشبك الأمامي",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 16
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 21
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 24
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-17",
+      "name": "بلاجکتۆر",
+      "name_en": "Fog lamp",
+      "name_ar": "مصباح الضباب",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 17
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 22
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 25
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-18",
+      "name": "ناو چاملخ",
+      "name_en": "Inner fender liner",
+      "name_ar": "البطانة الداخلية للرفرف",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 18
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 23
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 26
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-19",
+      "name": "ئاوێنە لای راست",
+      "name_en": "Right side mirror",
+      "name_ar": "المرآة الجانبية اليمنى",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 19
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-20",
+      "name": "ئاوێنە لای چەپ",
+      "name_en": "Left side mirror",
+      "name_ar": "المرآة الجانبية اليسرى",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 20
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-21",
+      "name": "تاخم بەنج پیشەوە",
+      "name_en": "Front brake pad set",
+      "name_ar": "طقم فحمات الفرامل الأمامية",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 21
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 33
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-22",
+      "name": "تاخم بەنج دواوە",
+      "name_en": "Rear brake pad set",
+      "name_ar": "طقم فحمات الفرامل الخلفية",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 22
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 34
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-23",
+      "name": "تاخم ئەفلەنجە پیشەوە",
+      "name_en": "Front brake disc set",
+      "name_ar": "طقم أقراص الفرامل الأمامية",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 23
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 35
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-24",
+      "name": "تاخم ئەفلەنجە دواوە",
+      "name_en": "Rear brake disc set",
+      "name_ar": "طقم أقراص الفرامل الخلفية",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 24
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 36
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-25",
+      "name": "دەبڵەکان",
+      "name_en": "Differentials",
+      "name_ar": "الدفرنسات (الدبل)",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 25
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-26",
+      "name": "تاخم دووگمە دەرگا",
+      "name_en": "Door switch set",
+      "name_ar": "طقم أزرار الأبواب",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 26
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-27",
+      "name": "یەدەی دەرگا",
+      "name_en": "Door handle",
+      "name_ar": "مقبض الباب",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 27
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-28",
+      "name": "پاڵپشتی دەحامی پیشەوە براکیت",
+      "name_en": "Front bumper support bracket",
+      "name_ar": "حامل الصدام الأمامي",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 28
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-29",
+      "name": "پاڵپشتی دەحامی دواوە براکیت",
+      "name_en": "Rear bumper support bracket",
+      "name_ar": "حامل الصدام الخلفي",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 29
+        }
+      ]
+    },
+    {
+      "key": "sayara-3-30",
+      "name": "نیکلی دەحامی پیشەوە",
+      "name_en": "Front bumper chrome trim",
+      "name_ar": "كروم الصدام الأمامي",
+      "scope": "all",
+      "sources": [
+        {
+          "document": "SAYARA 3.pdf",
+          "row": 30
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-01",
+      "name": "دەرگای پیشەوە لای سایەق",
+      "name_en": "Driver-side front door",
+      "name_ar": "الباب الأمامي جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 1
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-02",
+      "name": "دەرگای پیشەوە لای سکن",
+      "name_en": "Passenger-side front door",
+      "name_ar": "الباب الأمامي جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 2
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-03",
+      "name": "دەرگای دواوە لای سایەق",
+      "name_en": "Driver-side rear door",
+      "name_ar": "الباب الخلفي جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 3
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-04",
+      "name": "دەرگای دواوە لای سکن",
+      "name_en": "Passenger-side rear door",
+      "name_ar": "الباب الخلفي جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 4
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-05",
+      "name": "چاملخ پیشەوە لای سایەق",
+      "name_en": "Driver-side front fender",
+      "name_ar": "الرفرف الأمامي جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 5
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-06",
+      "name": "چاملخ پیشەوە لای سکن",
+      "name_en": "Passenger-side front fender",
+      "name_ar": "الرفرف الأمامي جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 6
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-09",
+      "name": "لایت پیشەوە لای سایەق بیلادی",
+      "name_en": "Genuine driver-side headlight",
+      "name_ar": "مصباح أمامي أصلي جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 9
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-10",
+      "name": "لایت پیشەوە لای سایەق تیجاری",
+      "name_en": "Aftermarket driver-side headlight",
+      "name_ar": "مصباح أمامي تجاري جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 10
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-11",
+      "name": "لایت پیشەوە لای سکن بیلادی",
+      "name_en": "Genuine passenger-side headlight",
+      "name_ar": "مصباح أمامي أصلي جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 11
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-12",
+      "name": "قەپاخ سندووق",
+      "name_en": "Trunk lid",
+      "name_ar": "غطاء الصندوق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 12
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 15
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-13",
+      "name": "بەگلایت سکن بیلادی",
+      "name_en": "Genuine passenger-side taillight",
+      "name_ar": "مصباح خلفي أصلي جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 13
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 16
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 20
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-14",
+      "name": "بەگلایت سکن تێجاری",
+      "name_en": "Aftermarket passenger-side taillight",
+      "name_ar": "مصباح خلفي تجاري جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 14
+        },
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 17
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-18",
+      "name": "بەگلایت سندووق سکن",
+      "name_en": "Passenger-side trunk light",
+      "name_ar": "مصباح الصندوق جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 18
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-19",
+      "name": "بەگلایت سندووق سایەق",
+      "name_en": "Driver-side trunk light",
+      "name_ar": "مصباح الصندوق جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 19
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-27",
+      "name": "دەبەی فلچە ئاو",
+      "name_en": "Windshield washer reservoir",
+      "name_ar": "خزان ماء مساحات الزجاج",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 27
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-28",
+      "name": "مانتۆر دەبەی فلچە",
+      "name_en": "Windshield washer pump",
+      "name_ar": "مضخة ماء مساحات الزجاج",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 28
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-29",
+      "name": "ڕادار",
+      "name_en": "Radar sensor",
+      "name_ar": "حساس الرادار",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 29
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-30",
+      "name": "ئاوینە",
+      "name_en": "Side mirror",
+      "name_ar": "المرآة الجانبية",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 30
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-31",
+      "name": "قەپاخ ئاوینە سایەق",
+      "name_en": "Driver-side mirror cover",
+      "name_ar": "غطاء المرآة جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 31
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-32",
+      "name": "قەپاخ ئاوینە سەکن",
+      "name_en": "Passenger-side mirror cover",
+      "name_ar": "غطاء المرآة جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 32
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-37",
+      "name": "بووش تەپلە",
+      "name_en": "Wheel hub bushing",
+      "name_ar": "جلبة صرة العجلة",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 37
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-38",
+      "name": "ڕۆڵت",
+      "name_en": "Wheel bearing",
+      "name_ar": "رولمان العجلة",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 38
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-39",
+      "name": "ڤۆڵت",
+      "name_en": "Wheel bolt",
+      "name_ar": "مسمار العجلة",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 39
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-40",
+      "name": "دووگمەی دەرگای پیشەوە لای سایەق",
+      "name_en": "Driver-side front door switch",
+      "name_ar": "زر الباب الأمامي جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 40
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-41",
+      "name": "دووگمەی دەرگای پیشەوە لای سەکن",
+      "name_en": "Passenger-side front door switch",
+      "name_ar": "زر الباب الأمامي جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 41
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-42",
+      "name": "دووگمەی دەرگای دواوە لای سایەق",
+      "name_en": "Driver-side rear door switch",
+      "name_ar": "زر الباب الخلفي جهة السائق",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 42
+        }
+      ]
+    },
+    {
+      "key": "sayara-2-43",
+      "name": "دووگمەی دەرگای دواوە لای سەکن",
+      "name_en": "Passenger-side rear door switch",
+      "name_ar": "زر الباب الخلفي جهة الراكب",
+      "scope": [
+        "TOYOTA",
+        "NISSAN",
+        "HYUNDAI",
+        "KIA"
+      ],
+      "sources": [
+        {
+          "document": "SAYARA 2.pdf",
+          "row": 43
+        }
+      ]
+    }
+  ]
+}

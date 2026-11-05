@@ -10,6 +10,9 @@ mobile-dist/
 *.log
 coverage/
 artifacts/
+tmp/
+SAYARA 2.pdf
+SAYARA 3.pdf
 android/
 ios/
 

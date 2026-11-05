@@ -40,7 +40,7 @@ export function useCatalog(
           .order("id")
           .range(offset, offset + PAGE_SIZE);
         q = parent ? q.eq("parent_id", parent) : q.is("parent_id", null);
-        if (query) q = q.ilike("name", `%${query.replace(/[\\%_]/g, "\\$&")}%`);
+        if (query) q = q.ilike("search_name", `%${query.replace(/[\\%_]/g, "\\$&")}%`);
         result = await q;
       }
       if (result.error) throw result.error;

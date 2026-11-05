@@ -11,6 +11,8 @@ export interface Section {
   parent_id: string | null;
   root_key: RootKey;
   name: string;
+  name_en?: string;
+  name_ar?: string;
   description: string;
   icon: SectionIcon;
   position: number;
@@ -23,6 +25,10 @@ export interface Section {
   has_children?: boolean;
   created_at: string;
   updated_at: string;
+}
+export type CatalogLocale = 'ckb' | 'en' | 'ar';
+export function sectionName(section: Pick<Section, 'name' | 'name_en' | 'name_ar'>, locale: CatalogLocale): string {
+  return (locale === 'en' ? section.name_en?.trim() : locale === 'ar' ? section.name_ar?.trim() : '') || section.name;
 }
 export const PAGE_SIZE = 40;
 export const IMAGE_BUCKET = 'catalog-images';

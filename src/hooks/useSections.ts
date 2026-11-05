@@ -24,7 +24,7 @@ export function useSections(root: RootKey | null, parent: string | null, search:
         .order('position').order('created_at').order('id').range(offset, offset + PAGE_SIZE);
       query = parent ? query.eq('parent_id', parent) : query.is('parent_id', null);
       // Escape SQL LIKE wildcards so a search is treated as text.
-      if (search.trim()) query = query.ilike('name', `%${search.trim().replace(/[\\%_]/g, '\\$&')}%`);
+      if (search.trim()) query = query.ilike('search_name', `%${search.trim().replace(/[\\%_]/g, '\\$&')}%`);
       const { data, error: queryError } = await query;
       if (queryError) throw queryError;
       if (id !== requestId.current) return;

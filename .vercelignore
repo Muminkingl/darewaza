@@ -4,6 +4,9 @@
 .expo
 mobile-dist
 artifacts
+tmp
+SAYARA 2.pdf
+SAYARA 3.pdf
 node_modules
 android
 ios

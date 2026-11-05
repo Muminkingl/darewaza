@@ -1,5 +1,7 @@
 # Closed testing — 2026-11-02
 
+Update prepared on 2026-11-05: signed Android **version code 4** adds translated catalog names and multilingual section search. The PDF categories are already imported in Supabase; see `../catalog-pdf-import.md`. Version 4 was compiled and verified locally, but **has not been submitted to Google Play**. The closed-test submission described below remains version 3. Its original local artifacts were retained under ignored `artifacts/google-play/version-3/`; the newly prepared artifacts are also retained under `artifacts/google-play/version-4/`.
+
 Package: `com.trxstudio.darewaza`. Google Play app ID: `4973135236340605463`.
 
 Version 1.0.0, code 2 was approved and made available to selected Alpha testers. Version code 3 was then submitted as a closed-test update, fixing the Saved screen so a removed section disappears immediately. Play Console confirmed **Changes in review** for version 3. No production release was created.

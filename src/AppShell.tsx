@@ -40,7 +40,7 @@ import { SectionList } from "./components/SectionList";
 import { ProductDetail } from "./components/ProductDetail";
 import { LocationSheet } from "./components/LocationSheet";
 import { colors, font } from "./theme";
-import type { RootKey, Section } from "../shared/catalog";
+import { sectionName, type RootKey, type Section } from "../shared/catalog";
 type Tab = "home" | "search" | "saved" | "profile" | "vehicle";
 type Route = { root: RootKey; trail: Section[] };
 const tabs = [
@@ -63,7 +63,7 @@ function CatalogScreen({
   onUpdate: (s: Section) => void;
   onGarage: () => void;
 }) {
-  const { t, row, align, rtl } = useLanguage();
+  const { t, row, align, rtl, locale } = useLanguage();
   const [search, setSearch] = useState("");
   const current = route.trail.at(-1);
   const data = useCatalog(
@@ -81,7 +81,7 @@ function CatalogScreen({
         </Tap>
         <View style={{ flex: 1 }}>
           <Text style={[s.pageTitle, align]}>
-            {current?.name || t(route.root)}
+            {current ? sectionName(current, locale) : t(route.root)}
           </Text>
           <Text style={[s.pageSubtitle, align]}>
             {current?.is_terminal
@@ -112,7 +112,7 @@ function CatalogScreen({
                   index === route.trail.length - 1 && s.currentCrumb,
                 ]}
               >
-                {item.name}
+                {sectionName(item, locale)}
               </Text>
             </Pressable>
           </View>

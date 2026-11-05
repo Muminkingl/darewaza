@@ -12,6 +12,8 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
   const [id] = useState(() => initial?.id || crypto.randomUUID());
   const [existing, setExisting] = useState(initial);
   const [name, setName] = useState(initial?.name || '');
+  const [nameEn, setNameEn] = useState(initial?.name_en || '');
+  const [nameAr, setNameAr] = useState(initial?.name_ar || '');
   const [description, setDescription] = useState(initial?.description || '');
   const [icon, setIcon] = useState<SectionIcon>(initial?.icon || 'folder');
   const [position, setPosition] = useState(String(initial?.position || 0));
@@ -55,6 +57,7 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
   function reloadConflict() {
     if (!conflict) return;
     setExisting(conflict); setName(conflict.name); setDescription(conflict.description); setIcon(conflict.icon); setPosition(String(conflict.position));
+    setNameEn(conflict.name_en || ''); setNameAr(conflict.name_ar || '');
     setTerminal(conflict.is_terminal); setUsd(conflict.price_usd || ''); setIqd(conflict.price_iqd || ''); setImagePath(conflict.image_path); setImageUrl(conflict.image_url || null); setPhoto(null); setError(''); setConflict(null);
   }
   async function submit(event: FormEvent) {
@@ -75,7 +78,7 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
         path = uploaded.current!.path;
       }
       const result = await api<{ section: Section }>('sections', { method: existing ? 'PATCH' : 'POST', body: JSON.stringify({
-        id, name, description, icon, position: Number(position), is_terminal: terminal,
+        id, name, name_en: nameEn, name_ar: nameAr, description, icon, position: Number(position), is_terminal: terminal,
         price_usd: terminal && usd.trim() ? normalizePrice(usd) : null, price_iqd: terminal && iqd.trim() ? normalizePrice(iqd) : null, image_path: path,
         ...(existing ? { version: existing.version } : { root_key: root, parent_id: parent }),
       }) });
@@ -91,7 +94,11 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
   return <dialog ref={dialogRef} className="section-dialog" aria-labelledby="dialog-title" onCancel={event => { event.preventDefault(); if (!saving) onClose(); }} onClick={event => { if (event.target === event.currentTarget && !saving) onClose(); }}>
     <form onSubmit={submit}><div className="dialog-handle" /><div className="dialog-heading"><div><span className="overline">DAREWAZA STUDIO</span><h2 id="dialog-title">{deleting ? 'سڕینەوەی بەش' : existing ? 'دەستکاری بەش' : 'بەشێکی نوێ'}</h2></div><button type="button" className="icon-button" onClick={onClose} disabled={saving} aria-label="داخستن"><X size={21} /></button></div>
       {deleting ? <div className="delete-warning"><span className="delete-icon"><Trash2 size={26} /></span><p>دڵنیایت لە سڕینەوەی «{existing?.name}»؟</p><small>هەموو ژێربەشەکانی ناویشی دەسڕێنەوە. ئەم کارە ناگەڕێتەوە.</small></div> : <fieldset className="dialog-fields" disabled={saving}>
-        <label className="field">ناوی بەش <span>*</span><input autoFocus required maxLength={100} value={name} onChange={event => setName(event.target.value)} placeholder="بۆ نموونە: BMW" dir="auto" /></label>
+        <fieldset className="name-translations"><legend>ناوی بەش</legend>
+          <label className="field">کوردی <span>*</span><input autoFocus required lang="ckb" maxLength={100} value={name} onChange={event => setName(event.target.value)} placeholder="بۆ نموونە: دەرگای پێشەوە لای چەپ" dir="auto" /></label>
+          <label className="field">English <small>ئارەزوومەندانە</small><input lang="en" maxLength={100} value={nameEn} onChange={event => setNameEn(event.target.value)} placeholder="Front left door" dir="ltr" /></label>
+          <label className="field">العربية <small>ئارەزوومەندانە</small><input lang="ar" maxLength={100} value={nameAr} onChange={event => setNameAr(event.target.value)} placeholder="الباب الأمامي الأيسر" dir="rtl" /></label>
+        </fieldset>
         <label className="field">وەسف <small>ئارەزوومەندانە</small><textarea maxLength={500} rows={2} value={description} onChange={event => setDescription(event.target.value)} placeholder="وەسفێکی کورت بۆ ئەم بەشە..." dir="auto" /></label>
         <label className={`terminal-switch ${terminal ? 'is-on' : ''}`}><span><strong>ئەمە کاڵای کۆتاییە</strong><small>{existing?.has_children ? 'ئەم بەشە ژێربەشی هەیە؛ ناتوانێت کۆتایی بێت.' : 'بێ ژێربەش، لەگەڵ نرخ و وێنە'}</small></span><input type="checkbox" role="switch" checked={terminal} disabled={existing?.has_children} onChange={event => setTerminal(event.target.checked)} /><span className="switch-track" aria-hidden="true" /></label>
         {terminal && <div className="product-fields">

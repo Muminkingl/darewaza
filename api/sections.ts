@@ -11,6 +11,8 @@ import { IMAGE_PATH_PATTERN, PAGE_SIZE, SECTION_ICONS, type Section } from '../s
 const uuid = z.uuid();
 const fields = {
   name: z.string().trim().min(1, 'Enter a section name.').max(100),
+  name_en: z.string().trim().max(100).optional(),
+  name_ar: z.string().trim().max(100).optional(),
   description: z.string().trim().max(500).default(''),
   icon: z.enum(SECTION_ICONS).default('folder'),
   position: z.number().int().min(0).max(2147483647).default(0),
@@ -23,9 +25,9 @@ function productFields(input: { is_terminal: boolean; price_usd: string | null; 
   if (input.is_terminal && input.price_usd == null && input.price_iqd == null) context.addIssue({ code: 'custom', message: 'تکایە نرخی دۆلار یان دینار بنووسە.', path: ['price_usd'] });
   if (!input.is_terminal && (input.price_usd != null || input.price_iqd != null || input.image_path != null)) context.addIssue({ code: 'custom', message: 'نرخ و وێنە تەنها بۆ کاڵای کۆتاییە.', path: ['is_terminal'] });
 }
-const createSchema = z.object({ ...fields, id: uuid.optional(), root_key: z.enum(['parts', 'accessories']), parent_id: uuid.nullable().default(null) }).strict().superRefine(productFields);
+export const createSchema = z.object({ ...fields, id: uuid.optional(), root_key: z.enum(['parts', 'accessories']), parent_id: uuid.nullable().default(null) }).strict().superRefine(productFields);
 const version = z.number({ error: 'تکایە ستۆدیۆ نوێ بکەرەوە و دووبارە هەوڵ بدە.' }).int().positive();
-const updateSchema = z.object({ ...fields, id: uuid, version }).strict().superRefine(productFields);
+export const updateSchema = z.object({ ...fields, id: uuid, version }).strict().superRefine(productFields);
 const present = (row: Section) => ({ ...row, image_url: publicImage(row.image_path) });
 
 async function conflict(id: string, response: VercelResponse) {
@@ -53,11 +55,11 @@ export default async function handler(request: VercelRequest, response: VercelRe
       }
       const values: (string | number)[] = [query.root];
       const parentClause = query.parent ? `s.parent_id=$${values.push(query.parent)}::uuid` : 's.parent_id is null';
-      const searchParam = values.push(query.q), limitParam = values.push(PAGE_SIZE + 1), offsetParam = values.push(query.offset);
+      const searchParam = values.push(query.q ? `%${query.q.replace(/[\\%_]/g, '\\$&')}%` : ''), limitParam = values.push(PAGE_SIZE + 1), offsetParam = values.push(query.offset);
       const result = await db.query(
         `select s.*, exists(select 1 from public.catalog_sections c where c.root_key=s.root_key and c.parent_id=s.id) as has_children
          from public.catalog_sections s where s.root_key=$1 and ${parentClause}
-         and ($${searchParam}='' or strpos(lower(s.name), lower($${searchParam})) > 0)
+         and ($${searchParam}='' or s.search_name ilike $${searchParam})
          order by s.position, s.created_at, s.id limit $${limitParam} offset $${offsetParam}`, values,
       );
       return response.json({ sections: result.rows.slice(0, PAGE_SIZE).map(present), hasMore: result.rows.length > PAGE_SIZE });
@@ -67,15 +69,16 @@ export default async function handler(request: VercelRequest, response: VercelRe
       const id = input.id || randomUUID();
       await verifyImage(input.image_path, id);
       const result = await db.query(
-        `insert into public.catalog_sections (id,root_key,parent_id,name,description,icon,position,is_terminal,price_usd,price_iqd,image_path)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) on conflict(id) do nothing returning *`,
-        [id, input.root_key, input.parent_id, input.name, input.description, input.icon, input.position, input.is_terminal, input.price_usd, input.price_iqd, input.image_path],
+        `insert into public.catalog_sections (id,root_key,parent_id,name,description,icon,position,is_terminal,price_usd,price_iqd,image_path,name_en,name_ar)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) on conflict(id) do nothing returning *`,
+        [id, input.root_key, input.parent_id, input.name, input.description, input.icon, input.position, input.is_terminal, input.price_usd, input.price_iqd, input.image_path, input.name_en || '', input.name_ar || ''],
       );
       if (result.rowCount) return response.status(201).json({ section: present(result.rows[0]) });
       const existing = (await db.query('select * from public.catalog_sections where id=$1', [id])).rows[0];
       const same = existing && ['root_key', 'parent_id', 'name', 'description', 'icon', 'position', 'is_terminal', 'image_path'].every(key => existing[key] === input[key as keyof typeof input]) &&
         ['price_usd', 'price_iqd'].every(key => existing[key] == null ? input[key as keyof typeof input] == null : Number(existing[key]) === Number(input[key as keyof typeof input]));
-      if (!same) throw new HttpError(409, 'ئەم بەشە پێشتر پاشەکەوت کراوە. ستۆدیۆ نوێ بکەرەوە.');
+      const sameTranslations = existing && existing.name_en === (input.name_en || '') && existing.name_ar === (input.name_ar || '');
+      if (!same || !sameTranslations) throw new HttpError(409, 'ئەم بەشە پێشتر پاشەکەوت کراوە. ستۆدیۆ نوێ بکەرەوە.');
       return response.json({ section: present(existing) });
     }
     if (request.method === 'PATCH') {
@@ -83,9 +86,10 @@ export default async function handler(request: VercelRequest, response: VercelRe
       await verifyImage(input.image_path, input.id);
       const previous = await db.query('select image_path from public.catalog_sections where id=$1', [input.id]);
       const result = await db.query(
-        `update public.catalog_sections set name=$1,description=$2,icon=$3,position=$4,is_terminal=$5,price_usd=$6,price_iqd=$7,image_path=$8
+        `update public.catalog_sections set name=$1,description=$2,icon=$3,position=$4,is_terminal=$5,price_usd=$6,price_iqd=$7,image_path=$8,
+         name_en=coalesce($11,name_en),name_ar=coalesce($12,name_ar)
          where id=$9 and version=$10 returning *`,
-        [input.name, input.description, input.icon, input.position, input.is_terminal, input.price_usd, input.price_iqd, input.image_path, input.id, input.version],
+        [input.name, input.description, input.icon, input.position, input.is_terminal, input.price_usd, input.price_iqd, input.image_path, input.id, input.version, input.name_en ?? null, input.name_ar ?? null],
       );
       if (!result.rowCount) return await conflict(input.id, response);
       const oldPath = previous.rows[0]?.image_path;

@@ -21,6 +21,7 @@
     "test": "tsx --test tests/*.test.ts",
     "db:migrate": "node --env-file=.env scripts/migrate.mjs",
     "db:verify": "node --env-file=.env scripts/verify-database.mjs",
+    "db:import-pdf": "node --env-file=.env --import tsx scripts/import-pdf-parts.ts",
     "api:verify": "tsx scripts/verify-api.ts",
     "bot:setup": "node --env-file=.env scripts/setup-telegram.mjs",
     "export:mobile-web": "expo export --platform web --output-dir mobile-dist",

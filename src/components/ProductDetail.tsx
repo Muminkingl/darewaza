@@ -13,7 +13,7 @@ import {
 import { Bookmark, ImageOff, Maximize2, X } from "./icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useSWR from "swr";
-import { formatPrice, imageUrl, type Section } from "../../shared/catalog";
+import { formatPrice, imageUrl, sectionName, type Section } from "../../shared/catalog";
 import { supabase, supabaseUrl } from "../lib/supabase";
 import { useLanguage } from "../i18n";
 import { useCustomer, useMembership } from "../providers/CustomerProvider";
@@ -28,7 +28,7 @@ export function ProductDetail({
   onUpdate: (section: Section) => void;
   onGarage: () => void;
 }) {
-  const { t, row, align } = useLanguage();
+  const { t, row, align, locale } = useLanguage();
   const insets = useSafeAreaInsets();
   const { toggleSave, busy } = useCustomer();
   const has = useMembership([initial]);
@@ -88,7 +88,7 @@ export function ProductDetail({
                   source={{ uri: url }}
                   style={s.image}
                   resizeMode="contain"
-                  accessibilityLabel={item.name}
+                  accessibilityLabel={sectionName(item, locale)}
                   onError={() => setFailed(url)}
                 />
                 <View style={s.expand}>
@@ -124,7 +124,7 @@ export function ProductDetail({
                 </Text>
               </Tap>
             </View>
-            <Text style={[s.title, align]}>{item.name}</Text>
+            <Text style={[s.title, align]}>{sectionName(item, locale)}</Text>
             {!!item.description && (
               <Text style={[s.description, align]}>{item.description}</Text>
             )}
@@ -193,7 +193,7 @@ export function ProductDetail({
               source={{ uri: url }}
               style={s.zoomImage}
               resizeMode="contain"
-              accessibilityLabel={item.name}
+              accessibilityLabel={sectionName(item, locale)}
             />
           )}
         </View>
