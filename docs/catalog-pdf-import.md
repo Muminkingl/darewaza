@@ -15,6 +15,8 @@ The live import added **6,461 categories**, reused **7 existing matching categor
 
 ## Administration and customer display
 
+Icon update: all 6,468 imported category assignments now use the existing blue wrench icon, matching the user's reference. The 6,461 imported folder icons were changed; the seven reused categories already used a wrench. Future PDF imports also use a wrench. This is a database-driven display change supported by existing app and Studio builds.
+
 Studio's category form has Kurdish, English and Arabic name fields. The Kurdish field remains the canonical `name`, so existing installed applications keep working. `name_en` and `name_ar` fall back to the canonical name when blank. The Studio language control previews category names; its administration interface remains Kurdish. All three names can be searched in any preview language.
 
 Customer rows, headings, breadcrumbs, Saved, search results and product details use the selected app language. This native display change is included in the prepared **Android version code 4**, which must be installed/distributed to expose the new translation behavior. The database categories themselves are already available to existing installations. Version 4 has not been submitted to Google Play as part of this data import; the version 3 closed-test release is unchanged.

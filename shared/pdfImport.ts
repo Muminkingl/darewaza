@@ -1,4 +1,6 @@
-import type { Section } from './catalog';
+import type { Section, SectionIcon } from './catalog';
+
+export const PDF_PART_ICON: SectionIcon = 'wrench';
 
 export interface PdfPart {
   key: string;

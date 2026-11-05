@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { rootCertificates } from 'node:tls';
-import { importSourceKey, planPdfImport, type PdfPart } from '../shared/pdfImport.js';
+import { importSourceKey, planPdfImport, PDF_PART_ICON, type PdfPart } from '../shared/pdfImport.js';
 import type { Section } from '../shared/catalog.js';
 
 const apply = process.argv.includes('--apply');
@@ -42,9 +42,9 @@ try {
     }
     const started = performance.now();
     const inserted = await client.query(`insert into public.catalog_sections(id,root_key,parent_id,name,name_en,name_ar,source_key,position,icon,is_terminal)
-      select id,'parts',parent_id,name,name_en,name_ar,source_key,position,'folder',false
+      select id,'parts',parent_id,name,name_en,name_ar,source_key,position,$2,false
       from jsonb_to_recordset($1::jsonb) as r(id uuid,parent_id uuid,name text,name_en text,name_ar text,source_key text,position integer)
-      returning id`, [JSON.stringify(inserts)]);
+      returning id`, [JSON.stringify(inserts), PDF_PART_ICON]);
     assert.equal(inserted.rowCount, inserts.length);
     const after = (await client.query('select * from public.catalog_sections')).rows as typeof before;
     const verified = planPdfImport(after, data.parts);
