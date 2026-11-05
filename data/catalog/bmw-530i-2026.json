@@ -113,7 +113,7 @@
       "name_en": "Right headlight",
       "name_ar": "المصباح الأمامي الأيمن",
       "icon": "headlight-right",
-      "image": "right-headlight",
+      "image": "right-headlight-v2",
       "position": 10
     },
     {
@@ -123,7 +123,7 @@
       "name_en": "Left headlight",
       "name_ar": "المصباح الأمامي الأيسر",
       "icon": "headlight-left",
-      "image": "left-headlight",
+      "image": "left-headlight-v2",
       "position": 11
     },
     {
@@ -263,7 +263,7 @@
       "name_en": "Window switch",
       "name_ar": "مفتاح التحكم بالنوافذ",
       "icon": "window-switch",
-      "image": "window-switch",
+      "image": "window-switch-v2",
       "position": 25
     },
     {

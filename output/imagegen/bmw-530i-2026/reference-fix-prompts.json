@@ -1,0 +1,22 @@
+{
+  "method": "built-in image_gen",
+  "target": "BMW 530i → 530 2026, three image replacements only",
+  "note": "Owner reference shapes take priority. Generated visual previews; no OEM fitment assertion. Left headlight generated from the right-side preview to preserve the matching optical design.",
+  "assets": [
+    {
+      "key": "right-headlight-v2",
+      "ref": "C:/Users/mumin/AppData/Local/Temp/codex-clipboard-87c9d235-98b5-458e-a597-8abcb76ea7ef.png",
+      "prompt": "Create a photorealistic detached RIGHT car headlight catalog photograph matching the attached headlight REFERENCE geometry as closely as possible. The user is assigning this part to BMW 530i 2026 in their catalog; the attached silhouette and optics take priority over any generic assumption about the model year. Precisely preserve the very low, horizontally elongated headlamp, narrow dark top brow, sharp upswept pointed outside wing at image RIGHT, short nearly vertical inside grille edge at image LEFT, two adjacent dark rounded-rectangular optical chambers, and thin three-sided white U/L-shaped light guides outlining those chambers along their sides and bottoms. There are TWO projector chambers with integrated U-shaped outlines, NOT two big freestanding near-vertical diagonal white bars at the outer edge, NOT round halo rings, NOT a tall triangular light. Render the lamp detached from car, entire housing and subtle rear mounting tabs visible, black/dark chrome internals with clear real glass/plastic lens. Match visible details of reference rather than invent new light signatures. Three-quarter frontal view close to reference viewing angle; product fully visible centered with generous margins on near-white studio background, soft contact shadow. No car body, no text, no badge, no watermark. Realistic product photograph, no illustration."
+    },
+    {
+      "key": "window-switch-v2",
+      "ref": "C:/Users/mumin/AppData/Local/Temp/codex-clipboard-bd77d1e4-015c-4e49-b75b-5760f2c574d0.png",
+      "prompt": "Create a high-quality photorealistic catalog photo that closely reproduces the exact detachable automotive WINDOW SWITCH MODULE in the attached REFERENCE. Follow the reference precisely: a narrow bare black plastic rectangular switch unit with slightly angled edges and exposed underside snap clips, four LARGE curved window rocker buttons in a two-by-two arrangement at center, each with a white outline window pictogram. At the near lower-left end are TWO stacked smaller lock/disable buttons with white pictograms. At the far upper-right end is a RAISED ROUND mirror-control knob with four small white triangular direction arrows, plus adjacent small black toggle controls. Preserve the reference's staggered height, plastic seams and clip edges. CRITICAL: NO decorative silver or chrome edging, NO metal rocker trims, NO large triangular door-trim surround, NO luxurious flat control-panel fascia; this is the compact bare module shown in the reference. Satin textured black plastic, clean new condition, exactly one complete module, same diagonal orientation lower-left to upper-right and same top three-quarter view as reference. Entire component visible, centered with tasteful margin on soft white studio background, gentle natural shadow. No words, brand, labels, watermark or packaging. This is a generated reference-based preview for the selected 530i 2026 listing; do not alter the reference layout based on generic model assumptions."
+    },
+    {
+      "key": "left-headlight-v2",
+      "prompt": "Create the LEFT-side counterpart of the detached headlight in the supplied image. Mirror the actual part geometry horizontally: pointed upswept outside wing must now be at image LEFT, short inner grille-side edge at image RIGHT. Preserve exactly the same low elongated housing, two rounded-rectangular projector chambers, thin integrated white U/L outlines around those chambers, dark top brow, clear outer side lens and black rear mounting-tab design. Keep this optical design; do not replace it with standalone vertical light bars, round halo rings, a different vehicle version or a different silhouette. One full detached LEFT headlight, same product framing, size, materials, view, light intensity, near-white studio backdrop and soft natural shadow. No added labels, text, car body, logo or watermark. This generated catalog preview follows the user's reference, assigned to their BMW 530i 2026 listing.",
+      "ref": "generated right-headlight-v2"
+    }
+  ]
+}

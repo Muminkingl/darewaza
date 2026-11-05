@@ -10,6 +10,8 @@ interface Config {year_id:string;model_id:string;company_id:string;reference_yea
 type Row=Section&{source_key:string|null};
 const config=JSON.parse(await readFile('data/catalog/bmw-530i-2026.json','utf8')) as Config;
 const apply=process.argv.includes('--apply');
+const imagesOnly=process.argv.includes('--images-only');
+const replacementSources=new Set(['pdf:sayara-3-11','pdf:sayara-3-12','pdf:sayara-3-26']);
 const db=database();
 try{
  assert.equal(config.items.length,31);assert.equal(new Set(config.items.map(s=>s.id)).size,31);
@@ -24,7 +26,7 @@ try{
  const oldHashes=new Set<string>();
  for(const file of await readdir('output/imagegen/bmw-530i-2023'))if(file.endsWith('.webp'))oldHashes.add(createHash('sha256').update(await readFile(`output/imagegen/bmw-530i-2023/${file}`)).digest('hex'));
  const images=[];
- for(const item of config.items){
+ for(const item of config.items.filter(s=>!imagesOnly||replacementSources.has(s.source_key))){
   assert.ok(SECTION_ICONS.includes(item.icon));assert.ok(/^[a-z0-9-]+$/.test(item.image));
   for(const name of [item.name,item.name_en,item.name_ar])assert.ok(name.trim()&&name.length<=100);
   const bytes=await readFile(`output/imagegen/bmw-530i-2026/${item.image}.webp`);assert.ok(bytes.length<150*1024,'Image exceeds optimized budget.');
@@ -33,7 +35,8 @@ try{
   images.push({item,path,bytes});
  }
  const updates=images.map(({item,path})=>({...item,image_path:path,version:before.find(s=>s.id===item.id)?.version??null}));
- const summary={mode:apply?'apply':'dry-run',branch:branch.name,items:updates.length,convert:before.filter(s=>!s.is_terminal).length,newItems:updates.filter(s=>s.version==null).map(s=>s.name),generatedPreviews:images.length,frontBrakeAndChromeEntries:'retained'};
+ if(imagesOnly){assert.equal(updates.length,3);assert.ok(updates.every(s=>s.version!=null),'Image replacement requires existing items.');}
+ const summary={mode:apply?'apply':'dry-run',operation:imagesOnly?'replace-three-previews':'publish',branch:branch.name,items:updates.length,convert:imagesOnly?0:before.filter(s=>!s.is_terminal).length,newItems:updates.filter(s=>s.version==null).map(s=>s.name),generatedPreviews:images.length,frontBrakeAndChromeEntries:'retained'};
  if(!apply)console.log(JSON.stringify(summary));
  else{
   await mkdir('artifacts/bmw-2026',{recursive:true});
@@ -46,14 +49,16 @@ try{
   const client=await db.connect();
   try{
    await client.query('begin');await client.query("set local lock_timeout='5s'");
-   const allIds=config.items.map(s=>s.id);
+   const allIds=updates.map(s=>s.id);
    const fingerprint=async()=> (await client.query("select md5(coalesce(string_agg(to_jsonb(s)::text,'|' order by id),'')) hash from public.catalog_sections s where not(id=any($1::uuid[]))",[allIds])).rows[0].hash;
    const protectedHash=await fingerprint();
-   const result=await client.query(`update public.catalog_sections s set name=u.name,name_en=u.name_en,name_ar=u.name_ar,icon=u.icon,
+   const result=await client.query(imagesOnly ? `update public.catalog_sections s set image_path=u.image_path,image_kind='generated'
+    from jsonb_to_recordset($1::jsonb) as u(id uuid,version integer,image_path text)
+    where s.id=u.id and s.version=u.version and s.parent_id=$2 and s.is_terminal returning s.*` : `update public.catalog_sections s set name=u.name,name_en=u.name_en,name_ar=u.name_ar,icon=u.icon,
     is_terminal=true,image_path=u.image_path,image_kind='generated' from jsonb_to_recordset($1::jsonb)
     as u(id uuid,version integer,name text,name_en text,name_ar text,icon text,image_path text)
     where s.id=u.id and s.version=u.version and s.parent_id=$2 returning s.*`,[JSON.stringify(updates.filter(s=>s.version!=null)),config.year_id]);
-   assert.equal(result.rowCount,before.length,'Concurrent edit; rolled back.');
+   assert.equal(result.rowCount,updates.filter(s=>s.version!=null).length,'Concurrent edit; rolled back.');
    const created=updates.filter(s=>s.version==null);
    const inserted=await client.query(`insert into public.catalog_sections(id,parent_id,root_key,name,name_en,name_ar,source_key,icon,position,is_terminal,image_path,image_kind)
     select id,$2,'parts',name,name_en,name_ar,source_key,icon,position,true,image_path,'generated'
@@ -62,11 +67,12 @@ try{
    const after=(await client.query('select * from public.catalog_sections where parent_id=$1 order by position,id',[config.year_id])).rows as Row[];
    assert.equal(after.length,config.expected_count);assert.ok(after.every(s=>s.is_terminal&&s.image_kind==='generated'&&s.image_path?.startsWith(`${s.id}/`)));
    for(const old of before){const current=after.find(s=>s.id===old.id)!;for(const key of ['price_usd','price_iqd','position','parent_id','root_key','description','source_key'] as const)assert.equal(current[key],old[key]);}
+   if(imagesOnly)for(const old of before){const current=after.find(s=>s.id===old.id)!;for(const key of Object.keys(old) as (keyof Row)[])if(!['image_path','image_kind','version','updated_at'].includes(key))assert.deepEqual(current[key],old[key],`Image replacement changed ${key}`);}
    assert.equal(await fingerprint(),protectedHash,'An unrelated catalog record changed. Rolled back.');
    await client.query('commit');
-   await writeFile('artifacts/bmw-2026/published.json',JSON.stringify({branch,items:after,protectedHash},null,2));
-   console.log(JSON.stringify({...summary,converted:result.rowCount,created:inserted.rowCount,protectedRowsVerified:true,prices:'preserved'}));
+   await writeFile(`artifacts/bmw-2026/${imagesOnly?'preview-fixes-published':'published'}.json`,JSON.stringify({branch,items:after,protectedHash},null,2));
+   console.log(JSON.stringify({...summary,updated:result.rowCount,converted:imagesOnly?0:before.filter(s=>!s.is_terminal).length,created:inserted.rowCount,protectedRowsVerified:true,prices:'preserved'}));
   }catch(error){await client.query('rollback');throw error;}finally{client.release();}
-  await removeUnusedImages(before.map(s=>s.image_path).filter((path):path is string=>Boolean(path)));
+  await removeUnusedImages(before.filter(s=>updates.some(u=>u.id===s.id&&u.image_path!==s.image_path)).map(s=>s.image_path).filter((path):path is string=>Boolean(path)));
  }
 }finally{await db.end();}
