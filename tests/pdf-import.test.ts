@@ -30,6 +30,12 @@ test('all existing year branches receive categories without descending into cust
   assert.equal(plan.length,parts.length*2);
   assert.equal(isYearBranch('model 16-21'),true);
 });
+test('disabled BMW models stay empty across existing and new years without affecting 530i or other companies',()=>{
+ const s=[row('bmw','BMW'),row('x1','X1','bmw'),row('old','2023','x1'),row('new','2026','x1'),row('active','530i','bmw'),row('active-year','2026','active'),row('toyota','TOYOTA'),row('other','X1','toyota')];
+ const plan=planPdfImport(s,parts,{},['x1']);
+ assert.deepEqual([...new Set(plan.map(e=>e.parent.id))].sort(),['active-year','other']);
+ assert.equal(plan.filter(e=>e.parent.id==='active-year').length,30);
+});
 test('existing categories are reused and tagged categories remain stable after administrator renaming',()=>{
   const part=parts.find(p=>p.name==='چەمبەر')!;
   const s=[row('t','TOYOTA'),row('tm','Camry','t'),row('grille',part.name,'tm')];

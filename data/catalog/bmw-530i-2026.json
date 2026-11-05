@@ -1,0 +1,320 @@
+{
+  "year_id": "45c3cebf-bd1c-4949-8660-732df10a67cf",
+  "model_id": "d011419b-684e-411a-a430-b8db57ed5e88",
+  "company_id": "f8e4a369-7124-40fd-be1b-f86f586eee9a",
+  "reference_year_id": "cedf7211-4016-4eb5-9c90-9eb5a3d485a8",
+  "generation": "G60",
+  "expected_count": 31,
+  "items": [
+    {
+      "id": "62f61db1-a392-49af-9ffd-f1757aac78c2",
+      "source_key": "pdf:sayara-3-01",
+      "name": "دەرگای پیشەوە لای چەپ",
+      "name_en": "Front left door",
+      "name_ar": "الباب الأمامي الأيسر",
+      "icon": "door-front-left",
+      "image": "front-left-door",
+      "position": 0
+    },
+    {
+      "id": "156fe313-bf94-41de-98c9-6a83b3d14758",
+      "source_key": "pdf:sayara-3-02",
+      "name": "دەرگای پیشەوە لای ڕاست",
+      "name_en": "Front right door",
+      "name_ar": "الباب الأمامي الأيمن",
+      "icon": "door-front-right",
+      "image": "front-right-door",
+      "position": 1
+    },
+    {
+      "id": "c8638bcf-d49d-4d62-83cb-fc91c5ac7c4a",
+      "source_key": "pdf:sayara-3-03",
+      "name": "دەرگای دواوە لای چەپ",
+      "name_en": "Rear left door",
+      "name_ar": "الباب الخلفي الأيسر",
+      "icon": "door-rear-left",
+      "image": "rear-left-door",
+      "position": 2
+    },
+    {
+      "id": "043b21ca-f218-468e-9da7-cf68ca7bd6b8",
+      "source_key": "pdf:sayara-3-04",
+      "name": "دەرگای دواوە لای ڕاست",
+      "name_en": "Rear right door",
+      "name_ar": "الباب الخلفي الأيمن",
+      "icon": "door-rear-right",
+      "image": "rear-right-door",
+      "position": 3
+    },
+    {
+      "id": "cb32114e-5bc4-4d8e-927d-aa189c0d23c8",
+      "source_key": "pdf:sayara-3-05",
+      "name": "چاملخ پیشەوە لای چەپ",
+      "name_en": "Front left fender",
+      "name_ar": "الرفرف الأمامي الأيسر",
+      "icon": "fender-left",
+      "image": "front-left-fender",
+      "position": 4
+    },
+    {
+      "id": "a77ba7b1-57b5-4c9f-ae76-e141b3576960",
+      "source_key": "pdf:sayara-3-06",
+      "name": "چاملخ پیشەوە لای ڕاست",
+      "name_en": "Front right fender",
+      "name_ar": "الرفرف الأمامي الأيمن",
+      "icon": "fender-right",
+      "image": "front-right-fender",
+      "position": 5
+    },
+    {
+      "id": "4a750a5b-cada-42f9-9ea2-ed58ec88be29",
+      "source_key": "pdf:sayara-3-07",
+      "name": "بۆنیت",
+      "name_en": "Hood",
+      "name_ar": "غطاء المحرك",
+      "icon": "hood",
+      "image": "hood",
+      "position": 6
+    },
+    {
+      "id": "2a2b6772-9d90-48cf-957e-e806bd4ec3a8",
+      "source_key": "pdf:sayara-3-08",
+      "name": "سندووق",
+      "name_en": "Trunk lid",
+      "name_ar": "غطاء الصندوق",
+      "icon": "trunk",
+      "image": "trunk-lid",
+      "position": 7
+    },
+    {
+      "id": "f8022884-0e48-4605-8180-47819c95efc1",
+      "source_key": "pdf:sayara-3-09",
+      "name": "دەحامی پیشەوە",
+      "name_en": "Front bumper",
+      "name_ar": "الصدام الأمامي",
+      "icon": "bumper-front",
+      "image": "front-bumper",
+      "position": 8
+    },
+    {
+      "id": "bc5a62ed-9530-4691-8b3c-058bbc1e5129",
+      "source_key": "pdf:sayara-3-10",
+      "name": "دەحامی دواوە",
+      "name_en": "Rear bumper",
+      "name_ar": "الصدام الخلفي",
+      "icon": "bumper-rear",
+      "image": "rear-bumper",
+      "position": 9
+    },
+    {
+      "id": "9b7cd3d1-970a-41d7-9a97-7123c52e9e42",
+      "source_key": "pdf:sayara-3-11",
+      "name": "لایت پیشەوە لای ڕاست",
+      "name_en": "Right headlight",
+      "name_ar": "المصباح الأمامي الأيمن",
+      "icon": "headlight-right",
+      "image": "right-headlight",
+      "position": 10
+    },
+    {
+      "id": "71ca1c25-0dbf-4aeb-b909-4d9207fdd592",
+      "source_key": "pdf:sayara-3-12",
+      "name": "لایت پیشەوە لای چەپ",
+      "name_en": "Left headlight",
+      "name_ar": "المصباح الأمامي الأيسر",
+      "icon": "headlight-left",
+      "image": "left-headlight",
+      "position": 11
+    },
+    {
+      "id": "03503c17-4a7e-46b5-ac63-fc934fac0f9d",
+      "source_key": "pdf:sayara-3-13",
+      "name": "لایت دواوە لای ڕاست",
+      "name_en": "Right taillight",
+      "name_ar": "المصباح الخلفي الأيمن",
+      "icon": "taillight-right",
+      "image": "right-taillight",
+      "position": 12
+    },
+    {
+      "id": "37d2339f-0ad0-453d-82ba-964194c36e2d",
+      "source_key": "pdf:sayara-3-14",
+      "name": "لایت دواوە لای چەپ",
+      "name_en": "Left taillight",
+      "name_ar": "المصباح الخلفي الأيسر",
+      "icon": "taillight-left",
+      "image": "left-taillight",
+      "position": 13
+    },
+    {
+      "id": "e7e0a346-b97d-46eb-a77e-b8f5a79177ac",
+      "source_key": "pdf:sayara-3-15",
+      "name": "لایت دواوە سندووق",
+      "name_en": "Trunk-mounted rear light",
+      "name_ar": "مصباح الصندوق الخلفي",
+      "icon": "taillight-left",
+      "image": "trunk-taillight-pair",
+      "position": 14
+    },
+    {
+      "id": "b4ad8789-d03d-4d29-8a76-2e62fb89d44f",
+      "source_key": "pdf:sayara-3-16",
+      "name": "چەمبەر",
+      "name_en": "Front kidney grille",
+      "name_ar": "الشبك الأمامي الكلوي",
+      "icon": "grille",
+      "image": "front-kidney-grille",
+      "position": 15
+    },
+    {
+      "id": "bcc7533c-962f-4d82-af40-817c051b4ca4",
+      "source_key": "pdf:sayara-3-17",
+      "name": "قەپاخ بلاجیکتۆر",
+      "name_en": "Fog lamp cover",
+      "name_ar": "غطاء مصباح الضباب",
+      "icon": "fog-cover",
+      "image": "fog-lamp-cover",
+      "position": 16
+    },
+    {
+      "id": "1f9ed01c-5ae6-401b-b516-b83e285a0fb0",
+      "source_key": "pdf:sayara-3-18",
+      "name": "ناو چامڵغ",
+      "name_en": "Front inner fender liner",
+      "name_ar": "بطانة الرفرف الأمامي",
+      "icon": "inner-fender",
+      "image": "front-inner-fender",
+      "position": 17
+    },
+    {
+      "id": "306c4503-afbb-4854-b2ea-4e067cc44c02",
+      "source_key": "pdf:sayara-3-19",
+      "name": "ئاوێنە لای راست",
+      "name_en": "Right side-view mirror",
+      "name_ar": "مرآة جانبية يمنى",
+      "icon": "mirror-right",
+      "image": "right-mirror",
+      "position": 18
+    },
+    {
+      "id": "e2157605-e3f4-45f3-8dfd-893442a7a01a",
+      "source_key": "pdf:sayara-3-20",
+      "name": "ئاوێنە لای چەپ",
+      "name_en": "Left side-view mirror",
+      "name_ar": "مرآة جانبية يسرى",
+      "icon": "mirror",
+      "image": "left-mirror",
+      "position": 19
+    },
+    {
+      "id": "ef58ff57-55b4-407e-8756-66df1b2620be",
+      "source_key": "pdf:sayara-3-21",
+      "name": "تاخم بەنج پیشەوە",
+      "name_en": "Front disc brake pad set",
+      "name_ar": "طقم فحمات الفرامل الأمامية",
+      "icon": "brake-pad",
+      "image": "front-brake-pads",
+      "position": 20
+    },
+    {
+      "id": "89b6e067-e11a-4977-8038-d96dc17d158f",
+      "source_key": "pdf:sayara-3-22",
+      "name": "تاخم بەنج دواوە",
+      "name_en": "Rear disc brake pad set",
+      "name_ar": "طقم فحمات الفرامل الخلفية",
+      "icon": "brake-pad",
+      "image": "rear-brake-pads",
+      "position": 21
+    },
+    {
+      "id": "ee1e0a96-bb0e-4ce2-9be7-89f679d95567",
+      "source_key": "pdf:sayara-3-23",
+      "name": "تاخم ئەفلەنجە پیشەوە",
+      "name_en": "Front brake rotor set",
+      "name_ar": "طقم أقراص الفرامل الأمامية",
+      "icon": "brake-rotor",
+      "image": "front-brake-rotors",
+      "position": 22
+    },
+    {
+      "id": "60d671ca-5e07-4917-8ea6-5b3ec3f28f6b",
+      "source_key": "pdf:sayara-3-24",
+      "name": "تاخم ئەفلەنجە دواوە",
+      "name_en": "Rear brake rotor set",
+      "name_ar": "طقم أقراص الفرامل الخلفية",
+      "icon": "brake-rotor",
+      "image": "rear-brake-rotors",
+      "position": 23
+    },
+    {
+      "id": "da009d0c-f749-4177-aadf-8fa16d90e9a4",
+      "source_key": "pdf:sayara-3-25",
+      "name": "دەبڵەکان",
+      "name_en": "Fuel injector",
+      "name_ar": "بخاخ الوقود",
+      "icon": "fuel-injector",
+      "image": "fuel-injector",
+      "position": 24
+    },
+    {
+      "id": "dd1a50ca-3913-40ba-b886-cfe22a79f999",
+      "source_key": "pdf:sayara-3-26",
+      "name": "تاخم دووگمە دەرگا",
+      "name_en": "Window switch",
+      "name_ar": "مفتاح التحكم بالنوافذ",
+      "icon": "window-switch",
+      "image": "window-switch",
+      "position": 25
+    },
+    {
+      "id": "26eb657c-2d77-47fc-a375-1bd46dc9b62e",
+      "source_key": "pdf:sayara-3-27",
+      "name": "یەدەی دەرگا",
+      "name_en": "Exterior door handle",
+      "name_ar": "مقبض الباب الخارجي",
+      "icon": "door-handle",
+      "image": "flush-door-handle",
+      "position": 26
+    },
+    {
+      "id": "3310e94d-d841-4bea-b008-60b146ee66e8",
+      "source_key": "pdf:sayara-3-28",
+      "name": "پاڵپشتی دەحامی پیشەوە براکیت",
+      "name_en": "Front bumper reinforcement bar",
+      "name_ar": "عارضة تدعيم الصدام الأمامي",
+      "icon": "reinforcement",
+      "image": "front-reinforcement",
+      "position": 27
+    },
+    {
+      "id": "b7248826-9c8d-46db-9ac6-cb5af2cc9c76",
+      "source_key": "pdf:sayara-3-29",
+      "name": "پاڵپشتی دەحامی دواوە براکیت",
+      "name_en": "Rear bumper reinforcement bar",
+      "name_ar": "عارضة تدعيم الصدام الخلفي",
+      "icon": "reinforcement",
+      "image": "rear-reinforcement",
+      "position": 28
+    },
+    {
+      "id": "f78dc1dd-bd7e-478f-bf47-7422c2b689f5",
+      "source_key": "pdf:sayara-3-30",
+      "name": "نیکلی دەحامی پیشەوە",
+      "name_en": "Front bumper chrome trim",
+      "name_ar": "كروم الصدام الأمامي",
+      "icon": "bumper-front",
+      "image": "front-bumper-chrome-trim",
+      "position": 29
+    },
+    {
+      "id": "9e20a29e-b90d-433e-9d39-5a9501260b6d",
+      "source_key": "custom:bmw-530i-2026-rear-inner-fender",
+      "name": "ناو چاملخ دواوە",
+      "name_en": "Rear inner fender liner",
+      "name_ar": "بطانة الرفرف الخلفي",
+      "icon": "inner-fender",
+      "image": "rear-inner-fender",
+      "position": 30
+    }
+  ]
+}

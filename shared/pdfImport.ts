@@ -17,7 +17,8 @@ export const isYearBranch = (name: string) => /(?:19|20)\d{2}|(?:^|[\s_-])\d{2}\
 
 // Scope comes only from the company ancestor; a model with a similar name cannot
 // accidentally receive a restricted part. Never descend into custom part groups.
-export function planPdfImport(sections: (Section & { source_key?: string | null })[], parts: PdfPart[], excludedPartsByParent: Record<string, string[]> = {}): ImportEntry[] {
+export function planPdfImport(sections: (Section & { source_key?: string | null })[], parts: PdfPart[], excludedPartsByParent: Record<string, string[]> = {}, excludedModelIds: readonly string[] = []): ImportEntry[] {
+  const disabledModels = new Set(excludedModelIds);
   const children = new Map<string, typeof sections>();
   for (const row of sections) if (row.parent_id) {
     const siblings = children.get(row.parent_id) || [];
@@ -54,7 +55,7 @@ export function planPdfImport(sections: (Section & { source_key?: string | null 
       if (years.length) for (const year of years) visitModel(year);
       else addAt(model);
     }
-    for (const model of children.get(company.id) || []) visitModel(model);
+    for (const model of children.get(company.id) || []) if (!disabledModels.has(model.id)) visitModel(model);
   }
   return entries;
 }
