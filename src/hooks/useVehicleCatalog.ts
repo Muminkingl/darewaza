@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useSWRInfinite from "swr/infinite";
-import { AppState } from "react-native";
 import { supabase } from "../lib/supabase";
-import type { RootKey, Section } from "../../shared/catalog";
+import { CATALOG_COLUMNS, type RootKey, type Section } from "../../shared/catalog";
+import { useForegroundRefresh } from './useForegroundRefresh';
+import { useBookmarkStore } from '../providers/BookmarksProvider';
 export function useVehicleCatalog(
   vehicle: string | null,
   search = "",
@@ -12,6 +13,8 @@ export function useVehicleCatalog(
   version = 0,
 ) {
   const [query, setQuery] = useState(search.trim());
+  const loadingMore=useRef(false);
+  const bookmarks=useBookmarkStore();
   useEffect(() => {
     const timer = setTimeout(() => setQuery(search.trim()), 250);
     return () => clearTimeout(timer);
@@ -39,25 +42,29 @@ export function useVehicleCatalog(
         folders,
         after_name: key[6],
         after_id: key[7],
-      });
+      }).select(CATALOG_COLUMNS);
       if (error) throw error;
-      const sections = ((data || []) as Section[]).slice(0, 40);
-      return { sections, more: data.length > 40, last: sections.at(-1) };
+      const rows = (data || []) as Section[];
+      const sections = rows.slice(0, 40);
+      return { sections, more: rows.length > 40, last: sections.at(-1) };
     },
-    { revalidateFirstPage: true },
+    { revalidateFirstPage: false, revalidateIfStale: false },
   );
+  const sections=useMemo(()=>result.data?.flatMap(p=>p.sections)||[],[result.data]);
   useEffect(() => {
-    const listener = AppState.addEventListener("change", (state) => {
-      if (state === "active" && enabled && vehicle) void result.mutate();
-    });
-    return () => listener.remove();
-  }, [result.mutate, enabled, vehicle]);
+    void bookmarks.refreshSections(sections).catch(()=>{});
+  },[bookmarks,sections]);
+  useForegroundRefresh(()=>result.mutate(),enabled&&!!vehicle);
   return {
-    sections: result.data?.flatMap((p) => p.sections) || [],
+    sections,
     loading: result.isLoading || result.isValidating,
     error: !!result.error,
     hasMore: result.data?.at(-1)?.more || false,
     refresh: () => result.mutate(),
-    loadMore: () => result.setSize((n) => n + 1),
+    loadMore: async () => {
+      if(loadingMore.current || result.isValidating || !result.data?.at(-1)?.more)return;
+      loadingMore.current=true;
+      try {await result.setSize(n=>n+1);}finally{loadingMore.current=false;}
+    },
   };
 }

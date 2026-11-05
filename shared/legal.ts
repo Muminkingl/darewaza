@@ -12,7 +12,7 @@ export const legalContent: Record<
       },
       {
         title: "Information we use",
-        body: "We use your account ID, email address, sign-in provider, and any name you choose to provide to operate your account. Google or Apple may share your name and email when you sign in. Your saved sections, saved cars (make, model, year, optional engine, trim and nickname), selected car, and language preference are stored with your account. We do not store your Google or Apple password.",
+        body: "We use your account ID, email address, sign-in provider, and any name you choose to provide to operate your account. Google or Apple may share your name and email when you sign in. Your saved cars (make, model, year, optional engine, trim and nickname), selected car, and language preference are stored with your account. Bookmarks in the current app version are saved only on your device and are not synchronized with our database. Previous app versions may have stored bookmarks with your account. We do not store your Google or Apple password.",
       },
       {
         title: "Location is your choice",
@@ -24,15 +24,15 @@ export const legalContent: Record<
       },
       {
         title: "Storage and your choices",
-        body: "Your account information, saved cars and saved items are kept until you remove them or delete your account. Authentication tokens are stored securely on native devices and in browser storage on the web. Language and selected city are also stored locally. Signing out removes the active session from that device.",
+        body: "Your account information, saved cars and saved items are kept until you remove them or delete your account. Authentication tokens are stored securely on native devices and in browser storage on the web. Language and selected city are also stored locally. In the current version, bookmarks stay on the device until you remove them, clear the app’s data or uninstall it. They are separated by account on that device and remain there when you sign out. Signing out removes the active session from that device.",
       },
       {
         title: "Delete or access your data",
-        body: "In Profile, choose Delete account and confirm to permanently remove your account, profile, saved cars and saved items from the active service. Apple authorization is revoked for Apple accounts. You can also start deletion at https://darewaza.vercel.app/delete-account. Operational logs and backups may remain for the infrastructure providers’ standard retention periods before expiring; they are not used to restore your deleted account. Contact contact@trxstudio.xyz to request access, correction, or help exercising your privacy rights.",
+        body: "In Profile, choose Delete account and confirm to permanently remove your account, profile, saved cars and saved items from the active service. Deleting your account in the app also clears its local bookmarks on that device. Local bookmarks on other devices must be removed there or by clearing app data; an email request cannot remotely erase offline device storage. Apple authorization is revoked for Apple accounts. You can also start deletion at https://darewaza.vercel.app/delete-account. Operational logs and backups may remain for the infrastructure providers’ standard retention periods before expiring; they are not used to restore your deleted account. Contact contact@trxstudio.xyz to request access, correction, or help exercising your privacy rights.",
       },
       {
         title: "Children and changes",
-        body: "Darewaza is not intended for children under 13. Contact us if a child has provided personal information. We may update this policy as the service changes and will show the updated date. This policy was last updated on November 1, 2026.",
+        body: "Darewaza is not intended for children under 13. Contact us if a child has provided personal information. We may update this policy as the service changes and will show the updated date. This policy was last updated on November 5, 2026.",
       },
     ],
     terms: [
@@ -46,7 +46,7 @@ export const legalContent: Record<
       },
       {
         title: "Your account",
-        body: "Provide accurate account information and do not misuse the service, attempt unauthorized access, or interfere with other users. You can sign out or permanently delete your account in Profile. Your saved cars and saved items are private to your account. Vehicle matches use store-provided rules; missing engine or trim details require confirmation. Folder links are navigation shortcuts and do not verify the parts inside.",
+        body: "Provide accurate account information and do not misuse the service, attempt unauthorized access, or interfere with other users. You can sign out or permanently delete your account in Profile. Your saved cars are private to your account. Bookmarks in the current version are local to each device and account. Vehicle matches use store-provided rules; missing engine or trim details require confirmation. Folder links are navigation shortcuts and do not verify the parts inside.",
       },
       {
         title: "Content and availability",
@@ -67,7 +67,7 @@ export const legalContent: Record<
       },
       {
         title: "ئەو زانیارییانەی بەکاریان دەهێنین",
-        body: "ناسنامەی هەژمار، ئیمەیڵ، ڕێگای چوونەژوورەوە و ناوی هەڵبژێردراوت بۆ بەڕێوەبردنی هەژمار بەکاردێن. Google یان Apple لەوانەیە ناو و ئیمەیڵەکەت هاوبەش بکەن. پاشەکەوتەکان و زمانی هەڵبژێردراو لەگەڵ هەژمارەکەت هەڵدەگیرێن. وشەی نهێنی Google یان Apple هەڵناگرین.",
+        body: "ناسنامەی هەژمار، ئیمەیڵ، ڕێگای چوونەژوورەوە و ناوی هەڵبژێردراوت بۆ بەڕێوەبردنی هەژمار بەکاردێن. Google یان Apple لەوانەیە ناو و ئیمەیڵەکەت هاوبەش بکەن. زمانی هەڵبژێردراو لەگەڵ هەژمارەکەت هەڵدەگیرێت. لەم وەشانەدا نیشانەکانی پاشەکەوت تەنها لە ئامێرەکەت هەڵدەگیرێن و لەگەڵ داتابەیس هاوکات ناکرێن. وەشانە کۆنەکان لەوانەیە لە هەژمار هەڵیانگرتبێت. وشەی نهێنی Google یان Apple هەڵناگرین.",
       },
       {
         title: "شوێن بە هەڵبژاردنی خۆتە",
@@ -79,15 +79,15 @@ export const legalContent: Record<
       },
       {
         title: "هەڵگرتن و هەڵبژاردنەکانت",
-        body: "زانیاری هەژمار و پاشەکەوتەکانت تا سڕینەوەیان یان سڕینەوەی هەژمار هەڵدەگیرێن. تۆکنی چوونەژوورەوە لە ئامێری مۆبایل بە پارێزراوی و لە وێب لە هەڵگرتنی وێبگەڕ هەڵدەگیرێت. زمان و شار لە ئامێرەکەت هەڵدەگیرێن. چوونەدەرەوە دانیشتنی ئەو ئامێرە لادەبات.",
+        body: "زانیاری هەژمار و پاشەکەوتەکانت تا سڕینەوەیان یان سڕینەوەی هەژمار هەڵدەگیرێن. تۆکنی چوونەژوورەوە لە ئامێری مۆبایل بە پارێزراوی و لە وێب لە هەڵگرتنی وێبگەڕ هەڵدەگیرێت. زمان و شار لە ئامێرەکەت هەڵدەگیرێن. نیشانەکانی پاشەکەوتی ئەم وەشانە لەسەر ئامێر و بۆ هەر هەژمارێک بە جیا هەڵدەگیرێن؛ چوونەدەرەوە نایانسڕێتەوە. بە لابردنی نیشانە، سڕینەوەی داتای ئەپ یان لابردنی ئەپ دەسڕدرێنەوە. چوونەدەرەوە دانیشتنی ئەو ئامێرە لادەبات.",
       },
       {
         title: "سڕینەوە و دەستگەیشتن بە داتا",
-        body: "لە هەژمار، سڕینەوەی هەژمار هەڵبژێرە و پشتڕاستی بکەرەوە تا هەژمار، زانیاری کەسی، پاشەکەوتەکان لە خزمەتگوزاری چالاک بۆ هەمیشە بسڕدرێنەوە. مۆڵەتی Apple بۆ هەژمارەکانی Apple هەڵدەوەشێتەوە. لە https://darewaza.vercel.app/delete-account یش دەست پێ بکە. تۆمارە تەکنیکی و پاشەکەوتە سیستەمییەکان لەوانەیە تا کۆتایی ماوەی ئاسایی دابینکەرەکان بمێننەوە؛ بۆ گەڕاندنەوەی هەژماری سڕاوە بەکارناهێنرێن. بۆ دەستگەیشتن، ڕاستکردنەوە یان مافەکانی تایبەتمەندی: contact@trxstudio.xyz.",
+        body: "لە هەژمار، سڕینەوەی هەژمار هەڵبژێرە و پشتڕاستی بکەرەوە تا هەژمار، زانیاری کەسی، پاشەکەوتەکان لە خزمەتگوزاری چالاک بۆ هەمیشە بسڕدرێنەوە. سڕینەوەی هەژمار لە ئەپ نیشانە ناوخۆییەکان لەسەر ئەو ئامێرەش دەسڕێتەوە. بۆ ئامێرەکانی دیکە، لە هەمان ئامێر نیشانەکان یان داتای ئەپ بسڕەوە؛ ئیمەیڵ ناتوانێت هەڵگرتنی ئۆفلاین لە دوورەوە بسڕێتەوە. مۆڵەتی Apple بۆ هەژمارەکانی Apple هەڵدەوەشێتەوە. لە https://darewaza.vercel.app/delete-account یش دەست پێ بکە. تۆمارە تەکنیکی و پاشەکەوتە سیستەمییەکان لەوانەیە تا کۆتایی ماوەی ئاسایی دابینکەرەکان بمێننەوە؛ بۆ گەڕاندنەوەی هەژماری سڕاوە بەکارناهێنرێن. بۆ دەستگەیشتن، ڕاستکردنەوە یان مافەکانی تایبەتمەندی: contact@trxstudio.xyz.",
       },
       {
         title: "منداڵان و گۆڕانکاری",
-        body: "Darewaza بۆ منداڵانی خوار ١٣ ساڵ نییە. ئەگەر منداڵێک زانیاری داوە، پەیوەندیمان پێوە بکە. لەگەڵ گۆڕانی خزمەتگوزاری، ئەم سیاسەتە نوێ دەکەینەوە. دوایین نوێکردنەوە: ١ی تشرینی دووەمی ٢٠٢٦.",
+        body: "Darewaza بۆ منداڵانی خوار ١٣ ساڵ نییە. ئەگەر منداڵێک زانیاری داوە، پەیوەندیمان پێوە بکە. لەگەڵ گۆڕانی خزمەتگوزاری، ئەم سیاسەتە نوێ دەکەینەوە. دوایین نوێکردنەوە: ٥ی تشرینی دووەمی ٢٠٢٦.",
       },
     ],
     terms: [
@@ -122,7 +122,7 @@ export const legalContent: Record<
       },
       {
         title: "المعلومات التي نستخدمها",
-        body: "نستخدم معرّف الحساب والبريد الإلكتروني ومزود تسجيل الدخول والاسم الذي تختاره لتشغيل حسابك. قد تشارك Google أو Apple اسمك وبريدك عند الدخول. ترتبط المحفوظات وتفضيل اللغة بحسابك. لا نحفظ كلمة مرور Google أو Apple.",
+        body: "نستخدم معرّف الحساب والبريد الإلكتروني ومزود تسجيل الدخول والاسم الذي تختاره لتشغيل حسابك. قد تشارك Google أو Apple اسمك وبريدك عند الدخول. يرتبط تفضيل اللغة بحسابك. في الإصدار الحالي تُحفظ الإشارات المرجعية على جهازك فقط ولا تتزامن مع قاعدة بياناتنا. قد تكون الإصدارات السابقة قد حفظتها مع حسابك. لا نحفظ كلمة مرور Google أو Apple.",
       },
       {
         title: "الموقع اختياري",
@@ -134,15 +134,15 @@ export const legalContent: Record<
       },
       {
         title: "الاحتفاظ وخياراتك",
-        body: "نحتفظ ببيانات الحساب والمحفوظات حتى تزيلها أو تحذف الحساب. تُحفظ رموز الدخول بأمان على الأجهزة الأصلية وفي تخزين المتصفح على الويب. تُحفظ اللغة والمدينة محلياً أيضاً. يزيل تسجيل الخروج الجلسة النشطة من ذلك الجهاز.",
+        body: "نحتفظ ببيانات الحساب والمحفوظات حتى تزيلها أو تحذف الحساب. تُحفظ رموز الدخول بأمان على الأجهزة الأصلية وفي تخزين المتصفح على الويب. تُحفظ اللغة والمدينة محلياً أيضاً. تبقى الإشارات المرجعية في الإصدار الحالي على الجهاز، منفصلة لكل حساب، حتى تزيلها أو تمسح بيانات التطبيق أو تزيل التطبيق. لا يحذفها تسجيل الخروج، لكنه يزيل الجلسة النشطة من ذلك الجهاز.",
       },
       {
         title: "حذف بياناتك أو الوصول إليها",
-        body: "من حسابي اختر حذف الحساب وأكّد لإزالة الحساب والملف والمحفوظات نهائياً من الخدمة النشطة. يُلغى تفويض Apple لحسابات Apple. يمكنك بدء الحذف أيضاً من https://darewaza.vercel.app/delete-account. قد تبقى السجلات التشغيلية والنسخ الاحتياطية حتى انتهاء مدد الاحتفاظ المعتادة لمزودي البنية التحتية، ولا تُستخدم لاستعادة حسابك المحذوف. لطلبات الوصول أو التصحيح أو المساعدة في حقوق الخصوصية: contact@trxstudio.xyz.",
+        body: "من حسابي اختر حذف الحساب وأكّد لإزالة الحساب والملف والمحفوظات نهائياً من الخدمة النشطة. حذف الحساب من التطبيق يمسح أيضاً إشاراته المحلية على ذلك الجهاز. احذف الإشارات على الأجهزة الأخرى هناك أو امسح بيانات التطبيق؛ لا يمكن لطلب بالبريد مسح تخزين جهاز غير متصل عن بُعد. يُلغى تفويض Apple لحسابات Apple. يمكنك بدء الحذف أيضاً من https://darewaza.vercel.app/delete-account. قد تبقى السجلات التشغيلية والنسخ الاحتياطية حتى انتهاء مدد الاحتفاظ المعتادة لمزودي البنية التحتية، ولا تُستخدم لاستعادة حسابك المحذوف. لطلبات الوصول أو التصحيح أو المساعدة في حقوق الخصوصية: contact@trxstudio.xyz.",
       },
       {
         title: "الأطفال والتغييرات",
-        body: "Darewaza غير مخصص للأطفال دون ١٣ عاماً. تواصل معنا إذا قدّم طفل معلومات شخصية. قد نحدّث هذه السياسة مع تغير الخدمة وسنعرض تاريخ التحديث. آخر تحديث: ١ نوفمبر ٢٠٢٦.",
+        body: "Darewaza غير مخصص للأطفال دون ١٣ عاماً. تواصل معنا إذا قدّم طفل معلومات شخصية. قد نحدّث هذه السياسة مع تغير الخدمة وسنعرض تاريخ التحديث. آخر تحديث: ٥ نوفمبر ٢٠٢٦.",
       },
     ],
     terms: [
@@ -156,7 +156,7 @@ export const legalContent: Record<
       },
       {
         title: "حسابك",
-        body: "قدّم معلومات صحيحة ولا تسيء استخدام الخدمة أو تحاول الوصول غير المصرح به أو تعطيل المستخدمين الآخرين. يمكنك تسجيل الخروج أو حذف الحساب نهائياً من حسابي. محفوظاتك خاصة بحسابك.",
+        body: "قدّم معلومات صحيحة ولا تسيء استخدام الخدمة أو تحاول الوصول غير المصرح به أو تعطيل المستخدمين الآخرين. يمكنك تسجيل الخروج أو حذف الحساب نهائياً من حسابي. السيارات المحفوظة خاصة بحسابك، والإشارات المرجعية في الإصدار الحالي محلية لكل جهاز وحساب.",
       },
       {
         title: "المحتوى والتوفر",

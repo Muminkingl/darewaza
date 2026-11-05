@@ -4,6 +4,7 @@ import useSWRInfinite, { unstable_serialize } from "swr/infinite";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "./AuthProvider";
 import type { MyVehicle } from "../../shared/vehicles";
+import { useForegroundRefresh } from '../hooks/useForegroundRefresh';
 export type VehicleDraft = {
   id: string;
   model_id: string;
@@ -40,6 +41,7 @@ export function GarageProvider({ children }: { children: ReactNode }) {
   });
   const refreshCars = () =>
     mutate(unstable_serialize(() => ["garage-cars", user, 0]));
+  useForegroundRefresh(()=>selection.mutate());
   return (
     <Context.Provider
       value={{
@@ -117,7 +119,7 @@ export function useMyVehicles() {
         more: (data?.length || 0) > 30,
       };
     },
-    { revalidateAll: true, revalidateOnMount: true },
+    { revalidateFirstPage: false, revalidateIfStale: false },
   );
   return {
     items: result.data?.flatMap((p) => p.items) || [],

@@ -14,7 +14,6 @@ export function CollectionScreen({
   return (
     <SectionList
       data={data}
-      knownSaved
       onOpen={onOpen}
       emptyTitle={t("savedEmpty")}
       emptyHint={t("savedEmptyHint")}

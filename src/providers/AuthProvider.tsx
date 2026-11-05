@@ -14,6 +14,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import * as Crypto from "expo-crypto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { supabase, supabaseUrl, supabaseAnonKey } from "../lib/supabase";
+import { deleteDeviceBookmarks } from '../lib/bookmarks';
 
 WebBrowser.maybeCompleteAuthSession();
 type AuthContextValue = {
@@ -265,6 +266,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         "darewaza.location.v1",
         "sayara.location.v1",
       ]).catch(() => {});
+      await deleteDeviceBookmarks(current.user.id);
       await supabase.auth.signOut({ scope: "local" });
       setSession(null);
     } finally {

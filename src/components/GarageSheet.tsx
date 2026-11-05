@@ -87,6 +87,7 @@ export function GarageSheet({ onClose }: { onClose: () => void }) {
       const items = ((data || []) as VehicleModel[]).slice(0, 40);
       return { items, last: items.at(-1), more: data.length > 40 };
     },
+    { revalidateFirstPage: false, revalidateIfStale: false },
   );
   const options = useSWR(
     view === "edit" && model && Number(normalizePrice(year)) >= 1900
@@ -537,7 +538,7 @@ const s = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#10213B66",
-    direction: "ltr",
+    ...(Platform.OS === 'web' ? {} : { direction: 'ltr' as const }),
   },
   sheet: {
     width: "100%",

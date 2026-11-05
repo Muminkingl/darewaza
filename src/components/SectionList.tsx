@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -27,7 +27,8 @@ import type { Section, SectionIcon } from "../../shared/catalog";
 import { formatPrice, imageUrl, sectionName } from "../../shared/catalog";
 import { supabaseUrl } from "../lib/supabase";
 import { useLanguage } from "../i18n";
-import { useCustomer, useMembership } from "../providers/CustomerProvider";
+import { useCustomer } from "../providers/CustomerProvider";
+import { useBookmark } from "../providers/BookmarksProvider";
 import { colors, font } from "../theme";
 import { Tap } from "./Motion";
 const icons = {
@@ -83,25 +84,23 @@ export function EmptyState({
 }
 const SectionRow = memo(function SectionRow({
   section,
-  saved,
   onOpen,
-  onSave,
-  busy,
+  onSaveError,
 }: {
   section: Section;
-  saved: boolean;
-  onOpen: () => void;
-  onSave: () => void;
-  busy: boolean;
+  onOpen: (section: Section) => void;
+  onSaveError: (error: boolean) => void;
 }) {
   const { t, row, align, rtl, locale } = useLanguage();
+  const saved = useBookmark(section.id);
+  const { toggleSave } = useCustomer();
   const [failed, setFailed] = useState(false);
   const url = imageUrl(supabaseUrl, section.image_path);
   const Arrow = rtl ? ArrowLeft : ArrowRight;
   return (
     <View style={[s.card, row]}>
       <Pressable
-        onPress={onOpen}
+        onPress={() => onOpen(section)}
         style={[s.main, row]}
         accessibilityRole="button"
         accessibilityLabel={sectionName(section, locale)}
@@ -136,11 +135,10 @@ const SectionRow = memo(function SectionRow({
         <Arrow color="#A3B4C7" size={17} />
       </Pressable>
       <Pressable
-        onPress={onSave}
-        disabled={busy}
+        onPress={() => { onSaveError(false); void toggleSave(section).catch(()=>onSaveError(true)); }}
         accessibilityRole="button"
         accessibilityLabel={t(saved ? "unsave" : "save")}
-        accessibilityState={{ selected: saved, disabled: busy }}
+        accessibilityState={{ selected: saved }}
         hitSlop={4}
         style={s.bookmark}
       >
@@ -161,6 +159,7 @@ export type ListData = {
   hasMore: boolean;
   refresh: () => unknown;
   loadMore: () => unknown;
+  localOnly?: boolean;
 };
 export function SectionList({
   data,
@@ -169,7 +168,6 @@ export function SectionList({
   emptyHint,
   header,
   search = false,
-  knownSaved = false,
 }: {
   data: ListData;
   onOpen: (section: Section) => void;
@@ -177,12 +175,10 @@ export function SectionList({
   emptyHint: string;
   header?: React.ReactElement;
   search?: boolean;
-  knownSaved?: boolean;
 }) {
   const { t } = useLanguage();
-  const { toggleSave, busy } = useCustomer();
-  const has = useMembership(data.sections);
   const [saveError, setSaveError] = useState(false);
+  const renderItem = useCallback(({item}:{item:Section}) => <SectionRow section={item} onOpen={onOpen} onSaveError={setSaveError} />, [onOpen]);
   return (
     <FlatList
       data={data.sections}
@@ -193,7 +189,7 @@ export function SectionList({
           {header}
           {saveError && (
             <Text accessibilityLiveRegion="polite" style={s.error}>
-              {t("syncError")}
+              {t("deviceSaveError")}
             </Text>
           )}
         </>
@@ -213,24 +209,7 @@ export function SectionList({
       initialNumToRender={12}
       maxToRenderPerBatch={10}
       windowSize={7}
-      renderItem={({ item }) => (
-        <SectionRow
-          section={item}
-          saved={knownSaved || has(item.id)}
-          busy={busy.has(item.id)}
-          onOpen={() => onOpen(item)}
-          onSave={() => {
-            setSaveError(false);
-            void toggleSave(item, knownSaved || has(item.id))
-              .then(() => {
-                // Revalidate the mounted paginated collection after a removal.
-                // Its bound mutate also refreshes the individual page caches.
-                if (knownSaved) return data.refresh();
-              })
-              .catch(() => setSaveError(true));
-          }}
-        />
-      )}
+      renderItem={renderItem}
       ListEmptyComponent={
         data.loading ? (
           <View style={s.loading}>
@@ -239,8 +218,8 @@ export function SectionList({
         ) : (
           <EmptyState
             search={search}
-            title={data.error ? t("networkError") : emptyTitle}
-            hint={data.error ? t("syncError") : emptyHint}
+            title={data.error ? t(data.localOnly ? "deviceSaveError" : "networkError") : emptyTitle}
+            hint={data.error ? t(data.localOnly ? "savedSubtitle" : "syncError") : emptyHint}
             error={data.error}
             onRetry={() => void data.refresh()}
           />

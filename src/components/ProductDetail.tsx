@@ -13,10 +13,12 @@ import {
 import { Bookmark, ImageOff, Maximize2, X } from "./icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useSWR from "swr";
-import { formatPrice, imageUrl, sectionName, type Section } from "../../shared/catalog";
+import { CATALOG_COLUMNS, formatPrice, imageUrl, sectionName, type Section } from "../../shared/catalog";
 import { supabase, supabaseUrl } from "../lib/supabase";
 import { useLanguage } from "../i18n";
-import { useCustomer, useMembership } from "../providers/CustomerProvider";
+import { useCustomer } from "../providers/CustomerProvider";
+import { useBookmark } from "../providers/BookmarksProvider";
+import { useForegroundRefresh } from '../hooks/useForegroundRefresh';
 import { colors, font } from "../theme";
 import { Tap } from "./Motion";
 export function ProductDetail({
@@ -30,8 +32,8 @@ export function ProductDetail({
 }) {
   const { t, row, align, locale } = useLanguage();
   const insets = useSafeAreaInsets();
-  const { toggleSave, busy } = useCustomer();
-  const has = useMembership([initial]);
+  const { toggleSave } = useCustomer();
+  const saved = useBookmark(initial.id);
   const [zoom, setZoom] = useState(false);
   const [fitRevision, setFitRevision] = useState(0);
   const [failed, setFailed] = useState("");
@@ -46,7 +48,7 @@ export function ProductDetail({
     async () => {
       const { data, error } = await supabase!
         .from("catalog_sections")
-        .select("*")
+        .select(CATALOG_COLUMNS)
         .eq("id", initial.id)
         .maybeSingle();
       if (error) throw error;
@@ -56,8 +58,8 @@ export function ProductDetail({
     { fallbackData: initial },
   );
   const item = section || initial;
+  useForegroundRefresh(()=>{ setFitRevision(n=>n+1); return mutate(); });
   const url = imageUrl(supabaseUrl, item.image_path);
-  const saved = has(item.id);
   return (
     <>
       <ScrollView
@@ -106,11 +108,10 @@ export function ProductDetail({
             <View style={[s.labelRow, row]}>
               <Text style={[s.label, align]}>{t("product")}</Text>
               <Tap
-                disabled={busy.has(item.id)}
                 accessibilityLabel={t(saved ? "unsave" : "save")}
                 onPress={() => {
                   setSaveError(false);
-                  void toggleSave(item, saved).catch(() => setSaveError(true));
+                  void toggleSave(item).catch(() => setSaveError(true));
                 }}
                 style={[s.save, saved && { backgroundColor: "#E4F3ED" }]}
               >
@@ -162,7 +163,7 @@ export function ProductDetail({
               section === null
                 ? "unavailable"
                 : saveError
-                  ? "syncError"
+                  ? "deviceSaveError"
                   : "networkError",
             )}
           </Text>

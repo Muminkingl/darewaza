@@ -55,6 +55,7 @@ export function CompatibilityCard({
       const items = (data || []).slice(0, 20) as unknown as VehicleRule[];
       return { items, more: (data?.length || 0) > 20, last: items.at(-1)?.id };
     },
+    { revalidateFirstPage: false, revalidateIfStale: false },
   );
   useEffect(() => {
     if (revision) {

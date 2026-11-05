@@ -167,7 +167,7 @@ const s = StyleSheet.create({
     backgroundColor: "#0C1C3966",
     justifyContent: "flex-end",
     alignItems: "center",
-    direction: "ltr",
+    ...(Platform.OS === 'web' ? {} : { direction: 'ltr' as const }),
   },
   sheet: {
     width: "100%",

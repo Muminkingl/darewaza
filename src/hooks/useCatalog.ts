@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useSWRInfinite from "swr/infinite";
-import { AppState } from "react-native";
 import { supabase } from "../lib/supabase";
-import { PAGE_SIZE, type RootKey, type Section } from "../../shared/catalog";
+import { CATALOG_COLUMNS, PAGE_SIZE, type RootKey, type Section } from "../../shared/catalog";
+import { useForegroundRefresh } from './useForegroundRefresh';
+import { useBookmarkStore } from '../providers/BookmarksProvider';
 
 export function useCatalog(
   root: RootKey | null,
@@ -11,6 +12,8 @@ export function useCatalog(
   global = false,
 ) {
   const [query, setQuery] = useState(search.trim());
+  const bookmarks=useBookmarkStore();
+  const loadingMore=useRef(false);
   useEffect(() => {
     const timer = setTimeout(() => setQuery(search.trim()), 250);
     return () => clearTimeout(timer);
@@ -29,11 +32,11 @@ export function useCatalog(
           query_text: query,
           root_filter: root,
           page_offset: offset,
-        });
+        }).select(CATALOG_COLUMNS);
       else {
         let q = supabase!
           .from("catalog_sections")
-          .select("*")
+          .select(CATALOG_COLUMNS)
           .eq("root_key", root!)
           .order("position")
           .order("created_at")
@@ -50,20 +53,23 @@ export function useCatalog(
         more: rows.length > PAGE_SIZE,
       };
     },
-    { revalidateFirstPage: true },
+    { revalidateFirstPage: false, revalidateIfStale: false },
   );
+  const sections=useMemo(()=>result.data?.flatMap(p=>p.sections)||[],[result.data]);
   useEffect(() => {
-    const l = AppState.addEventListener("change", (state) => {
-      if (state === "active" && enabled) void result.mutate();
-    });
-    return () => l.remove();
-  }, [enabled, result.mutate]);
+    void bookmarks.refreshSections(sections).catch(()=>{});
+  },[bookmarks,sections]);
+  useForegroundRefresh(()=>result.mutate(),enabled);
   return {
-    sections: result.data?.flatMap((p) => p.sections) || [],
+    sections,
     loading: result.isLoading || result.isValidating,
     error: !!result.error,
     hasMore: result.data?.at(-1)?.more || false,
     refresh: () => result.mutate(),
-    loadMore: () => result.setSize((n) => n + 1),
+    loadMore: async () => {
+      if(loadingMore.current || result.isValidating || !result.data?.at(-1)?.more)return;
+      loadingMore.current=true;
+      try {await result.setSize(n=>n+1);}finally{loadingMore.current=false;}
+    },
   };
 }

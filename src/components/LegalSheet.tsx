@@ -45,7 +45,7 @@ export function LegalSheet({
           <Text style={[s.title, align]}>
             {t(kind === "privacy" ? "privacyTitle" : "termsTitle")}
           </Text>
-          <Text style={[s.date, align]}>{t("updated")}</Text>
+          <Text style={[s.date, align]}>{t(kind === 'privacy' ? 'privacyUpdated' : 'updated')}</Text>
           {kind &&
             legalContent[locale][kind].map((p, i) => (
               <View key={i} style={s.paragraph}>

@@ -388,7 +388,7 @@ export function AppShell() {
   );
 }
 const s = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.background, direction: "ltr" },
+  screen: { flex: 1, backgroundColor: colors.background, ...(Platform.OS === 'web' ? {} : { direction: 'ltr' as const }) },
   header: {
     paddingHorizontal: 24,
     paddingBottom: 24,
