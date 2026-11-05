@@ -31,6 +31,8 @@ import { useCustomer } from "../providers/CustomerProvider";
 import { useBookmark } from "../providers/BookmarksProvider";
 import { colors, font } from "../theme";
 import { Tap } from "./Motion";
+import { isPartIcon } from '../../shared/partIcons';
+import { PartGlyph } from './PartGlyph';
 const icons = {
   folder: Folder,
   car: Car,
@@ -48,6 +50,7 @@ export function SectionGlyph({
   name: SectionIcon;
   size?: number;
 }) {
+  if (isPartIcon(name)) return <PartGlyph icon={name} size={size}/>;
   const Icon = icons[name] || Folder;
   return <Icon size={size} color={colors.blue} strokeWidth={1.6} />;
 }
@@ -106,7 +109,7 @@ const SectionRow = memo(function SectionRow({
         accessibilityLabel={sectionName(section, locale)}
       >
         <View style={s.thumb}>
-          {url && !failed ? (
+          {url && !failed && !isPartIcon(section.icon) ? (
             <Image
               source={{ uri: url }}
               resizeMode="contain"
@@ -128,7 +131,7 @@ const SectionRow = memo(function SectionRow({
                   formatPrice(section.price_iqd, "IQD"),
                 ]
                   .filter(Boolean)
-                  .join(" · ")
+                  .join(" · ") || t('viewDetails')
               : section.description || t("browse")}
           </Text>
         </View>

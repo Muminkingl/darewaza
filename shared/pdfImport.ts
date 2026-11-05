@@ -43,7 +43,7 @@ export function planPdfImport(sections: (Section & { source_key?: string | null 
         const matches = tagged ? [tagged] : siblings.filter(s => !s.source_key && normalizedName(s.name) === normalizedName(part.name));
         if (matches.length > 1) throw new Error(`Ambiguous existing category: ${company.name}/${parent.name}/${part.name}`);
         const existing = matches[0];
-        if (existing?.is_terminal) throw new Error(`An existing product has the category name: ${existing.name}`);
+        if (existing?.is_terminal && !tagged) throw new Error(`An existing product has the category name: ${existing.name}`);
         entries.push({ part, parent, company, existing, action: tagged ? 'skip' : existing ? 'adopt' : 'insert', position: firstPosition + index });
       });
     }

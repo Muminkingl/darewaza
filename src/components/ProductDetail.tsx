@@ -104,6 +104,7 @@ export function ProductDetail({
               </View>
             )}
           </Pressable>
+          {url && item.image_kind==='generated' && <Text style={[s.previewNote,align]}>{t('generatedPreview')}</Text>}
           <View style={s.info}>
             <View style={[s.labelRow, row]}>
               <Text style={[s.label, align]}>{t("product")}</Text>
@@ -147,7 +148,7 @@ export function ProductDetail({
                 </View>
               )}
             </View>
-            <Text style={[s.note, align]}>{t("pricesNote")}</Text>
+            <Text style={[s.note, align]}>{t(item.price_usd==null&&item.price_iqd==null?'priceOnRequest':'pricesNote')}</Text>
           </View>
         </View>
         {section !== null && (
@@ -203,6 +204,7 @@ export function ProductDetail({
   );
 }
 const s = StyleSheet.create({
+  previewNote:{fontFamily:font.regular,fontSize:10,lineHeight:21,color:'#8695A7',paddingHorizontal:20,paddingTop:12},
   content: {
     paddingHorizontal: 22,
     paddingBottom: 28,

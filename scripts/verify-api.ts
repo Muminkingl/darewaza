@@ -65,7 +65,7 @@ try {
   assert.equal(final.result.section.price_usd, '12.50'); assert.equal(final.result.section.price_iqd, '16500');
   assert.equal((await request('POST', { root_key: 'parts', parent_id: final.result.section.id, name: 'not-allowed' })).status, 409);
   assert.equal((await request('PATCH', { id: top, version: created.result.section.version, name, is_terminal: true, price_usd: '1' })).status, 409);
-  assert.equal((await request('POST', { ...finalInput, price_usd: null, price_iqd: null })).status, 400);
+  assert.equal((await request('POST', { ...finalInput, price_usd: null, price_iqd: null })).status, 201);
   assert.equal((await request('POST', { ...finalInput, price_iqd: '1.5' })).status, 400);
   console.log('Verified final items, USD/IQD precision, and database-enforced leaf boundaries.');
 

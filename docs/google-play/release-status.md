@@ -1,6 +1,6 @@
 # Closed testing — 2026-11-02
 
-Update prepared on 2026-11-05: signed Android **version code 4** adds translated catalog names and multilingual section search. The PDF categories are already imported in Supabase; see `../catalog-pdf-import.md`. Version 4 was compiled and verified locally, but **has not been submitted to Google Play**. The closed-test submission described below remains version 3. Its original local artifacts were retained under ignored `artifacts/google-play/version-3/`; the newly prepared artifacts are also retained under `artifacts/google-play/version-4/`.
+Update prepared on 2026-11-05: Android **version code 5** adds matching part icons, BMW 530i 2023 final-item pages, generated-preview captions and device-local bookmarks. See `../bmw-530i-2023.md` and `../bookmark-performance.md`. Version 5 **has not been submitted to Google Play**. The closed-test submission described below remains version 3. Earlier prepared builds remain under ignored `artifacts/google-play/version-3/` and `version-4/`; the latest build is retained under `version-5/`.
 
 Package: `com.trxstudio.darewaza`. Google Play app ID: `4973135236340605463`.
 

@@ -26,7 +26,7 @@ test('bookmark taps update immediately, persist offline, and never require fetch
     assert.equal(store.getCount(),1);
     await saved;
     const restarted=new LocalBookmarks(disk,'owner');await restarted.load();
-    assert.deepEqual(restarted.getSnapshot().sections,[section(1)]);
+    assert.deepEqual(restarted.getSnapshot().sections,[{...section(1),image_kind:'photo'}]);
     const removed=restarted.toggle(section(1));
     assert.equal(restarted.getSnapshot().sections.length,0);
     await removed;

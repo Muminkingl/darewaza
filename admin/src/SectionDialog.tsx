@@ -22,6 +22,7 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
   const [iqd, setIqd] = useState(initial?.price_iqd || '');
   const [imagePath, setImagePath] = useState(initial?.image_path || null);
   const [imageUrl, setImageUrl] = useState(initial?.image_url || null);
+  const [imageKind,setImageKind] = useState<'photo'|'generated'>(initial?.image_kind || 'photo');
   const [photo, setPhoto] = useState<PreparedImage | null>(null);
   const [preparing, setPreparing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -50,7 +51,7 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
   async function choosePhoto(file: File | undefined) {
     if (!file) return;
     setPreparing(true); setError('');
-    try { const prepared = await prepareImage(file); if (live.current) setPhoto(prepared); else URL.revokeObjectURL(prepared.preview); }
+    try { const prepared = await prepareImage(file); if (live.current) {setPhoto(prepared);setImageKind('photo');} else URL.revokeObjectURL(prepared.preview); }
     catch (error) { setError(error instanceof Error ? error.message : 'Unable to prepare this image.'); }
     finally { setPreparing(false); }
   }
@@ -58,6 +59,7 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
     if (!conflict) return;
     setExisting(conflict); setName(conflict.name); setDescription(conflict.description); setIcon(conflict.icon); setPosition(String(conflict.position));
     setNameEn(conflict.name_en || ''); setNameAr(conflict.name_ar || '');
+    setImageKind(conflict.image_kind || 'photo');
     setTerminal(conflict.is_terminal); setUsd(conflict.price_usd || ''); setIqd(conflict.price_iqd || ''); setImagePath(conflict.image_path); setImageUrl(conflict.image_url || null); setPhoto(null); setError(''); setConflict(null);
   }
   async function submit(event: FormEvent) {
@@ -79,6 +81,7 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
       }
       const result = await api<{ section: Section }>('sections', { method: existing ? 'PATCH' : 'POST', body: JSON.stringify({
         id, name, name_en: nameEn, name_ar: nameAr, description, icon, position: Number(position), is_terminal: terminal,
+        image_kind: imageKind,
         price_usd: terminal && usd.trim() ? normalizePrice(usd) : null, price_iqd: terminal && iqd.trim() ? normalizePrice(iqd) : null, image_path: path,
         ...(existing ? { version: existing.version } : { root_key: root, parent_id: parent }),
       }) });
@@ -102,15 +105,16 @@ export function SectionDialog({ dialog, root, parent, onClose, onSaved }: Props)
         <label className="field">وەسف <small>ئارەزوومەندانە</small><textarea maxLength={500} rows={2} value={description} onChange={event => setDescription(event.target.value)} placeholder="وەسفێکی کورت بۆ ئەم بەشە..." dir="auto" /></label>
         <label className={`terminal-switch ${terminal ? 'is-on' : ''}`}><span><strong>ئەمە کاڵای کۆتاییە</strong><small>{existing?.has_children ? 'ئەم بەشە ژێربەشی هەیە؛ ناتوانێت کۆتایی بێت.' : 'بێ ژێربەش، لەگەڵ نرخ و وێنە'}</small></span><input type="checkbox" role="switch" checked={terminal} disabled={existing?.has_children} onChange={event => setTerminal(event.target.checked)} /><span className="switch-track" aria-hidden="true" /></label>
         {terminal && <div className="product-fields">
-          <div className="price-fields"><label className="field">نرخ بە دۆلار <span className="currency-symbol">$</span><input inputMode="decimal" maxLength={20} value={usd} onChange={event => setUsd(event.target.value)} placeholder="0.00" dir="ltr" aria-label="نرخ بە دۆلار" /></label><label className="field">نرخ بە دینار <span className="currency-symbol">د.ع</span><input inputMode="numeric" maxLength={20} value={iqd} onChange={event => setIqd(event.target.value)} placeholder="0" dir="ltr" aria-label="نرخ بە دینار" /></label></div><p className="field-hint">دەتوانیت یەک نرخ یان هەردووکیان بنووسیت.</p>
+          <div className="price-fields"><label className="field">نرخ بە دۆلار <span className="currency-symbol">$</span><input inputMode="decimal" maxLength={20} value={usd} onChange={event => setUsd(event.target.value)} placeholder="0.00" dir="ltr" aria-label="نرخ بە دۆلار" /></label><label className="field">نرخ بە دینار <span className="currency-symbol">د.ع</span><input inputMode="numeric" maxLength={20} value={iqd} onChange={event => setIqd(event.target.value)} placeholder="0" dir="ltr" aria-label="نرخ بە دینار" /></label></div><p className="field-hint">نرخ ئارەزوومەندانەیە؛ دەتوانیت دواتر یەک نرخ یان هەردووکیان زیاد بکەیت.</p>
           {(photo?.preview || imageUrl) && <div className="upload-preview"><img src={photo?.preview || imageUrl!} alt="پێشبینینی وێنەی کاڵا" /><button type="button" className="remove-photo" onClick={() => { setPhoto(null); setImagePath(null); setImageUrl(null); }} aria-label="سڕینەوەی وێنە"><X size={17} /></button></div>}
+          {(photo || imageUrl) && <label className="image-source-toggle"><input type="checkbox" checked={imageKind==='generated'} onChange={event=>setImageKind(event.target.checked?'generated':'photo')}/><span>ئەم وێنەیە دروستکراوی زیرەکی دەستکردە<small>لە ئەپدا وەک پێشبینین دیاری دەکرێت.</small></span></label>}
           <label className="photo-upload"><input type="file" accept="image/jpeg,image/png,image/webp" className="visually-hidden" aria-label="هەڵبژاردنی وێنە" disabled={preparing} onChange={event => { void choosePhoto(event.target.files?.[0]); event.target.value = ''; }} />{preparing ? <LoaderCircle size={23} className="spin" /> : <ImagePlus size={24} strokeWidth={1.5} />}<span>{preparing ? 'وێنەکە ئامادە دەکرێت...' : photo || imageUrl ? 'گۆڕینی وێنە' : 'زیادکردنی وێنەی کاڵا'}<small>وێنەکە پێش بارکردن بچووک دەکرێتەوە.</small></span></label>
         </div>}
         <fieldset className="icon-field"><legend>ئایکۆنی بەش</legend><div className="icon-options">{SECTION_ICONS.map(value => <button type="button" key={value} className={icon === value ? 'selected' : ''} onClick={() => setIcon(value)} aria-label={iconNames[value]} aria-pressed={icon === value}><Glyph icon={value} size={21} /></button>)}</div></fieldset>
         <label className="field position-field">ڕیزبەندی <input type="number" min={0} max={2147483647} step={1} required value={position} onChange={event => setPosition(event.target.value)} /><small>ژمارەی بچووکتر لە سەرەوە دەردەکەوێت.</small></label>
       </fieldset>}
       {error && <div className="error-box" role="alert"><span>{error}</span>{conflict && <button type="button" onClick={reloadConflict}><RefreshCw size={14} />بارکردنی وەشانی نوێ</button>}</div>}
-      <div className="dialog-actions"><button type="submit" className={deleting ? 'primary-button danger-button' : 'primary-button'} disabled={saving || preparing || (!deleting && (!name.trim() || (terminal && !usd.trim() && !iqd.trim())))}>{saving ? <LoaderCircle size={18} className="spin" /> : deleting ? <Trash2 size={17} /> : <Check size={18} />}{deleting ? 'بەڵێ، بیسڕەوە' : uploading ? 'وێنەکە بار دەکرێت...' : saving ? 'پاشەکەوت دەکرێت...' : 'پاشەکەوتکردن'}</button><button type="button" className="cancel-button" onClick={onClose} disabled={saving}>پاشگەزبوونەوە</button></div>
+      <div className="dialog-actions"><button type="submit" className={deleting ? 'primary-button danger-button' : 'primary-button'} disabled={saving || preparing || (!deleting && !name.trim())}>{saving ? <LoaderCircle size={18} className="spin" /> : deleting ? <Trash2 size={17} /> : <Check size={18} />}{deleting ? 'بەڵێ، بیسڕەوە' : uploading ? 'وێنەکە بار دەکرێت...' : saving ? 'پاشەکەوت دەکرێت...' : 'پاشەکەوتکردن'}</button><button type="button" className="cancel-button" onClick={onClose} disabled={saving}>پاشگەزبوونەوە</button></div>
     </form>
   </dialog>;
 }

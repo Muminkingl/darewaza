@@ -23,6 +23,7 @@ export function bookmarkSection(value: Section): Section {
     price_usd:value.price_usd == null ? null : String(value.price_usd),
     price_iqd:value.price_iqd == null ? null : String(value.price_iqd),
     image_path:value.image_path && IMAGE_PATH_PATTERN.test(value.image_path) ? value.image_path : null,
+    image_kind:value.image_kind || 'photo',
     created_at:value.created_at, updated_at:value.updated_at,
   };
 }

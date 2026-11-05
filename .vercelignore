@@ -4,6 +4,7 @@
 .expo
 mobile-dist
 artifacts
+output/imagegen
 tmp
 SAYARA 2.pdf
 SAYARA 3.pdf

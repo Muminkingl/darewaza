@@ -1,6 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { formatPrice, imageUrl, normalizePrice, ROOTS } from '../shared/catalog';
+import { formatPrice, imageUrl, normalizePrice, ROOTS, SECTION_ICONS } from '../shared/catalog';
+import { PART_ICONS, partIconPaths } from '../shared/partIcons';
+import { createSchema } from '../api/sections';
+
+test('automotive silhouettes are selectable and final items can await a real price',()=>{
+  for(const icon of PART_ICONS) {
+    assert.ok(SECTION_ICONS.includes(icon));assert.ok(partIconPaths[icon].length);
+    assert.equal(createSchema.safeParse({root_key:'parts',name:'Front left door',icon,is_terminal:true,price_usd:null,price_iqd:null,image_kind:'generated'}).success,true);
+  }
+});
 
 test('the parts catalog uses the requested label in both clients', () => assert.equal(ROOTS[0].name, 'پارچەی یەدەگ'));
 test('prices accept Arabic/Persian digits and separators without converting currencies', () => {

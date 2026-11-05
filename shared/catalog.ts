@@ -4,7 +4,8 @@ export const ROOTS = [
 ] as const;
 
 export type RootKey = (typeof ROOTS)[number]['key'];
-export const SECTION_ICONS = ['folder', 'car', 'settings', 'wrench', 'disc', 'sparkles', 'package', 'zap'] as const;
+import { PART_ICONS } from './partIcons';
+export const SECTION_ICONS = ['folder', 'car', 'settings', 'wrench', 'disc', 'sparkles', 'package', 'zap', ...PART_ICONS] as const;
 export type SectionIcon = (typeof SECTION_ICONS)[number];
 export interface Section {
   id: string;
@@ -21,6 +22,7 @@ export interface Section {
   price_usd: string | null;
   price_iqd: string | null;
   image_path: string | null;
+  image_kind?: 'photo' | 'generated';
   image_url?: string | null;
   has_children?: boolean;
   created_at: string;
@@ -31,7 +33,7 @@ export function sectionName(section: Pick<Section, 'name' | 'name_en' | 'name_ar
   return (locale === 'en' ? section.name_en?.trim() : locale === 'ar' ? section.name_ar?.trim() : '') || section.name;
 }
 export const PAGE_SIZE = 40;
-export const CATALOG_COLUMNS = 'id,parent_id,root_key,name,name_en,name_ar,description,icon,position,version,is_terminal,price_usd,price_iqd,image_path,created_at,updated_at' as const;
+export const CATALOG_COLUMNS = 'id,parent_id,root_key,name,name_en,name_ar,description,icon,position,version,is_terminal,price_usd,price_iqd,image_path,image_kind,created_at,updated_at' as const;
 export const IMAGE_BUCKET = 'catalog-images';
 export const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 export const IMAGE_PATH_PATTERN = /^[0-9a-f-]{36}\/[0-9a-f-]{36}\.(webp|jpg|png)$/i;

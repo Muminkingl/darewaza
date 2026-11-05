@@ -51,7 +51,7 @@ try {
     assert.equal(verified.length, plan.length);
     assert.ok(verified.every(e => e.action === 'skip'), 'Import coverage incomplete.');
     for (const entry of verified) {
-      assert.equal(entry.existing!.is_terminal, false);
+      if (!before.some(s=>s.id===entry.existing!.id)) assert.equal(entry.existing!.is_terminal, false);
       assert.ok(entry.existing!.name_en && entry.existing!.name_ar);
     }
     for (const original of before) {
