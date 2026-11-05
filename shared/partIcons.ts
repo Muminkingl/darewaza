@@ -1,7 +1,7 @@
 // Lightweight 24 x 24 automotive outlines shared by native and Telegram Studio.
 // Each side has its own silhouette; photos remain reserved for item details.
-export const PART_ICONS = ['door-front-left','door-front-right','door-rear-left','door-rear-right','fender-left','fender-right','hood','trunk','bumper-front','bumper-rear','headlight-left','headlight-right','taillight-left','taillight-right','grille','mirror','brake-pad','axle','window-switch','door-handle','bracket'] as const;
-export type PartIcon = typeof PART_ICONS[number];
+import type {PartIcon} from './catalog';
+export type {PartIcon} from './catalog';
 const frontDoor=['M3 20V9l4-5h12a2 2 0 0 1 2 2v14H3Z','M5 10l3-4h10v4H5Z','M16 13h3','M3 17h18'];
 const rearDoor=['M3 20V6a2 2 0 0 1 2-2h10l6 6v10H3Z','M6 6h8l4 4H6V6Z','M5 13h3','M3 17h18'];
 const fender=['M3 18V7l4-3h12l2 4v10h-3a6 6 0 0 0-12 0H3Z','M5 8h6','M17 7h3'];
@@ -23,6 +23,12 @@ export const partIconPaths: Record<PartIcon, readonly string[]> = {
  'window-switch':['M4 4h16v16H4V4Z','M7 7h3v3H7V7Z','M14 7h3v3h-3V7Z','M7 14h3v3H7v-3Z','M14 14h3v3h-3v-3Z'],
  'door-handle':['M4 9h16v7H4V9Z','M7 9V7h9v2','M7 12h9','M18 12h.1'],
  bracket:['M5 3h5v12h11v5H5V3Z','M7.5 7h.1','M7.5 17.5h.1','M17 17.5h.1'],
+ 'inner-fender':['M3 20V13a9 9 0 0 1 18 0v7h-4v-7a5 5 0 0 0-10 0v7H3Z','M5 13v-1','M10 6l.5 1','M17 8l-1 1','M19 15v1'],
+ 'fog-lamp':['M5 8h11l3 3v6H5V8Z','M8 10v5','M11 10v5','M14 10l2 2v3','M6 8V5h3v3','M6 17v3h3v-3','M19 11h2'],
+ reinforcement:['M2 10q10-4 20 0v5q-10-3-20 0v-5Z','M5 9V5h3v3','M16 8V5h3v4','M6 13h.1','M18 13h.1','M5 16v3h3v-3','M16 16v3h3v-3'],
+ 'fuel-injector':['M10 3h4v4h-4V3Z','M9 7h6v9H9V7Z','M11 16v4l1 2 1-2v-4','M15 8h4v4h-4','M7 10h2','M7 14h2','M10 10h4'],
+ 'brake-rotor':['M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z','M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z','M13 12a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z','M12 9h.1','M9 12h.1','M15 12h.1','M12 15h.1','M6 7l1 1','M17 16l1 1'],
+ 'body-closures':['M2 20V9l4-6h8v17H2Z','M4 9l3-4h5v4H4Z','M9 13h3','M17 10h3l2 3v7h-5V10Z','M17 14h5','M18 17h2'],
 };
 export function isPartIcon(icon: string): icon is PartIcon { return Object.hasOwn(partIconPaths,icon); }
 export function partIconMirror(icon: PartIcon) { return icon.endsWith('-right'); }

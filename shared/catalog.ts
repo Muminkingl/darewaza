@@ -4,7 +4,10 @@ export const ROOTS = [
 ] as const;
 
 export type RootKey = (typeof ROOTS)[number]['key'];
-import { PART_ICONS } from './partIcons';
+// Keep runtime schema constants self-contained: this module is loaded by both
+// Metro and unbundled Node ESM functions, whose extension resolution differs.
+export const PART_ICONS = ['door-front-left','door-front-right','door-rear-left','door-rear-right','fender-left','fender-right','hood','trunk','bumper-front','bumper-rear','headlight-left','headlight-right','taillight-left','taillight-right','grille','mirror','brake-pad','axle','window-switch','door-handle','bracket','inner-fender','fog-lamp','reinforcement','fuel-injector','brake-rotor','body-closures'] as const;
+export type PartIcon = typeof PART_ICONS[number];
 export const SECTION_ICONS = ['folder', 'car', 'settings', 'wrench', 'disc', 'sparkles', 'package', 'zap', ...PART_ICONS] as const;
 export type SectionIcon = (typeof SECTION_ICONS)[number];
 export interface Section {

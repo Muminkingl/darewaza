@@ -5,6 +5,10 @@ import {database} from '../server/database.js';
 import {storage} from '../server/storage.js';
 import type {PartIcon} from '../shared/partIcons.js';
 
+// Archived first publication. Corrections have since been applied to this branch.
+// Never silently restore its obsolete meanings or the deleted chrome-trim entry.
+assert.ok(process.argv.includes('--initial-publication'), 'Archived script. Use the reviewed correction script; do not republish the initial catalog.');
+
 const YEAR_ID='cedf7211-4016-4eb5-9c90-9eb5a3d485a8';
 const MODEL_ID='d011419b-684e-411a-a430-b8db57ed5e88';
 const COMPANY_ID='f8e4a369-7124-40fd-be1b-f86f586eee9a';

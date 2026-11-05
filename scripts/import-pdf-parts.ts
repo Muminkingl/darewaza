@@ -8,6 +8,7 @@ import type { Section } from '../shared/catalog.js';
 
 const apply = process.argv.includes('--apply');
 const data = JSON.parse(await readFile(new URL('../data/catalog/pdf-parts.json', import.meta.url), 'utf8')) as {parts: PdfPart[]};
+const exclusions = JSON.parse(await readFile(new URL('../data/catalog/pdf-exclusions.json', import.meta.url), 'utf8')) as Record<string,string[]>;
 const client = new pg.Client({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: true, ca: [...rootCertificates, await readFile(new URL('../supabase/prod-ca-2021.crt', import.meta.url), 'utf8')] }, statement_timeout: 20000, connectionTimeoutMillis: 15000 });
 try {
   await client.connect();
@@ -15,7 +16,7 @@ try {
   await client.query("select pg_advisory_xact_lock(hashtext('sayara_pdf_parts_import'))");
   await client.query("set local lock_timeout='5s'");
   const before = (await client.query('select * from public.catalog_sections order by position,created_at,id')).rows as (Section & {source_key?: string | null})[];
-  const plan = planPdfImport(before, data.parts);
+  const plan = planPdfImport(before, data.parts, exclusions);
   assert.ok(plan.length, 'No model/year branches found.');
   const companies = [...new Set(plan.map(e => e.company.name))];
   const emptyCompanies = before.filter(s=>s.root_key==='parts'&&!s.parent_id&&!companies.includes(s.name)).map(s=>s.name);
@@ -47,7 +48,7 @@ try {
       returning id`, [JSON.stringify(inserts), PDF_PART_ICON]);
     assert.equal(inserted.rowCount, inserts.length);
     const after = (await client.query('select * from public.catalog_sections')).rows as typeof before;
-    const verified = planPdfImport(after, data.parts);
+    const verified = planPdfImport(after, data.parts, exclusions);
     assert.equal(verified.length, plan.length);
     assert.ok(verified.every(e => e.action === 'skip'), 'Import coverage incomplete.');
     for (const entry of verified) {

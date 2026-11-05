@@ -40,6 +40,12 @@ test('existing categories are reused and tagged categories remain stable after a
   assert.equal(next[0].action,'skip');
   assert.equal(next[0].existing?.id,'grille');
 });
+test('a deleted part stays excluded only in its selected year branch',()=>{
+ const s=[row('b','BMW'),row('m','530i','b'),row('y','2023','m'),row('other','2022','m')];
+ const part=parts.find(p=>p.key==='sayara-3-30')!;
+ const plan=planPdfImport(s,[part],{y:[part.key]});
+ assert.deepEqual(plan.map(e=>e.parent.id),['other']);
+});
 test('ambiguous matches and terminal destinations stop an import instead of duplicating or corrupting data',()=>{
   const s=[row('t','TOYOTA'),row('tm','Camry','t')];
   assert.throws(()=>planPdfImport([...s,{...s[1],id:'unused',parent_id:'t',is_terminal:true}],parts));

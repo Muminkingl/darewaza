@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { formatPrice, imageUrl, normalizePrice, ROOTS, SECTION_ICONS } from '../shared/catalog';
-import { PART_ICONS, partIconPaths } from '../shared/partIcons';
+import { formatPrice, imageUrl, normalizePrice, ROOTS, SECTION_ICONS, PART_ICONS } from '../shared/catalog';
+import { partIconPaths } from '../shared/partIcons';
 import { createSchema } from '../api/sections';
 
 test('automotive silhouettes are selectable and final items can await a real price',()=>{

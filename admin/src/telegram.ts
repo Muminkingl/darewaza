@@ -19,13 +19,14 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
   const timer = setTimeout(() => controller.abort(), 20_000);
   const abort = () => controller.abort();
   options.signal?.addEventListener('abort', abort, { once: true });
+  if (options.signal?.aborted) controller.abort();
   try {
     const response = await fetch(`/api/${path}`, {
       ...options, cache: 'no-store', signal: controller.signal,
       headers: { 'Content-Type': 'application/json', Authorization: `tma ${telegram?.initData || ''}`, ...options.headers },
     });
-    const body = await response.json().catch(() => ({}));
-    if (!response.ok) throw new ApiError(response.status, body.error || 'Unable to connect. Please try again.', body);
+    const body = await response.json().catch(() => null);
+    if (!response.ok || body == null) throw new ApiError(response.ok ? 502 : response.status, body?.error || 'پەیوەندییەکە سەرکەوتوو نەبوو. تکایە دووبارە هەوڵ بدە.', body || {});
     return body;
   } catch (error) {
     if (error instanceof ApiError) throw error;

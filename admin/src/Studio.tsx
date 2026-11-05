@@ -16,6 +16,8 @@ export function Studio() {
   const [user, setUser] = useState<Admin | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState('');
+  const [authStatus, setAuthStatus] = useState(0);
+  const [authAttempt, setAuthAttempt] = useState(0);
   const [root, setRoot] = useState<RootKey>('parts');
   const [trail, setTrail] = useState<Section[]>([]);
   const [search, setSearch] = useState('');
@@ -38,13 +40,20 @@ export function Studio() {
   const load = (append = false) => append ? catalog.loadMore() : catalog.refresh();
   useEffect(() => {
     const failure = catalog.error || detail.error;
-    if (failure && (failure.status === 401 || failure.status === 403)) { setAuthError(failure.message); setUser(null); }
+    if (failure && (failure.status === 401 || failure.status === 403)) { setAuthError(failure.message); setAuthStatus(failure.status); setUser(null); }
   }, [catalog.error, detail.error]);
 
   useEffect(() => {
     if (!telegram?.initData) { setAuthLoading(false); return; }
-    api<{ user: Admin }>('session').then(data => setUser(data.user)).catch(err => setAuthError(err.message)).finally(() => setAuthLoading(false));
-  }, []);
+    const controller = new AbortController();
+    setAuthLoading(true); setAuthError('');
+    api<{ user: Admin }>('session', { signal: controller.signal }).then(data => {
+      if (!controller.signal.aborted) setUser(data.user);
+    }).catch(err => {
+      if (!controller.signal.aborted) { setAuthError(err.message); setAuthStatus(err instanceof ApiError ? err.status : 0); }
+    }).finally(() => { if (!controller.signal.aborted) setAuthLoading(false); });
+    return () => controller.abort();
+  }, [authAttempt]);
 
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(''), 3000); return () => clearTimeout(timer); }, [toast]);
   useEffect(() => {
@@ -71,7 +80,7 @@ export function Studio() {
   }
 
   if (authLoading) return <main className="gate"><div className="gate-logo"><Car size={32} /></div><LoaderCircle className="spin" size={23} /><p>پشکنینی دەستگەیشتن...</p></main>;
-  if (!user) return <main className="gate"><div className="gate-logo"><Car size={34} /></div><span className="overline">DAREWAZA STUDIO</span><h1>{authError ? 'دەستگەیشتن سنووردارە' : 'ستۆدیۆکەت، لە تێلیگرام'}</h1><p>{authError || 'بۆ بەڕێوەبردنی بەشەکان، ستۆدیۆ لە ناو بۆتی تێلیگرام بکەرەوە.'}</p><div className="gate-note"><LockKeyhole size={16} /><span>تەنها بۆ بەڕێوەبەرە ڕێپێدراوەکان</span></div><span className="gate-foot">Catalog Studio · Darewaza</span></main>;
+  if (!user) return <main className="gate"><div className="gate-logo"><Car size={34} /></div><span className="overline">DAREWAZA STUDIO</span><h1>{authError ? (authStatus === 401 || authStatus === 403 ? 'دەستگەیشتن سنووردارە' : 'پەیوەندییەکە پچڕا') : 'ستۆدیۆکەت، لە تێلیگرام'}</h1><p>{authError || 'بۆ بەڕێوەبردنی بەشەکان، ستۆدیۆ لە ناو بۆتی تێلیگرام بکەرەوە.'}</p>{authError && telegram?.initData && authStatus !== 401 && authStatus !== 403 && <button className="primary-button" onClick={() => setAuthAttempt(value => value + 1)}><RefreshCw size={17}/>هەوڵدانەوە</button>}<div className="gate-note"><LockKeyhole size={16} /><span>تەنها بۆ بەڕێوەبەرە ڕێپێدراوەکان</span></div><span className="gate-foot">Catalog Studio · Darewaza</span></main>;
 
   return <div className="studio">
     <header className="studio-header"><div className="header-inner"><div className="studio-brand"><span className="brand-symbol"><Car size={23} strokeWidth={1.6} /></span><div><strong>Darewaza <span>ستۆدیۆ</span></strong><small>CATALOG STUDIO</small></div></div><div className="admin-chip"><ShieldCheck size={15} /><span>{user.first_name}</span><i /></div></div><div className="header-caption"><span>کاتەلۆگەکەت، بە شێوەی خۆت.</span><small>ڕێکخستنێکی ئاسان. هەڵبژاردنێکی باشتر.</small></div></header>

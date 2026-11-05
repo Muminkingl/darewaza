@@ -2,6 +2,7 @@ import pg from 'pg';
 import { readFileSync } from 'node:fs';
 import { rootCertificates } from 'node:tls';
 import { HttpError } from './auth.js';
+import { attachDatabasePool } from '@vercel/functions';
 
 let pool: pg.Pool | undefined;
 export function database(): pg.Pool {
@@ -18,6 +19,7 @@ export function database(): pg.Pool {
     connectionTimeoutMillis: 10_000,
     allowExitOnIdle: true,
     });
+    attachDatabasePool(pool);
     pool.on('error', error => console.error('Idle database connection closed', { code: (error as { code?: string }).code || 'unknown' }));
   }
   return pool;

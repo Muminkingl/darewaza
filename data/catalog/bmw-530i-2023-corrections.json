@@ -1,0 +1,21 @@
+{
+ "year_id":"cedf7211-4016-4eb5-9c90-9eb5a3d485a8",
+ "model_id":"d011419b-684e-411a-a430-b8db57ed5e88",
+ "company_id":"f8e4a369-7124-40fd-be1b-f86f586eee9a",
+ "remove_id":"b4ca55a9-ce83-4bc0-b94b-a01c50d73296",
+ "remove_source":"pdf:sayara-3-30",
+ "items":[
+  {"id":"b5bb9a7c-1178-468b-b9e3-c86bddf6b970","icon":"taillight-left","image":"left-taillight-v2","name_en":"Left taillight","name_ar":"المصباح الخلفي الأيسر"},
+  {"id":"f916be0e-ea19-45d4-bf1b-cfa6dfcc175f","icon":"inner-fender","image":"front-fender-inner","name":"ناو چامڵغ","name_en":"Front inner fender liner","name_ar":"بطانة الرفرف الأمامي"},
+  {"id":"84dd4e1c-6b0d-4d34-adb3-56d1f4f67284","icon":"fog-lamp","image":"front-fog-lamp","name_en":"Front fog lamp","name_ar":"مصباح الضباب الأمامي"},
+  {"id":"4d995966-b926-460c-bd83-0e5249f61597","icon":"reinforcement","image":"front-bumper-reinforcement","name_en":"Front bumper reinforcement bar","name_ar":"عارضة تدعيم الصدام الأمامي"},
+  {"id":"82d76a07-90e1-4789-8558-261276dc2d5f","icon":"reinforcement","image":"rear-bumper-reinforcement","name_en":"Rear bumper reinforcement bar","name_ar":"عارضة تدعيم الصدام الخلفي"},
+  {"id":"0c61c351-7b96-429a-8598-7c1cc4b26fe3","icon":"body-closures","image":"body-closures","name_en":"Doors, trunk lids & hatches","name_ar":"أبواب وأغطية صندوق الأمتعة والبوابات الخلفية"},
+  {"id":"968fccd3-c654-42fa-99d3-e45ccb0ee3ff","icon":"window-switch","image":"window-switch","name_en":"Window switch","name_ar":"مفتاح التحكم بالنوافذ"},
+  {"id":"224562b7-65d2-4c44-a030-f27d5b200fc7","icon":"fuel-injector","image":"fuel-injector","name_en":"Fuel injector","name_ar":"بخاخ الوقود"},
+  {"id":"77097562-cfc3-437b-b602-a5bb27414af1","icon":"brake-rotor","image":"rear-brake-rotor","name_en":"Rear brake rotor set","name_ar":"طقم أقراص الفرامل الخلفية"},
+  {"id":"38e68541-0af4-4c78-b2d9-5207f04b5b70","icon":"brake-pad","image":"brake-pad-set","name":"تاخم بەنج","name_en":"Disc brake pad set","name_ar":"طقم فحمات الفرامل القرصية"},
+  {"id":"42c30e40-d7f4-429f-b78f-29b9e26e12d9","icon":"grille","image":"dual-slat-kidney-grille","name_en":"Dual-slat front kidney grille","name_ar":"الشبك الأمامي الكلوي بشرائح مزدوجة"},
+  {"id":"36715ee3-a82a-4ea8-81b3-e9128b82004f","icon":"mirror","image":"left-side-mirror","name_en":"Left side-view mirror","name_ar":"مرآة جانبية يسرى"}
+ ]
+}

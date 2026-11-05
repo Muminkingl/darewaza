@@ -17,7 +17,7 @@ export const isYearBranch = (name: string) => /(?:19|20)\d{2}|(?:^|[\s_-])\d{2}\
 
 // Scope comes only from the company ancestor; a model with a similar name cannot
 // accidentally receive a restricted part. Never descend into custom part groups.
-export function planPdfImport(sections: (Section & { source_key?: string | null })[], parts: PdfPart[]): ImportEntry[] {
+export function planPdfImport(sections: (Section & { source_key?: string | null })[], parts: PdfPart[], excludedPartsByParent: Record<string, string[]> = {}): ImportEntry[] {
   const children = new Map<string, typeof sections>();
   for (const row of sections) if (row.parent_id) {
     const siblings = children.get(row.parent_id) || [];
@@ -39,6 +39,8 @@ export function planPdfImport(sections: (Section & { source_key?: string | null 
       const siblings = children.get(parent.id) || [];
       const firstPosition = siblings.reduce((max, s) => Math.max(max, s.position), -1) + 1;
       applicable.forEach((part, index) => {
+        // Keep explicit branch-level removals removed on subsequent PDF imports.
+        if (excludedPartsByParent[parent.id]?.includes(part.key)) return;
         const tagged = siblings.find(s => s.source_key === importSourceKey(part));
         const matches = tagged ? [tagged] : siblings.filter(s => !s.source_key && normalizedName(s.name) === normalizedName(part.name));
         if (matches.length > 1) throw new Error(`Ambiguous existing category: ${company.name}/${parent.name}/${part.name}`);
